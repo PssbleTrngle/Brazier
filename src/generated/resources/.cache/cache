@@ -1,0 +1,6 @@
+8d9c1df3b955dfb9e36c50c6a86d6db7b81901b5 assets/brazier/blockstates/brazier.json
+6ba6f0292f02b421d168982b5e0dd5955cffbbc9 assets/brazier/models/item/brazier.json
+392b126d4f12be071d2bb089632711980175b6c7 assets/brazier/models/item/living_flame.json
+d9d14a27c6c430dfbf9c1181767e8eb8ef594793 data/brazier/advancements/recipes/decorations/brazier.json
+46498d9a27eca1181c5ae923a551aec48d9a72f3 data/brazier/loot_tables/entities/crazed.json
+9d35b702208674e6f769bcf9ffdf34f4c9d10ff8 data/brazier/recipes/brazier.json
