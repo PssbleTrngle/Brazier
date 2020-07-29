@@ -1,0 +1,31 @@
+{
+  "parent": "minecraft:adventure/totem_of_undying",
+  "display": {
+    "icon": {
+      "item": "brazier:brazier"
+    },
+    "title": {
+      "translate": "advancements.brazier.place_brazier.title"
+    },
+    "description": {
+      "translate": "advancements.brazier.place_brazier.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "placed": {
+      "trigger": "minecraft:placed_block",
+      "conditions": {
+        "block": "brazier:brazier"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "placed"
+    ]
+  ]
+}

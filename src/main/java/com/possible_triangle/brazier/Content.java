@@ -2,6 +2,7 @@ package com.possible_triangle.brazier;
 
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
@@ -10,9 +11,8 @@ import com.possible_triangle.brazier.item.Flame;
 import com.possible_triangle.brazier.particle.FlameParticle;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.EvokerRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -26,9 +26,12 @@ import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.SidedProvider;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -90,9 +93,13 @@ public class Content {
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void clientSetup(Minecraft mc) {
         CRAZED.ifPresent(type -> mc.getRenderManager().register(type, new CrazedRender(mc.getRenderManager())));
         CRAZED_FLAME.ifPresent(type -> mc.getRenderManager().register(type, new CrazedFlameRenderer(mc.getRenderManager())));
         FLAME_PARTICLE.ifPresent(type -> mc.particles.registerFactory(type, FlameParticle.Factory::new));
+
+        BRAZIER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
+        BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
     }
 }

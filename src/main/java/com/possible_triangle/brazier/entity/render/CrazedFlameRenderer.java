@@ -39,7 +39,11 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
     }
 
     @Override
-    public void render(CrazedFlame entity, float entityYaw, float partialTicks, MatrixStack matrizes, IRenderTypeBuffer bufferIn, int packedLightIn) {
+    public void render(CrazedFlame entity, float entityYaw, float partialTicks, MatrixStack matrizes, IRenderTypeBuffer buffer, int packedLightIn) {
+        renderFlame(matrizes, this.renderManager, buffer, packedLightIn);
+    }
+
+    public static void renderFlame(MatrixStack matrizes, EntityRendererManager rendererManager, IRenderTypeBuffer buffer, int packedLightIn) {
 
         Minecraft mc = Minecraft.getInstance();
         BlockRendererDispatcher dispatcher = mc.getBlockRendererDispatcher();
@@ -48,15 +52,15 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
         matrizes.push();
         matrizes.scale(scale, scale, scale);
-        matrizes.rotate(this.renderManager.getCameraOrientation());
+        matrizes.rotate(rendererManager.getCameraOrientation());
         matrizes.rotate(Vector3f.YP.rotationDegrees(180.0F));
+        matrizes.translate(-0.5F, -0.5F, -0.5F);
         dispatcher.getBlockModelRenderer().renderModelBrightnessColor(
-                matrizes.getLast(), bufferIn.getBuffer(Atlases.getCutoutBlockType()),
+                matrizes.getLast(), buffer.getBuffer(Atlases.getCutoutBlockType()),
                 null, modelManager.getModel(MODEL), 1.0F, 1.0F, 1.0F,
                 packedLightIn, OverlayTexture.NO_OVERLAY
         );
         matrizes.pop();
-
     }
 
 }

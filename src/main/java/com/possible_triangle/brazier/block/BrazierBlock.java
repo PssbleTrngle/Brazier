@@ -34,7 +34,10 @@ public class BrazierBlock extends ContainerBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
 
     public BrazierBlock() {
-        super(Properties.create(Material.IRON).hardnessAndResistance(3.0F).func_235861_h_().func_235838_a_(s -> s.get(LIT) ? 15 : 0).notSolid());
+        super(Properties.create(Material.IRON)
+                .hardnessAndResistance(3.0F)
+                .notSolid()
+                .func_235838_a_(s -> s.get(LIT) ? 15 : 0));
         setDefaultState(super.getDefaultState().with(LIT, false));
     }
 

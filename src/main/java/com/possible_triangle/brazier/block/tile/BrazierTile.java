@@ -1,21 +1,11 @@
 package com.possible_triangle.brazier.block.tile;
 
 import com.google.common.collect.Maps;
-import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.block.pattern.BlockPatternBuilder;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -28,6 +18,8 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
     private static final int MAX_HEIGHT = 10;
+    private static final int RANGE_PER_LEVEL = 10;
+    private static final int BASE_RANGE = 20;
 
     private int ticksExisted = 0;
     private int height = 0;
@@ -64,6 +56,8 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
                 world.setBlockState(pos, s.with(BrazierBlock.LIT, height > 0));
                 if (height > 0) playSound(SoundEvents.ITEM_FIRECHARGE_USE);
                 else playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
+
+                BRAZIERS.put(pos, getRange());
 
                 markDirty();
             }
@@ -104,7 +98,12 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     }
 
     public int getRange() {
-        return 20 * height;
+        if(height <= 0) return 0;
+        return BASE_RANGE + RANGE_PER_LEVEL * (height - 1);
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     @Override
