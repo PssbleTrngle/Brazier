@@ -17,6 +17,7 @@ public class DateGenerators {
         generator.addProvider(new Loot(generator));
         generator.addProvider(new Blocks(generator, fileHelper));
         generator.addProvider(new Items(generator, fileHelper));
+        generator.addProvider(new Advancements(generator));
     }
 
 }

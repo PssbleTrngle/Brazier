@@ -2,6 +2,7 @@ package com.possible_triangle.brazier;
 
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
@@ -10,9 +11,8 @@ import com.possible_triangle.brazier.item.Flame;
 import com.possible_triangle.brazier.particle.FlameParticle;
 import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.entity.EntityRendererManager;
-import net.minecraft.client.renderer.entity.EvokerRenderer;
-import net.minecraft.client.renderer.entity.ItemRenderer;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
@@ -22,13 +22,17 @@ import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
+import net.minecraftforge.api.distmarker.Dist;
+import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.SidedProvider;
+import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
@@ -42,6 +46,8 @@ import java.util.function.Supplier;
 public class Content {
 
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(Brazier.MODID, "brazier_base_blocks").toString());
+    public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.func_232896_a_(new ResourceLocation(Brazier.MODID, "brazier_whitelist").toString());
+    public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.func_232896_a_(new ResourceLocation(Brazier.MODID, "brazier_blacklist").toString());
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Brazier.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Brazier.MODID);
@@ -90,9 +96,13 @@ public class Content {
         });
     }
 
+    @OnlyIn(Dist.CLIENT)
     public static void clientSetup(Minecraft mc) {
         CRAZED.ifPresent(type -> mc.getRenderManager().register(type, new CrazedRender(mc.getRenderManager())));
         CRAZED_FLAME.ifPresent(type -> mc.getRenderManager().register(type, new CrazedFlameRenderer(mc.getRenderManager())));
         FLAME_PARTICLE.ifPresent(type -> mc.particles.registerFactory(type, FlameParticle.Factory::new));
+
+        BRAZIER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
+        BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
     }
 }

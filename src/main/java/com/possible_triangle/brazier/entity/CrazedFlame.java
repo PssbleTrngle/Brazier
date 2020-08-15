@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
+import net.minecraft.block.Blocks;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -9,8 +10,10 @@ import net.minecraft.network.IPacket;
 import net.minecraft.network.play.server.SSpawnObjectPacket;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.Direction;
 import net.minecraft.util.IndirectEntityDamageSource;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.api.distmarker.Dist;
@@ -49,13 +52,13 @@ public class CrazedFlame extends Entity {
         --this.life;
         if (world.isRemote) {
             if (this.life % 4 == 0) {
-                for (int i = 0; i < 4; ++i) {
+                for (int i = 0; i < 2; ++i) {
                     double x = this.getPosX() + (this.rand.nextDouble() * 2.0D - 1.0D) * (double) this.getWidth() * 0.5D;
-                    double y = this.getPosY() + 0.05D + this.rand.nextDouble();
+                    double y = this.getPosY() - 0.4;
                     double z = this.getPosZ() + (this.rand.nextDouble() * 2.0D - 1.0D) * (double) this.getWidth() * 0.5D;
-                    double dx = (this.rand.nextDouble() * 2.0D - 1.0D) * 0.2D;
-                    double dy = 0.1D + this.rand.nextDouble() * 0.2D;
-                    double dz = (this.rand.nextDouble() * 2.0D - 1.0D) * 0.2D;
+                    double dx = (this.rand.nextDouble() * 2.0D - 1.0D) * 0.05D;
+                    double dy = 0.02D + this.rand.nextDouble() * 0.05D;
+                    double dz = (this.rand.nextDouble() * 2.0D - 1.0D) * 0.05D;
                     this.world.addParticle(Content.FLAME_PARTICLE.get(), x, y + 1.0D, z, dx, dy, dz);
                 }
             }
@@ -64,6 +67,9 @@ public class CrazedFlame extends Entity {
 
             if (INITIAL_LIFE - 20 > life && life % 5 == 0) {
                 world.getEntitiesWithinAABB(LivingEntity.class, getBoundingBox().grow(0.2D, 0.2D, 0.2D)).forEach(this::damage);
+                BlockPos pos = new BlockPos(this.getPositionVec());
+                if(world.getBlockState(pos).isAir(world, pos) && world.getBlockState(pos.down()).isFlammable(world, pos.down(), Direction.UP))
+                    world.setBlockState(pos, Blocks.FIRE.getDefaultState());
             }
         }
     }

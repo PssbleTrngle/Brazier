@@ -1,0 +1,61 @@
+name: Release
+
+on:
+  pull_request:
+    types: [ closed ]
+    branches: [ master ]
+  repository_dispatch:
+    types: [ release-mod ] 
+
+jobs:
+      
+  publish:
+    if: github.event_name != 'pull_request' || (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'release'))
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+      
+      - uses: PssbleTrngle/VersionManagment@v1.0.4
+        with:
+          token: ${{secrets.GITHUB_TOKEN}}
+        id: version
+        
+      - name: Create Release
+        id: release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.version.outputs.next }}
+          release_name: Release ${{ steps.version.outputs.next }}
+          
+      - name: Update mod version in properties
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: 'gradle.properties'
+          property: 'mod_version'
+          value: ${{ steps.version.outputs.next }} 
+        
+      - name: Build Mod
+        run: chmod +x ./gradlew && ./gradlew build
+
+      - name: Upload Mod Jar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: build/libs/brazier-${{ steps.version.outputs.next }}.jar
+          asset_name: brazier.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload Source Jar
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.upload_url }}
+          asset_path: build/libs/brazier-${{ steps.version.outputs.next }}-sources.jar
+          asset_name: brazier-sources.jar
+          asset_content_type: application/java-archive

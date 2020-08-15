@@ -1,21 +1,12 @@
 package com.possible_triangle.brazier.block.tile;
 
 import com.google.common.collect.Maps;
-import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import net.minecraft.block.Block;
+import com.possible_triangle.brazier.config.BrazierConfig;
 import net.minecraft.block.BlockState;
-import net.minecraft.block.pattern.BlockPattern;
-import net.minecraft.block.pattern.BlockPatternBuilder;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.particles.ParticleTypes;
-import net.minecraft.tags.BlockTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
@@ -27,7 +18,6 @@ import java.util.HashMap;
 public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
-    private static final int MAX_HEIGHT = 10;
 
     private int ticksExisted = 0;
     private int height = 0;
@@ -65,6 +55,8 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
                 if (height > 0) playSound(SoundEvents.ITEM_FIRECHARGE_USE);
                 else playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
 
+                BRAZIERS.put(pos, getRange());
+
                 markDirty();
             }
         }
@@ -72,8 +64,9 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private int findHeight() {
         assert world != null;
+        int max = BrazierConfig.SERVER.MAX_HEIGHT.get();
         if (!world.getBlockState(pos.up()).isAir(world, pos)) return 0;
-        for (int height = 1; height <= MAX_HEIGHT; height++) {
+        for (int height = 1; height <= max; height++) {
             boolean b = true;
             for (int x = -2; x <= 2; x++)
                 for (int z = -2; z <= 2; z++)
@@ -83,7 +76,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
                     }
             if (!b) return height - 1;
         }
-        return MAX_HEIGHT;
+        return max;
     }
 
     @Override
@@ -104,7 +97,12 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     }
 
     public int getRange() {
-        return 20 * height;
+        if(height <= 0) return 0;
+        return  BrazierConfig.SERVER.BASE_RANGE.get() +  BrazierConfig.SERVER.RANGE_PER_LEVEL.get() * (height - 1);
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     @Override

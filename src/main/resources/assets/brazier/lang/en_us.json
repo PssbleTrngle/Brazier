@@ -2,5 +2,12 @@
   "block.brazier.brazier": "Brazier",
   "item.brazier.living_flame": "Living Flame",
   "entity.brazier.crazed_flame": "Crazed Flame",
-  "entity.brazier.crazed": "Crazed"
+  "entity.brazier.crazed": "Crazed",
+  "advancements.brazier.place_brazier.title": "Begone, demon!",
+  "advancements.brazier.place_brazier.description": "Place a brazier down and drive away the monsters of the night",
+  "config.brazier.jungleLoot": "",
+  "config.brazier.maxHeight": "",
+  "config.brazier.rangePerLevel": "",
+  "config.brazier.baseRange": "",
+  "config.brazier.renderRunes": ""
 }
