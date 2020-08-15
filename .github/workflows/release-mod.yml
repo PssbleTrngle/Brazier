@@ -20,6 +20,13 @@ jobs:
         with:
           token: ${{secrets.GITHUB_TOKEN}}
         id: version
+          
+      - name: Update mod version in properties
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: 'build.properties'
+          property: 'mod_version'
+          value: ${{ steps.version.outputs.next }} 
         
       - name: Build Mod
         run: chmod +x ./gradlew && ./gradlew build
@@ -32,13 +39,6 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
-          
-      - name: Update mod version in properties
-        uses: christian-draeger/write-properties@1.0.1
-        with:
-          path: 'build.properties'
-          property: 'mod_version'
-          value: ${{ steps.version.outputs.next }} 
 
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
@@ -46,7 +46,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: build/libs/brazier-${{ steps.version.outputs.next }}.jar
+          asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           asset_name: brazier.jar
           asset_content_type: application/java-archive
 
@@ -56,6 +56,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: build/libs/brazier-${{ steps.version.outputs.next }}-sources.jar
+          asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}-sources.jar
           asset_name: brazier-sources.jar
           asset_content_type: application/java-archive
