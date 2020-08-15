@@ -21,6 +21,9 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
         id: version
         
+      - name: Build Mod
+        run: chmod +x ./gradlew && ./gradlew build
+        
       - name: Create Release
         id: release
         uses: actions/create-release@v1
@@ -36,9 +39,6 @@ jobs:
           path: 'build.properties'
           property: 'mod_version'
           value: ${{ steps.version.outputs.next }} 
-        
-      - name: Build Mod
-        run: chmod +x ./gradlew && ./gradlew build
 
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
