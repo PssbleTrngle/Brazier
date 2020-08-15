@@ -3,6 +3,7 @@ package com.possible_triangle.brazier.block.tile;
 import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
+import com.possible_triangle.brazier.config.BrazierConfig;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -17,9 +18,6 @@ import java.util.HashMap;
 public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
-    private static final int MAX_HEIGHT = 10;
-    private static final int RANGE_PER_LEVEL = 10;
-    private static final int BASE_RANGE = 20;
 
     private int ticksExisted = 0;
     private int height = 0;
@@ -66,8 +64,9 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private int findHeight() {
         assert world != null;
+        int max = BrazierConfig.SERVER.MAX_HEIGHT.get();
         if (!world.getBlockState(pos.up()).isAir(world, pos)) return 0;
-        for (int height = 1; height <= MAX_HEIGHT; height++) {
+        for (int height = 1; height <= max; height++) {
             boolean b = true;
             for (int x = -2; x <= 2; x++)
                 for (int z = -2; z <= 2; z++)
@@ -77,7 +76,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
                     }
             if (!b) return height - 1;
         }
-        return MAX_HEIGHT;
+        return max;
     }
 
     @Override
@@ -99,7 +98,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     public int getRange() {
         if(height <= 0) return 0;
-        return BASE_RANGE + RANGE_PER_LEVEL * (height - 1);
+        return  BrazierConfig.SERVER.BASE_RANGE.get() +  BrazierConfig.SERVER.RANGE_PER_LEVEL.get() * (height - 1);
     }
 
     public int getHeight() {

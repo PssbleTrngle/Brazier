@@ -40,7 +40,12 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
     @Override
     public void render(CrazedFlame entity, float entityYaw, float partialTicks, MatrixStack matrizes, IRenderTypeBuffer buffer, int packedLightIn) {
+        matrizes.push();
+        matrizes.translate(0, 0.5F, 0);
+        float scale = 1.5F;
+        matrizes.scale(scale, scale, scale);
         renderFlame(matrizes, this.renderManager, buffer, packedLightIn);
+        matrizes.pop();
     }
 
     public static void renderFlame(MatrixStack matrizes, EntityRendererManager rendererManager, IRenderTypeBuffer buffer, int packedLightIn) {

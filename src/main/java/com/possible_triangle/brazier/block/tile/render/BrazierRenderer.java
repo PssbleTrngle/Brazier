@@ -4,6 +4,7 @@ import com.mojang.blaze3d.matrix.MatrixStack;
 import com.mojang.blaze3d.vertex.IVertexBuilder;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.config.BrazierConfig;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import net.minecraft.block.Blocks;
 import net.minecraft.client.Minecraft;
@@ -109,13 +110,12 @@ public class BrazierRenderer extends TileEntityRenderer<BrazierTile> {
             matrizes.push();
             matrizes.translate(0.5, 0, 0.5);
 
-            float deg = System.currentTimeMillis() % 3000 / 3000F * (float) Math.PI * 2;
-            //float alpha = MathHelper.sin(deg) * 0.3F + 0.7F;
-
-            Stream.of(Vector3f.XP, Vector3f.XN, Vector3f.ZN, Vector3f.ZP).forEach(v -> {
-                renderSide(matrizes, 1F, buffer, v, height);
-                renderTop(matrizes, 1F, buffer, v);
-            });
+            if(BrazierConfig.CLIENT.RENDER_RUNES.get()) {
+                Stream.of(Vector3f.XP, Vector3f.XN, Vector3f.ZN, Vector3f.ZP).forEach(v -> {
+                    renderSide(matrizes, 1F, buffer, v, height);
+                    renderTop(matrizes, 1F, buffer, v);
+                });
+            }
 
             matrizes.push();
             matrizes.translate(0, 1.4F, 0);

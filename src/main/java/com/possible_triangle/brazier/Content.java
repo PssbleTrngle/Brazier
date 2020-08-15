@@ -22,6 +22,7 @@ import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
+import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
 import net.minecraft.tileentity.TileEntityType;
 import net.minecraft.util.ResourceLocation;
@@ -45,6 +46,8 @@ import java.util.function.Supplier;
 public class Content {
 
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(Brazier.MODID, "brazier_base_blocks").toString());
+    public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.func_232896_a_(new ResourceLocation(Brazier.MODID, "brazier_whitelist").toString());
+    public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.func_232896_a_(new ResourceLocation(Brazier.MODID, "brazier_blacklist").toString());
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, Brazier.MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, Brazier.MODID);

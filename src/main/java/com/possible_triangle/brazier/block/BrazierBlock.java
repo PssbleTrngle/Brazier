@@ -1,11 +1,14 @@
 package com.possible_triangle.brazier.block;
 
+import com.google.common.collect.ImmutableList;
 import com.google.common.collect.Lists;
+import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
 import net.minecraft.block.*;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.monster.MonsterEntity;
@@ -49,21 +52,20 @@ public class BrazierBlock extends ContainerBlock {
 
     private static final VoxelShape SHAPE = makeCuboidShape(0, 0, 0, 16, 4, 16);
 
-    private static final Collection<ResourceLocation> BLACKLIST = Lists.newArrayList();
-    private static final Collection<ResourceLocation> WHITELIST = Lists.newArrayList();
-
     public static boolean prevents(Entity entity) {
-        ResourceLocation r = entity.getType().getRegistryName();
-        return (entity instanceof MonsterEntity && entity.isNonBoss() && !WHITELIST.contains(r)) || BLACKLIST.contains(r);
+        EntityType<?> type = entity.getType();
+        return (
+                entity instanceof MonsterEntity
+                        && entity.isNonBoss()
+                        && !Content.BRAZIER_WHITELIST.func_230235_a_(type)
+        ) || Content.BRAZIER_BLACKLIST.func_230235_a_(type);
     }
 
     public static boolean prevents(SpawnReason reason) {
         switch (reason) {
             case CHUNK_GENERATION:
-            case MOB_SUMMONED:
             case NATURAL:
             case PATROL:
-            case STRUCTURE:
                 return true;
             default:
                 return false;
@@ -73,7 +75,7 @@ public class BrazierBlock extends ContainerBlock {
     @SubscribeEvent
     public static void mobSpawn(LivingSpawnEvent.CheckSpawn event) {
         BlockPos pos = new BlockPos(event.getX(), event.getY(), event.getZ());
-        if (prevents(event.getEntity()) && prevents(event.getSpawnReason()) && BrazierTile.inRange(pos))
+        if (prevents(event.getSpawnReason()) && prevents(event.getEntity()) && BrazierTile.inRange(pos))
             event.setResult(Event.Result.DENY);
     }
 

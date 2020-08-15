@@ -31,11 +31,11 @@ public class Loot extends BaseLootTableProvider {
 
     @SubscribeEvent
     public static void onLootLoaded(LootTableLoadEvent event) {
-        if (event.getName().equals(LootTables.CHESTS_WOODLAND_MANSION)) {
+        if (event.getName().equals(LootTables.CHESTS_JUNGLE_TEMPLE)) {
             Content.LIVING_FLAME.ifPresent(flame ->
                     event.getTable().addPool(LootPool.builder()
                             .addEntry(ItemLootEntry.builder(flame))
-                            .addEntry(EmptyLootEntry.func_216167_a().weight(3))
+                            .addEntry(EmptyLootEntry.func_216167_a().weight(1))
                             .build())
             );
         }
