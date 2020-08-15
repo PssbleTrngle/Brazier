@@ -1,0 +1,14 @@
+
+{
+  "required": true,
+  "package": "com.possible_triangle.brazier.mixin",
+  "compatibilityLevel": "JAVA_8",
+  "minVersion": "0.8",
+  "refmap": "brazier.refmap.json",
+  "mixins": [
+    "WoodlandMansionPiecesMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
