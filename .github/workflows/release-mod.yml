@@ -49,13 +49,3 @@ jobs:
           asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           asset_name: brazier.jar
           asset_content_type: application/java-archive
-
-      - name: Upload Source Jar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}-sources.jar
-          asset_name: brazier-sources.jar
-          asset_content_type: application/java-archive
