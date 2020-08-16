@@ -1,6 +1,7 @@
 modLoader="javafml"
 loaderVersion="[32,)"
 issueTrackerURL="https://github.com/PssbleTrngle/Brazier/issues"
+license="https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
 
 [[mods]]
     modId="brazier"
