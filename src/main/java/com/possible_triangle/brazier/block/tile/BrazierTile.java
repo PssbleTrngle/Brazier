@@ -10,6 +10,7 @@ import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.SoundCategory;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.server.ServerWorld;
 
@@ -113,5 +114,10 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     @Override
     public void remove() {
         BRAZIERS.remove(pos);
+    }
+
+    @Override
+    public AxisAlignedBB getRenderBoundingBox() {
+        return super.getRenderBoundingBox().grow(height);
     }
 }
