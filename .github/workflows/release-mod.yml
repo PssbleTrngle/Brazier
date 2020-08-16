@@ -49,3 +49,19 @@ jobs:
           asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           asset_name: brazier.jar
           asset_content_type: application/java-archive
+      
+      - name: Update Changelog
+        uses: vemel/update-changelog@0.0.1
+        id: changelog
+        with:
+          version: ${{ steps.version.outputs.next }}
+          
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v4.1.2
+        with:
+          commit_message: Update Changelog
+          branch: master
+          repository: .
+          commit_user_name: PssbleTrngle
+          commit_user_email: nik@somethingcatchy.net
+          commit_author: PssbleTrngle <nik@somethingcatchy.net>
