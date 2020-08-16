@@ -27,7 +27,6 @@ public class Brazier {
         FMLJavaModLoadingContext.get().getModEventBus().addListener(this::doClientStuff);
 
         MinecraftForge.EVENT_BUS.register(this);
-        MinecraftForge.EVENT_BUS.register(ModConfig.class);
 
         ModLoadingContext.get().registerConfig(ModConfig.Type.CLIENT, BrazierConfig.CLIENT_SPEC);
         ModLoadingContext.get().registerConfig(ModConfig.Type.COMMON, BrazierConfig.SERVER_SPEC);

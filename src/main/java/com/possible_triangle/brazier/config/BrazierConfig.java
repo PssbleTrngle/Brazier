@@ -47,11 +47,6 @@ public class BrazierConfig {
         }
     }
 
-    @SubscribeEvent
-    public static void playerJoined(PlayerEvent.PlayerLoggedInEvent event) {
-        syncServerConfigs(event.getPlayer());
-    }
-
     public static void syncServerConfigs(PlayerEntity player) {
         final Path config = FMLPaths.CONFIGDIR.get().resolve(Brazier.MODID + "-common.toml").toAbsolutePath();
         try {
