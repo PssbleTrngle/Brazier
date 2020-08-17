@@ -38,9 +38,7 @@ jobs:
         uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
-          contents: |
-            \n## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
-            ${{ github.event.pull_request.body }}
+          contents: \n\n\#\# [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}\n${{ github.event.pull_request.body }}
           write-mode: append
                  
       - name: Upload to CurseForge
@@ -58,7 +56,6 @@ jobs:
           release_type: beta
         
       - name: Create Release
-        if: contains(github.event.pull_request.labels.*.name, 'release')
         id: release
         uses: actions/create-release@v1
         env:
@@ -83,6 +80,7 @@ jobs:
         uses: EndBug/add-and-commit@v4
         with:
           message: Update Changelog
+          add: build.properties CHANGELOG.md
           ref: master
           author_name: PssbleTrngle
           author_email: nik@somethingcatchy.net
