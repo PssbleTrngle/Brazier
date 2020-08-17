@@ -27,12 +27,6 @@ jobs:
         
       - name: Build Mod
         run: chmod +x ./gradlew && ./gradlew build
-      
-      - name: Update Changelog
-        uses: vemel/update-changelog@0.0.1
-        id: changelog
-        with:
-          version: ${{ steps.version.outputs.next }}
           
       - name: Get current date
         id: date
@@ -43,6 +37,7 @@ jobs:
         with:
           path: CHANGELOG.md
           contents: |
+            
             ## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
             ${{ github.event.pull_request.body }}
           write-mode: append
