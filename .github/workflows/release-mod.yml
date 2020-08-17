@@ -5,10 +5,10 @@ on:
     types: [ closed ]
     branches: [ master ]
   repository_dispatch:
-    types: [ release-mod ] 
+    types: [ release-mod ]
 
 jobs:
-      
+
   publish:
     if: github.event_name != 'pull_request' || (github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'release'))
     runs-on: ubuntu-latest
@@ -21,7 +21,7 @@ jobs:
           token: ${{secrets.GITHUB_TOKEN}}
         id: version
           
-      - name: Update mod version in properties
+      - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:
           path: 'build.properties'
@@ -30,6 +30,25 @@ jobs:
         
       - name: Build Mod
         run: chmod +x ./gradlew && ./gradlew build
+      
+      - name: Update Changelog
+        uses: vemel/update-changelog@0.0.1
+        id: changelog
+        with:
+          version: ${{ steps.version.outputs.next }}
+         
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@master
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          project_id: 402616
+          game_endpoint: minecraft
+          file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
+          changelog: ${{ steps.changelog.outputs.pulls_list_md }}
+          changelog_type: markdown  
+          display_name: Version ${{ steps.version.outputs.next }}
+          game_versions: 7892,4458,7498
+          release_type: beta
         
       - name: Create Release
         id: release
@@ -39,7 +58,8 @@ jobs:
         with:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
-
+          body: ${{ steps.changelog.outputs.pulls_list_md }}
+  
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
         env:
@@ -49,3 +69,13 @@ jobs:
           asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           asset_name: brazier.jar
           asset_content_type: application/java-archive
+
+      - name: Commit and Push Changes
+        uses: stefanzweifel/git-auto-commit-action@v4.1.2
+        with:
+          commit_message: Update Changelog
+          branch: master
+          repository: .
+          commit_user_name: PssbleTrngle
+          commit_user_email: nik@somethingcatchy.net
+          commit_author: PssbleTrngle <nik@somethingcatchy.net>

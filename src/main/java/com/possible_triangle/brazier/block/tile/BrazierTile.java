@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.config.BrazierConfig;
+import com.possible_triangle.brazier.config.DistanceHandler;
 import net.minecraft.block.BlockState;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
@@ -25,7 +26,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     public static boolean inRange(BlockPos pos) {
         return BRAZIERS.entrySet().stream().anyMatch(e -> {
-            double dist = e.getKey().distanceSq(pos);
+            double dist = DistanceHandler.getDistance(pos, e.getKey());
             int maxDist = e.getValue() * e.getValue();
             return dist <= maxDist;
         });
