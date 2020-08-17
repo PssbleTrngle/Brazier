@@ -5,7 +5,6 @@ All notable changes to this project will be documented in this file.
 ### Added
 - Cyclinder distance calculation
 - Config option to choose distance calculation
-
-## [1.1.1] - 2020-08-17
+\n## [1.1.1] - 2020-08-17
 ### Added
 - Auto generated changelog
