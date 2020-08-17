@@ -36,6 +36,19 @@ jobs:
         id: changelog
         with:
           version: ${{ steps.version.outputs.next }}
+         
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@master
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          project_id: 402616
+          game_endpoint: minecraft
+          file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
+          changelog: ${{ steps.changelog.outputs.pulls_list_md }}
+          changelog_type: markdown  
+          display_name: Version ${{ steps.version.outputs.next }}
+          game_versions: 7892,4458,7498
+          release_type: beta
         
       - name: Create Release
         id: release
@@ -56,19 +69,6 @@ jobs:
           asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           asset_name: brazier.jar
           asset_content_type: application/java-archive
-         
-      - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@master
-        with:
-          token: ${{ secrets.CURSEFORGE_TOKEN }}
-          project_id: 402616
-          game_endpoint: minecraft
-          file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
-          changelog: ${{ steps.changelog.outputs.pulls_list_md }}
-          changelog_type: markdown  
-          display_name: Version ${{ steps.version.outputs.next }}
-          game_versions: 7892,4458,7498
-          release_type: beta
 
       - name: Commit and Push Changes
         uses: stefanzweifel/git-auto-commit-action@v4.1.2
