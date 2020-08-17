@@ -1,10 +1,6 @@
 package com.possible_triangle.brazier.config;
 
-import com.google.common.collect.ImmutableList;
-import net.minecraft.entity.EntityType;
 import net.minecraftforge.common.ForgeConfigSpec;
-
-import java.util.Collection;
 
 public class BrazierServerConfig {
 
@@ -14,6 +10,8 @@ public class BrazierServerConfig {
     public final ForgeConfigSpec.IntValue MAX_HEIGHT;
     public final ForgeConfigSpec.IntValue RANGE_PER_LEVEL;
     public final ForgeConfigSpec.IntValue BASE_RANGE;
+
+    public final ForgeConfigSpec.EnumValue<DistanceHandler.Type> DISTANCE_CALC;
 
     public BrazierServerConfig(ForgeConfigSpec.Builder builder) {
         builder.comment("These options will be synced to with all clients.").push("server");
@@ -34,6 +32,11 @@ public class BrazierServerConfig {
                 .comment("Should the living flame generate in jungle temple chests")
                 .translation("config.brazier.baseRange")
                 .defineInRange("baseRange", 20, 0, Integer.MAX_VALUE);
+
+        DISTANCE_CALC = builder
+                .comment("How should the distance to the brazier be calculated?")
+                .translation("config.brazier.distanceCalc")
+                .defineEnum("distanceCalc", DistanceHandler.Type.CYLINDER);
 
         builder.pop().comment("Options related to the acquisition of the living flame").push("acquisition");
 

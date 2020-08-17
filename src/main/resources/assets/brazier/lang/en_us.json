@@ -9,5 +9,6 @@
   "config.brazier.maxHeight": "",
   "config.brazier.rangePerLevel": "",
   "config.brazier.baseRange": "",
+  "config.brazier.distanceCalc": "",
   "config.brazier.renderRunes": ""
 }
