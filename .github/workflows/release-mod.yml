@@ -80,12 +80,12 @@ jobs:
           asset_content_type: application/java-archive
 
       - name: Commit and Push Changes
-        uses: stefanzweifel/git-auto-commit-action@v4.1.2
+        uses: EndBug/add-and-commit@v4
         with:
-          commit_message: Update Changelog
-          branch: master
-          repository: .
-          commit_user_name: PssbleTrngle
-          commit_user_email: nik@somethingcatchy.net
-          commit_author: PssbleTrngle <nik@somethingcatchy.net>
-          push_options: '--force'
+          message: Update Changelog
+          ref: master
+          author_name: PssbleTrngle
+          author_email: nik@somethingcatchy.net
+          force: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
