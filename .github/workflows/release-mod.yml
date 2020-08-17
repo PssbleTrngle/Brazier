@@ -83,6 +83,7 @@ jobs:
         uses: EndBug/add-and-commit@v4
         with:
           message: Update Changelog
+          add: build.properties CHANGELOG.md
           ref: master
           author_name: PssbleTrngle
           author_email: nik@somethingcatchy.net
