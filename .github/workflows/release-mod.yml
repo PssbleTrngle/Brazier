@@ -39,8 +39,7 @@ jobs:
         with:
           path: CHANGELOG.md
           contents: |
-            
-            ## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
+            \n## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
             ${{ github.event.pull_request.body }}
           write-mode: append
                  
@@ -86,7 +85,6 @@ jobs:
           commit_message: Update Changelog
           branch: master
           repository: .
-          file_pattern: CHANGELOG.md build.properties
           commit_user_name: PssbleTrngle
           commit_user_email: nik@somethingcatchy.net
           commit_author: PssbleTrngle <nik@somethingcatchy.net>
