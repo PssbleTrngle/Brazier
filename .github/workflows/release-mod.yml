@@ -42,7 +42,7 @@ jobs:
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
           
       - name: Update Changelog
-        uses: DamianReeves/write-file-action
+        uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
           contents: |
