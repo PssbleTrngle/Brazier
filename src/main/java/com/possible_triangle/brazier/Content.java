@@ -16,11 +16,12 @@ import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.item.*;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
+import net.minecraft.item.SpawnEggItem;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
-import net.minecraft.particles.ParticleTypes;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.tags.ITag;
@@ -30,19 +31,18 @@ import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.SidedProvider;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
-import org.apache.logging.log4j.core.pattern.MarkerSimpleNamePatternConverter;
-import org.omg.DynamicAny.DynEnumHelper;
 
-import java.lang.reflect.Proxy;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Content {
 
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(Brazier.MODID, "brazier_base_blocks").toString());
@@ -96,11 +96,15 @@ public class Content {
         });
     }
 
+    @SubscribeEvent
+    public static void registerParticles(ParticleFactoryRegisterEvent event) {
+        FLAME_PARTICLE.ifPresent(type -> Minecraft.getInstance().particles.registerFactory(type, FlameParticle.Factory::new));
+    }
+
     @OnlyIn(Dist.CLIENT)
     public static void clientSetup(Minecraft mc) {
         CRAZED.ifPresent(type -> mc.getRenderManager().register(type, new CrazedRender(mc.getRenderManager())));
         CRAZED_FLAME.ifPresent(type -> mc.getRenderManager().register(type, new CrazedFlameRenderer(mc.getRenderManager())));
-        FLAME_PARTICLE.ifPresent(type -> mc.particles.registerFactory(type, FlameParticle.Factory::new));
 
         BRAZIER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
         BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
