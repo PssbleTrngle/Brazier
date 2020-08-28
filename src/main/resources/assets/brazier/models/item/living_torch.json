@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:item/generated",
   "textures": {
-    "layer0": "brazier:item/living_flame"
+    "layer0": "brazier:block/living_torch"
   }
 }

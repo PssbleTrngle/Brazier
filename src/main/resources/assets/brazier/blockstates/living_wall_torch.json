@@ -1,0 +1,20 @@
+{
+  "variants": {
+    "facing=north": {
+      "model": "brazier:block/living_wall_torch",
+      "y": 270
+    },
+    "facing=south": {
+      "model": "brazier:block/living_wall_torch",
+      "y": 90
+    },
+    "facing=west": {
+      "model": "brazier:block/living_wall_torch",
+      "y": 180
+    },
+    "facing=east": {
+      "model": "brazier:block/living_wall_torch",
+      "y": 360
+    }
+  }
+}

@@ -13,6 +13,8 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.HashMap;
@@ -20,16 +22,40 @@ import java.util.HashMap;
 public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
+    private static final float TOLERANCE = 0.03F;
 
     private int ticksExisted = 0;
     private int height = 0;
 
+    public static boolean isBorder(Vector3d pos) {
+        synchronized (BRAZIERS) {
+            return BRAZIERS.entrySet().stream().anyMatch(e -> {
+                double dist = DistanceHandler.getDistance(pos, e.getKey());
+                double minDist = Math.pow(e.getValue() - TOLERANCE, 2);
+                double maxDist = Math.pow(e.getValue() + TOLERANCE, 2);
+                return dist <= maxDist && dist >= minDist;
+            });
+        }
+    }
+
     public static boolean inRange(BlockPos pos) {
-        return BRAZIERS.entrySet().stream().anyMatch(e -> {
-            double dist = DistanceHandler.getDistance(pos, e.getKey());
-            int maxDist = e.getValue() * e.getValue();
-            return dist <= maxDist;
-        });
+        synchronized (BRAZIERS) {
+            return BRAZIERS.entrySet().stream().anyMatch(e -> {
+                double dist = DistanceHandler.getDistance(pos, e.getKey());
+                int maxDist = e.getValue() * e.getValue();
+                return dist <= maxDist;
+            });
+        }
+    }
+
+    private void setHeight(int height) {
+        if (this.height != height) {
+            this.height = height;
+            markDirty();
+            if (this.pos != null) synchronized (BRAZIERS) {
+                BRAZIERS.put(pos, getRange());
+            }
+        }
     }
 
     @Override
@@ -51,15 +77,11 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
             int height = findHeight();
             if (height != this.height) {
 
-                this.height = height;
+                setHeight(height);
                 BlockState s = world.getBlockState(pos);
                 world.setBlockState(pos, s.with(BrazierBlock.LIT, height > 0));
                 if (height > 0) playSound(SoundEvents.ITEM_FIRECHARGE_USE);
                 else playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
-
-                BRAZIERS.put(pos, getRange());
-
-                markDirty();
             }
         }
     }
@@ -84,7 +106,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     @Override
     public void func_230337_a_(BlockState state, CompoundNBT nbt) {
         super.func_230337_a_(state, nbt);
-        if (nbt.contains("height")) this.height = nbt.getInt("height");
+        if (nbt.contains("height")) setHeight(nbt.getInt("height"));
     }
 
     @Override
@@ -99,8 +121,8 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     }
 
     public int getRange() {
-        if(height <= 0) return 0;
-        return  BrazierConfig.SERVER.BASE_RANGE.get() +  BrazierConfig.SERVER.RANGE_PER_LEVEL.get() * (height - 1);
+        if (height <= 0) return 0;
+        return BrazierConfig.SERVER.BASE_RANGE.get() + BrazierConfig.SERVER.RANGE_PER_LEVEL.get() * (height - 1);
     }
 
     public int getHeight() {
@@ -109,12 +131,16 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
 
     @Override
     public void onLoad() {
-        BRAZIERS.put(pos, getRange());
+        if (this.height > 0) synchronized (BRAZIERS) {
+            BRAZIERS.put(pos, getRange());
+        }
     }
 
     @Override
     public void remove() {
-        BRAZIERS.remove(pos);
+        synchronized (BRAZIERS) {
+            BRAZIERS.remove(pos);
+        }
     }
 
     @Override
