@@ -3,6 +3,7 @@ package com.possible_triangle.brazier.block;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.TorchBlock;
+import net.minecraft.block.WallTorchBlock;
 import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.BlockPos;
@@ -13,12 +14,12 @@ import net.minecraftforge.api.distmarker.OnlyIn;
 import java.util.Random;
 import java.util.function.Supplier;
 
-public class LazyTorchBlock extends TorchBlock {
+public class LazyWallTorchBlock extends WallTorchBlock {
 
-    private final Supplier<IParticleData> particle;
+    private final Supplier<? extends IParticleData> particle;
 
-    public LazyTorchBlock(Supplier<IParticleData> particle) {
-        super(Properties.from(Blocks.TORCH), null);
+    public LazyWallTorchBlock(Supplier<? extends IParticleData> particle) {
+        super(Properties.from(Blocks.WALL_TORCH), null);
         this.particle = particle;
     }
 

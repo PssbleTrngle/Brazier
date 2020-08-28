@@ -12,6 +12,7 @@ import net.minecraftforge.client.model.generators.ModelProvider;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.Objects;
+import java.util.stream.Stream;
 
 public class Items extends ItemModelProvider {
 
@@ -26,10 +27,16 @@ public class Items extends ItemModelProvider {
                 .map(ResourceLocation::getPath)
                 .ifPresent(b -> this.withExistingParent(b, modLoc("block/" + b)));
 
-        Content.LIVING_FLAME
+        Stream.of(Content.LIVING_FLAME).forEach(c -> c
                 .map(ForgeRegistryEntry::getRegistryName)
                 .map(ResourceLocation::getPath)
-                .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("item/" + i)));
+                .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("item/" + i)))
+        );
+
+        Content.LIVING_TORCH
+                .map(ForgeRegistryEntry::getRegistryName)
+                .map(ResourceLocation::getPath)
+                .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("block/" + i)));
 
     }
 }
