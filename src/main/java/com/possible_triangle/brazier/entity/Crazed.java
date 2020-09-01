@@ -1,15 +1,21 @@
 package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.block.tile.BrazierTile;
-import net.minecraft.entity.*;
+import net.minecraft.entity.EntityType;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.MobEntity;
+import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.ai.attributes.Attributes;
 import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
 import net.minecraft.entity.ai.goal.*;
 import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.monster.*;
+import net.minecraft.entity.monster.AbstractRaiderEntity;
+import net.minecraft.entity.monster.GuardianEntity;
+import net.minecraft.entity.monster.MonsterEntity;
+import net.minecraft.entity.monster.SpellcastingIllagerEntity;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.potion.EffectInstance;
 import net.minecraft.potion.Effects;
 import net.minecraft.tags.EntityTypeTags;
@@ -18,17 +24,13 @@ import net.minecraft.util.Direction;
 import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.Difficulty;
+import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.IWorld;
 import net.minecraft.world.World;
-import net.minecraftforge.event.entity.living.LivingSpawnEvent;
-import net.minecraftforge.eventbus.api.Event;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import java.util.List;
 import java.util.Random;
-import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class Crazed extends SpellcastingIllagerEntity {
@@ -51,6 +53,11 @@ public class Crazed extends SpellcastingIllagerEntity {
 
     public Crazed(EntityType<? extends Crazed> type, World world) {
         super(type, world);
+    }
+
+    @Override
+    public ItemStack getPickedResult(RayTraceResult target) {
+        return Content.CRAZED_SPAWN_EGG.map(ItemStack::new).orElse(ItemStack.EMPTY);
     }
 
     @Override

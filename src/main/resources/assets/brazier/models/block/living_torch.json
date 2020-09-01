@@ -1,6 +1,6 @@
 {
   "parent": "minecraft:block/template_torch",
   "textures": {
-    "texture": "brazier:block/living_torch"
+    "torch": "brazier:block/living_torch"
   }
 }

@@ -9,11 +9,11 @@ import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.entity.render.CrazedRender;
-import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.item.Flame;
+import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -23,9 +23,7 @@ import net.minecraft.entity.EntityType;
 import net.minecraft.item.BlockItem;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemGroup;
-import net.minecraft.item.SpawnEggItem;
 import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.IParticleData;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
@@ -35,6 +33,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.gen.Heightmap;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
+import net.minecraftforge.client.event.ColorHandlerEvent;
 import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.RegistryObject;
@@ -44,6 +43,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 
+import java.awt.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -63,7 +63,7 @@ public class Content {
 
     public static final RegistryObject<BasicParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new BasicParticleType(false));
 
-    public static final RegistryObject<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.group(ItemGroup.DECORATIONS));
+    public static final RegistryObject<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.group(ItemGroup.MISC));
     public static final RegistryObject<TileEntityType<BrazierTile>> BRAZIER_TILE = TILES.register("brazier", () ->
             TileEntityType.Builder.create(BrazierTile::new, BRAZIER.get()).build(null)
     );
@@ -77,6 +77,11 @@ public class Content {
     public static final RegistryObject<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed", () -> EntityType.Builder.<Crazed>create(Crazed::new, EntityClassification.MONSTER)
             .setCustomClientFactory((s, w) -> new Crazed(w))
             .immuneToFire().build("crazed"));
+
+    public static final RegistryObject<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(CRAZED::get,
+            new Color(9804699).getRGB(),
+            new Color(0x89CB07).getRGB())
+    );
 
     public static final RegistryObject<EntityType<CrazedFlame>> CRAZED_FLAME = ENTITIES.register("crazed_flame", () -> EntityType.Builder.<CrazedFlame>create(CrazedFlame::new, EntityClassification.MISC)
             .setCustomClientFactory((s, w) -> new CrazedFlame(w))
@@ -100,7 +105,6 @@ public class Content {
 
     public static void setup() {
         Content.CRAZED.ifPresent(type -> {
-            new SpawnEggItem(type, 0x000000, 0x000000, new Item.Properties().group(ItemGroup.MISC));
             Crazed.init(type);
             EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, Crazed::canSpawnHere);
         });
@@ -109,6 +113,19 @@ public class Content {
     @SubscribeEvent
     public static void registerParticles(ParticleFactoryRegisterEvent event) {
         FLAME_PARTICLE.ifPresent(type -> Minecraft.getInstance().particles.registerFactory(type, FlameParticle.Factory::new));
+    }
+
+
+    @SubscribeEvent
+    public static void itemColors(ColorHandlerEvent.Item event) {
+
+        event.getItemColors().register((s,i) -> {
+            if(s.getItem() instanceof LazySpawnEgg) {
+                LazySpawnEgg egg = (LazySpawnEgg) s.getItem();
+                return egg.getColor(i);
+            } else return -1;
+        }, CRAZED_SPAWN_EGG.get());
+
     }
 
     @OnlyIn(Dist.CLIENT)

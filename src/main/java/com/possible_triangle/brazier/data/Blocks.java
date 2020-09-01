@@ -3,12 +3,14 @@ package com.possible_triangle.brazier.data;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.block.LazyWallTorchBlock;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.*;
+import net.minecraftforge.client.model.generators.BlockStateProvider;
+import net.minecraftforge.client.model.generators.ConfiguredModel;
+import net.minecraftforge.client.model.generators.ExistingFileHelper;
+import net.minecraftforge.client.model.generators.ModelFile;
 
 public class Blocks extends BlockStateProvider {
 
@@ -32,6 +34,7 @@ public class Blocks extends BlockStateProvider {
                 models().singleTexture(
                         b.getRegistryName().getPath(),
                         mcLoc("block/template_torch"),
+                        "torch",
                         blockTexture(b))
                 )
         );
@@ -40,6 +43,7 @@ public class Blocks extends BlockStateProvider {
                     ModelFile model = models().singleTexture(
                             b.getRegistryName().getPath(),
                             mcLoc("block/template_torch_wall"),
+                            "torch",
                             blockTexture(Content.LIVING_TORCH_BLOCK.get())
                     );
 
