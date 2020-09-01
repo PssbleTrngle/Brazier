@@ -6,6 +6,7 @@ public class BrazierServerConfig {
 
     public final ForgeConfigSpec.BooleanValue JUNGLE_LOOT;
     public final ForgeConfigSpec.BooleanValue SPAWN_CRAZED;
+    public final ForgeConfigSpec.IntValue CRAZED_CHANCE;
 
     public final ForgeConfigSpec.IntValue MAX_HEIGHT;
     public final ForgeConfigSpec.IntValue RANGE_PER_LEVEL;
@@ -49,6 +50,11 @@ public class BrazierServerConfig {
                 .comment("Should crazed illagers spawn in generated woodland mansions?")
                 .translation("config.brazier.spawnCrazed")
                 .define("spawnCrazed", true);
+
+        CRAZED_CHANCE = builder
+                .comment("The chance a crazed will spawn instead of an evoker in a mansion. Higher values = lower chance")
+                .translation("config.brazier.crazedChance")
+                .defineInRange("crazedChance", 3, 1, Integer.MAX_VALUE);
 
     }
 

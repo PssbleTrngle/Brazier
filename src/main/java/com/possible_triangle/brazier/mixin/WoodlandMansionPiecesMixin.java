@@ -4,9 +4,7 @@ import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.BrazierConfig;
 import com.possible_triangle.brazier.entity.Crazed;
 import net.minecraft.block.Blocks;
-import net.minecraft.entity.ILivingEntityData;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.MutableBoundingBox;
 import net.minecraft.world.IWorld;
@@ -24,7 +22,7 @@ public class WoodlandMansionPiecesMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "Lnet/minecraft/world/gen/feature/structure/WoodlandMansionPieces$MansionTemplate;handleDataMarker(Ljava/lang/String;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IWorld;Ljava/util/Random;Lnet/minecraft/util/math/MutableBoundingBox;)V")
     public void handleDataMarker(String function, BlockPos pos, IWorld world, Random rand, MutableBoundingBox sbb, CallbackInfo callback) {
         if (BrazierConfig.SERVER.SPAWN_CRAZED.get()) Content.CRAZED.ifPresent(type -> {
-            if (function.equals("Mage") && rand.nextInt(3) == 0) {
+            if (function.equals("Mage") && rand.nextInt(BrazierConfig.SERVER.CRAZED_CHANCE.get() - 1) == 0) {
                 Crazed crazed = type.create(world.getWorld());
                 assert crazed != null;
                 crazed.enablePersistence();

@@ -3,6 +3,7 @@
   "block.brazier.living_torch": "Living Torch",
   "item.brazier.living_flame": "Living Flame",
   "entity.brazier.crazed_flame": "Crazed Flame",
+  "item.brazier.crazed_spawn_egg": "Crazed Spawn Egg",
   "entity.brazier.crazed": "Crazed",
   "advancements.brazier.place_brazier.title": "Begone, demon!",
   "advancements.brazier.place_brazier.description": "Place a brazier down and drive away the monsters of the night",
@@ -11,5 +12,6 @@
   "config.brazier.rangePerLevel": "",
   "config.brazier.baseRange": "",
   "config.brazier.distanceCalc": "",
-  "config.brazier.renderRunes": ""
+  "config.brazier.renderRunes": "",
+  "config.brazier.crazedChance": ""
 }
