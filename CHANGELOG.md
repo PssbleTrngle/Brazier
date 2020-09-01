@@ -13,4 +13,13 @@ All notable changes to this project will be documented in this file.
 - Living torches to indicate the brazier range
 
 ### Fixed
-- Braziers not loading with the correct range after world reload
+- Braziers not loading with the correct range after world reload\n\n\#\# [1.2.1] - 2020-09-01\n### Fixed
+- Missing torch texture (closes #22)
+- Moved brazier to misc tab (closes #21)
+
+### Added
+- Crazed spawn egg
+- Config option for crazed spawn chance
+
+### Changed
+- Increased default crazed spawn chance
