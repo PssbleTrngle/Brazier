@@ -38,10 +38,11 @@ jobs:
         uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
-          contents: |+
+          contents: |
+            .
+            
             ## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
             ${{ github.event.pull_request.body }}
-
           write-mode: append
                  
       - name: Upload to CurseForge
@@ -85,8 +86,8 @@ jobs:
           message: Update Changelog
           add: build.properties CHANGELOG.md
           ref: master
-          author_name: PssbleTrngle
-          author_email: nik@somethingcatchy.net
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
           force: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
