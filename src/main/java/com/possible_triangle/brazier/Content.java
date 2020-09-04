@@ -118,6 +118,7 @@ public class Content {
     }
 
 
+    @OnlyIn(Dist.CLIENT)
     @SubscribeEvent
     public static void itemColors(ColorHandlerEvent.Item event) {
 
