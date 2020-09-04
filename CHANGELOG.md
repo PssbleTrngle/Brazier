@@ -26,4 +26,6 @@ All notable changes to this project will be documented in this file.
 - Missing block drops
 
 ### Changed
-- Torch input for living torches now an item tag
+- Torch input for living torches now an item tag## [1.2.3] - 2020-09-04
+### Fixed
+Don't subscribe to `ItemColors` event on server-side
