@@ -43,3 +43,8 @@ All notable changes to this project will be documented in this file.
 ## [1.2.3] - 2020-09-04
 ### Fixed
 - Don't subscribe to `ItemColors` event on server-side
+.
+
+## [1.2.4] - 2020-09-04
+### Fixed
+- Server error preventing players from joining
