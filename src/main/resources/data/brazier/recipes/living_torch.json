@@ -4,14 +4,9 @@
     {
       "item": "brazier:living_torch"
     },
-    [
-      {
-        "item": "minecraft:torch"
-      },
-      {
-        "item": "minecraft:soul_torch"
-      }
-    ]
+    {
+      "tag": "brazier:torches"
+    }
   ],
   "result": {
     "item": "brazier:living_torch",
