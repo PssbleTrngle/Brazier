@@ -38,7 +38,10 @@ jobs:
         uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
-          contents: \n\n\#\# [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}\n${{ github.event.pull_request.body }}
+          contents: |+
+            ## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
+            ${{ github.event.pull_request.body }}
+
           write-mode: append
                  
       - name: Upload to CurseForge
@@ -53,7 +56,7 @@ jobs:
           changelog_type: markdown  
           display_name: Version ${{ steps.version.outputs.next }}
           game_versions: 7892,4458,7498
-          release_type: beta
+          release_type: release
         
       - name: Create Release
         id: release
