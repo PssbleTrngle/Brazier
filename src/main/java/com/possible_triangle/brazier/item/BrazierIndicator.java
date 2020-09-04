@@ -2,24 +2,16 @@ package com.possible_triangle.brazier.item;
 
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
-import net.minecraft.entity.Entity;
-import net.minecraft.inventory.EquipmentSlotType;
-import net.minecraft.item.*;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.World;
 import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.TickEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.LogicalSide;
-import net.minecraftforge.fml.common.Mod;
 
 import java.util.stream.Stream;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public interface BrazierIndicator {
 
-    @SubscribeEvent
     static void playerTick(TickEvent.PlayerTickEvent event) {
         if (event.player.world.isRemote || event.player.ticksExisted % 2 != 0) return;
         ServerWorld world = (ServerWorld) event.player.world;
