@@ -22,4 +22,8 @@ All notable changes to this project will be documented in this file.
 - Config option for crazed spawn chance
 
 ### Changed
-- Increased default crazed spawn chance
+- Increased default crazed spawn chance\n\n\#\# [1.2.2] - 2020-09-04\n### Fixed
+- Missing block drops
+
+### Changed
+- Torch input for living torches now an item tag
