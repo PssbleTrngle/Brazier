@@ -1,11 +1,11 @@
 package com.possible_triangle.brazier.block;
 
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.Lists;
-import com.google.gson.internal.$Gson$Preconditions;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
-import net.minecraft.block.*;
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockRenderType;
+import net.minecraft.block.BlockState;
+import net.minecraft.block.ContainerBlock;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -15,8 +15,6 @@ import net.minecraft.entity.SpawnReason;
 import net.minecraft.entity.monster.MonsterEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.Items;
-import net.minecraft.item.crafting.Ingredient;
 import net.minecraft.state.BooleanProperty;
 import net.minecraft.state.StateContainer;
 import net.minecraft.state.properties.BlockStateProperties;
@@ -24,30 +22,29 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ActionResultType;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.Hand;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.shapes.ISelectionContext;
 import net.minecraft.util.math.shapes.VoxelShape;
 import net.minecraft.world.IBlockReader;
 import net.minecraft.world.World;
+import net.minecraftforge.common.ToolType;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
 import javax.annotation.Nullable;
-import java.util.Collection;
 
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class BrazierBlock extends ContainerBlock {
 
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
-    public static final Ingredient TORCH_INPUT = Ingredient.fromItems(Items.TORCH, Blocks.field_235339_cQ_);
 
     public BrazierBlock() {
         super(Properties.create(Material.IRON)
                 .hardnessAndResistance(3.0F)
+                .harvestTool(ToolType.PICKAXE)
                 .notSolid()
                 .func_235838_a_(s -> s.get(LIT) ? 15 : 0));
         setDefaultState(super.getDefaultState().with(LIT, false));
@@ -95,7 +92,7 @@ public class BrazierBlock extends ContainerBlock {
 
     @Nullable
     @Override
-    public TileEntity createNewTileEntity(IBlockReader worldIn) {
+    public TileEntity createNewTileEntity(IBlockReader world) {
         return new BrazierTile();
     }
 
@@ -103,7 +100,7 @@ public class BrazierBlock extends ContainerBlock {
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         return Content.LIVING_TORCH.filter(torch -> {
             ItemStack stack = player.getHeldItem(hand);
-            if (TORCH_INPUT.test(stack)) {
+            if (!stack.isEmpty() && Content.TORCHES.func_230235_a_(stack.getItem())) {
                 if (!player.isCreative()) stack.shrink(1);
                 player.addItemStackToInventory(new ItemStack(torch, 1));
                 return true;

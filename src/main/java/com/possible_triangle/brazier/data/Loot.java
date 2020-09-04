@@ -1,26 +1,16 @@
 package com.possible_triangle.brazier.data;
 
-import com.google.common.eventbus.Subscribe;
-import com.mojang.datafixers.util.Pair;
-import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.LootTableProvider;
 import net.minecraft.item.Items;
 import net.minecraft.loot.*;
-import net.minecraft.tags.ITag.ItemEntry;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.loot.conditions.SurvivesExplosion;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
+import net.minecraftforge.fml.RegistryObject;
 import net.minecraftforge.fml.common.Mod;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.function.BiConsumer;
-import java.util.function.Consumer;
-import java.util.function.Supplier;
+import java.util.stream.Stream;
 
 @Mod.EventBusSubscriber
 public class Loot extends BaseLootTableProvider {
@@ -46,8 +36,17 @@ public class Loot extends BaseLootTableProvider {
         Content.CRAZED.ifPresent(type -> lootTables.put(type.getLootTable(), LootTable.builder()
                 .addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
                         .addEntry(ItemLootEntry.builder(Content.LIVING_FLAME.orElse(Items.BLAZE_POWDER)))
-                )
+                ).setParameterSet(LootParameterSets.ENTITY)
         ));
+
+        Stream.of(Content.BRAZIER, Content.LIVING_TORCH_BLOCK, Content.LIVING_TORCH_BLOCK_WALL)
+                .filter(RegistryObject::isPresent).map(RegistryObject::get)
+                .forEach(block -> lootTables.put(block.getLootTable(), LootTable.builder()
+                        .addLootPool(LootPool.builder().rolls(ConstantRange.of(1))
+                                .addEntry(ItemLootEntry.builder(block))
+                                .acceptCondition(SurvivesExplosion.builder())
+                        ).setParameterSet(LootParameterSets.BLOCK)
+                ));
     }
 
 }
