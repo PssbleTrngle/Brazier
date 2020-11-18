@@ -3,6 +3,7 @@ package com.possible_triangle.brazier;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.block.LazyTorchBlock;
 import com.possible_triangle.brazier.block.LazyWallTorchBlock;
+import com.possible_triangle.brazier.block.SpawnPowder;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
 import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
@@ -75,6 +76,8 @@ public class Content {
 
     public static final RegistryObject<Item> LIVING_FLAME = ITEMS.register("living_flame", Flame::new);
     public static final RegistryObject<Item> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
+
+    public static final RegistryObject<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.group(ItemGroup.MATERIALS));
 
     public static final RegistryObject<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed", () -> EntityType.Builder.<Crazed>create(Crazed::new, EntityClassification.MONSTER)
             .setCustomClientFactory((s, w) -> new Crazed(w))

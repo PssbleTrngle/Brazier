@@ -57,5 +57,16 @@ public class Blocks extends BlockStateProvider {
                 }
         );
 
+        Content.SPAWN_POWDER.ifPresent(b -> simpleBlock(b,
+                models().getBuilder(b.getRegistryName().getPath())
+                        .texture("particle", blockTexture(b))
+                        .texture("texture", blockTexture(b))
+                        .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
+                        .shade(false)
+                        .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
+                        .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
+                        .end().ao(false)
+        ));
+
     }
 }

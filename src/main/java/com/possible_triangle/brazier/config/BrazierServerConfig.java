@@ -12,6 +12,8 @@ public class BrazierServerConfig {
     public final ForgeConfigSpec.IntValue RANGE_PER_LEVEL;
     public final ForgeConfigSpec.IntValue BASE_RANGE;
 
+    public final ForgeConfigSpec.BooleanValue SPAWN_POWDER;
+
     public final ForgeConfigSpec.EnumValue<DistanceHandler.Type> DISTANCE_CALC;
 
     public BrazierServerConfig(ForgeConfigSpec.Builder builder) {
@@ -38,6 +40,11 @@ public class BrazierServerConfig {
                 .comment("How should the distance to the brazier be calculated?")
                 .translation("config.brazier.distanceCalc")
                 .defineEnum("distanceCalc", DistanceHandler.Type.CYLINDER);
+
+        SPAWN_POWDER = builder
+                .comment("Enable to spawn powder block?")
+                .translation("config.brazier.spawnPowder")
+                .define("spawnPowder", true);
 
         builder.pop().comment("Options related to the acquisition of the living flame").push("acquisition");
 

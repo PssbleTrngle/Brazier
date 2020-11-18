@@ -2,6 +2,7 @@ package com.possible_triangle.brazier.block;
 
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.config.BrazierConfig;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockRenderType;
 import net.minecraft.block.BlockState;
@@ -81,6 +82,15 @@ public class BrazierBlock extends ContainerBlock {
     @SubscribeEvent
     public static void mobSpawn(LivingSpawnEvent.CheckSpawn event) {
         BlockPos pos = new BlockPos(event.getX(), event.getY(), event.getZ());
+
+        // Check for spawn powder
+        if(BrazierConfig.SERVER.SPAWN_POWDER.get()) {
+            Block block = event.getWorld().getBlockState(pos).getBlock();
+            if(Content.SPAWN_POWDER.map(block::equals).isPresent()) {
+                return;
+            }
+        }
+
         if (prevents(event.getSpawnReason()) && prevents(event.getEntity()) && BrazierTile.inRange(pos))
             event.setResult(Event.Result.DENY);
     }

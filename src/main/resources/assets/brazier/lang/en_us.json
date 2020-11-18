@@ -1,6 +1,7 @@
 {
   "block.brazier.brazier": "Brazier",
   "block.brazier.living_torch": "Living Torch",
+  "block.brazier.spawn_powder": "Ash",
   "item.brazier.living_flame": "Living Flame",
   "entity.brazier.crazed_flame": "Crazed Flame",
   "item.brazier.crazed_spawn_egg": "Crazed Spawn Egg",
