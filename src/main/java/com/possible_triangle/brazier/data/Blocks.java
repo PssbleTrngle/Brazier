@@ -18,13 +18,17 @@ public class Blocks extends BlockStateProvider {
         super(generator, Brazier.MODID, fileHelper);
     }
 
+    private ResourceLocation extend(ResourceLocation in, String with) {
+        return new ResourceLocation(in.getNamespace(), in.getPath() + with);
+    }
+
     @Override
     protected void registerStatesAndModels() {
 
         Content.BRAZIER.ifPresent(b -> getVariantBuilder(b).forAllStates(s -> {
             boolean lit = s.get(BrazierBlock.LIT);
             ResourceLocation r = blockTexture(b);
-            ResourceLocation model = lit ? new ResourceLocation(r.getNamespace(), r.getPath() + "_lit") : r;
+            ResourceLocation model = lit ? extend(r, "_lit") : r;
             return ConfiguredModel.builder()
                     .modelFile(this.models().getExistingFile(model))
                     .build();
@@ -61,11 +65,18 @@ public class Blocks extends BlockStateProvider {
                 models().getBuilder(b.getRegistryName().getPath())
                         .texture("particle", blockTexture(b))
                         .texture("texture", blockTexture(b))
+                        .texture("overlay", extend(blockTexture(b), "_overlay"))
                         .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
-                        .shade(false)
-                        .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
-                        .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
-                        .end().ao(false)
+                            .shade(false)
+                            .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
+                            .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
+                            .end()
+                        .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
+                            .shade(false)
+                            .face(Direction.UP).texture("#overlay").uvs(0, 0, 16, 16).end()
+                            .face(Direction.DOWN).texture("#overlay").uvs(0, 16, 16, 0).end()
+                            .end()
+                        .ao(false)
         ));
 
     }

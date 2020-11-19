@@ -45,6 +45,7 @@ public class Recipes extends RecipeProvider {
                         .addIngredient(Content.WARPED_NETHERWART.orElse(Items.NETHER_WART))
                         .addCriterion("collected_flame", hasItem(flame))
                         .addCriterion("collected_ash", hasItem(Content.ASH_TAG))
+                        .build(consumer)
         );
 
         Content.WARPED_NETHERWART.ifPresent(wart ->
@@ -54,6 +55,7 @@ public class Recipes extends RecipeProvider {
                         .patternLine("xxx")
                         .key('x', wart)
                         .addCriterion("collected_wart", hasItem(wart))
+                        .build(consumer)
         );
 
     }
