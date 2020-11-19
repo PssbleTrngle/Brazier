@@ -86,7 +86,7 @@ public class BrazierBlock extends ContainerBlock {
         // Check for spawn powder
         if(BrazierConfig.SERVER.SPAWN_POWDER.get()) {
             Block block = event.getWorld().getBlockState(pos).getBlock();
-            if(Content.SPAWN_POWDER.map(block::equals).isPresent()) {
+            if(Content.SPAWN_POWDER.filter(block::equals).isPresent()) {
                 return;
             }
         }

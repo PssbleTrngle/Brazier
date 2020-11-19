@@ -11,6 +11,7 @@ public class BrazierServerConfig {
     public final ForgeConfigSpec.IntValue MAX_HEIGHT;
     public final ForgeConfigSpec.IntValue RANGE_PER_LEVEL;
     public final ForgeConfigSpec.IntValue BASE_RANGE;
+    public final ForgeConfigSpec.BooleanValue PROTECT_ABOVE;
 
     public final ForgeConfigSpec.BooleanValue SPAWN_POWDER;
 
@@ -40,6 +41,11 @@ public class BrazierServerConfig {
                 .comment("How should the distance to the brazier be calculated?")
                 .translation("config.brazier.distanceCalc")
                 .defineEnum("distanceCalc", DistanceHandler.Type.CYLINDER);
+
+        PROTECT_ABOVE = builder
+                .comment("Should the brazier protect blocks above it too?")
+                .translation("config.brazier.protectAbove")
+                .define("protectAbove", false);
 
         SPAWN_POWDER = builder
                 .comment("Enable to spawn powder block?")

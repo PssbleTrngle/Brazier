@@ -145,5 +145,7 @@ public class Content {
                 .forEach(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
 
         BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
+
+        SPAWN_POWDER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
     }
 }
