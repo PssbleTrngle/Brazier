@@ -47,4 +47,17 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.4] - 2020-09-04
 ### Fixed
-- Server error preventing players from joining
+- Server error preventing players from joining.
+
+## [1.3.0] - 2020-11-20
+### Added
+- Cursed ash: placeable powder to bypass braziers, allowing mob farms
+- Warped netherwarts
+
+### Modified
+- Brazier can now be configured to only prevent spawns below
+- Reduced indication particles 
+
+### Fixed
+- Wrong particle offset on living torches
+- Slimes and magma cubes spawns inside brazier
