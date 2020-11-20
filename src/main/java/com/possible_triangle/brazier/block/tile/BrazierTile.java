@@ -14,7 +14,6 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.util.math.vector.Vector3f;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.HashMap;
@@ -41,6 +40,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     public static boolean inRange(BlockPos pos) {
         synchronized (BRAZIERS) {
             return BRAZIERS.entrySet().stream().anyMatch(e -> {
+                if(!BrazierConfig.SERVER.PROTECT_ABOVE.get() && e.getKey().getY() < pos.getY()) return false;
                 double dist = DistanceHandler.getDistance(pos, e.getKey());
                 int maxDist = e.getValue() * e.getValue();
                 return dist <= maxDist;

@@ -23,7 +23,7 @@ public class Items extends ItemModelProvider {
                 .map(ResourceLocation::getPath)
                 .ifPresent(b -> this.withExistingParent(b, modLoc("block/" + b)));
 
-        Stream.of(Content.LIVING_FLAME).forEach(c -> c
+        Stream.of(Content.LIVING_FLAME, Content.SPAWN_POWDER, Content.WARPED_NETHERWART, Content.ASH).forEach(c -> c
                 .map(ForgeRegistryEntry::getRegistryName)
                 .map(ResourceLocation::getPath)
                 .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("item/" + i)))
