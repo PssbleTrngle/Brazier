@@ -65,18 +65,11 @@ public class Blocks extends BlockStateProvider {
                 models().getBuilder(b.getRegistryName().getPath())
                         .texture("particle", blockTexture(b))
                         .texture("texture", blockTexture(b))
-                        .texture("overlay", extend(blockTexture(b), "_overlay"))
                         .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
-                            .shade(false)
-                            .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
-                            .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
-                            .end()
-                        .element().from(0, 0.25F, 0).to(16, 0.25F, 16)
-                            .shade(false)
-                            .face(Direction.UP).texture("#overlay").uvs(0, 0, 16, 16).end()
-                            .face(Direction.DOWN).texture("#overlay").uvs(0, 16, 16, 0).end()
-                            .end()
-                        .ao(false)
+                        .shade(false)
+                        .face(Direction.UP).texture("#texture").uvs(0, 0, 16, 16).end()
+                        .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
+                        .end().ao(false)
         ));
 
     }

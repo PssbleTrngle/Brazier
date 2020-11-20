@@ -30,6 +30,8 @@ public class Loot extends BaseLootTableProvider {
 
     @SubscribeEvent
     public static void onLootLoaded(LootTableLoadEvent event) {
+        boolean noNetherEx = !ModList.get().isLoaded("nether_extension");
+
         if (event.getName().equals(LootTables.CHESTS_JUNGLE_TEMPLE)) {
             Content.LIVING_FLAME.ifPresent(flame ->
                     event.getTable().addPool(LootPool.builder()
@@ -37,7 +39,7 @@ public class Loot extends BaseLootTableProvider {
                             .addEntry(EmptyLootEntry.func_216167_a().weight(1))
                             .build())
             );
-        } else if (event.getName().equals(EntityType.WITHER_SKELETON.getLootTable()) && !ModList.get().isLoaded("nether_extension")) {
+        } else if (event.getName().equals(EntityType.WITHER_SKELETON.getLootTable()) && !noNetherEx) {
             Content.ASH.ifPresent(ash -> event.getTable().addPool(LootPool.builder()
                     .addEntry(ItemLootEntry.builder(ash)
                             .acceptFunction(SetCount.builder(RandomValueRange.of(-1, 1)))

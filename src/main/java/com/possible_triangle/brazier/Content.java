@@ -59,7 +59,9 @@ public class Content {
     public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.func_232896_a_(new ResourceLocation(MODID, "brazier_whitelist").toString());
     public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.func_232896_a_(new ResourceLocation(MODID, "brazier_blacklist").toString());
     public static final ITag<Item> TORCHES = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "torches").toString());
+
     public static final ITag<Item> ASH_TAG = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "ash").toString());
+    public static final ITag<Item> WARPED_WART_TAG = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "warped_wart").toString());
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(ForgeRegistries.ITEMS, MODID);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(ForgeRegistries.BLOCKS, MODID);

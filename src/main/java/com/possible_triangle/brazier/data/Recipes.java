@@ -6,8 +6,11 @@ import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.util.ResourceLocation;
 
 import java.util.function.Consumer;
+
+import static com.possible_triangle.brazier.Brazier.MODID;
 
 public class Recipes extends RecipeProvider {
 
@@ -48,15 +51,13 @@ public class Recipes extends RecipeProvider {
                         .build(consumer)
         );
 
-        Content.WARPED_NETHERWART.ifPresent(wart ->
-                ShapedRecipeBuilder.shapedRecipe(Blocks.field_235374_mn_)
-                        .patternLine("xxx")
-                        .patternLine("xxx")
-                        .patternLine("xxx")
-                        .key('x', wart)
-                        .addCriterion("collected_wart", hasItem(wart))
-                        .build(consumer)
-        );
+        ShapedRecipeBuilder.shapedRecipe(Blocks.field_235374_mn_)
+                .patternLine("xxx")
+                .patternLine("xxx")
+                .patternLine("xxx")
+                .key('x', Content.WARPED_WART_TAG)
+                .addCriterion("collected_wart", hasItem(Content.WARPED_WART_TAG))
+                .build(consumer, new ResourceLocation(MODID, "warped_warp_block"));
 
     }
 }
