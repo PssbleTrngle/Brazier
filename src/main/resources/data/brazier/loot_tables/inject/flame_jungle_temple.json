@@ -1,0 +1,17 @@
+{
+  "pools": [
+    {
+      "name": "inject",
+      "rolls": 1.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "name": "brazier:living_flame"
+        },
+        {
+          "type": "minecraft:empty"
+        }
+      ]
+    }
+  ]
+}
