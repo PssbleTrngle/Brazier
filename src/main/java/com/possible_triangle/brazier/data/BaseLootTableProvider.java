@@ -22,7 +22,11 @@ public abstract class BaseLootTableProvider extends LootTableProvider {
     private static final Logger LOGGER = LogManager.getLogger();
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
 
-    protected final Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
+    private final Map<ResourceLocation, LootTable.Builder> lootTables = new HashMap<>();
+
+    protected void addLootTable(ResourceLocation name, LootTable.Builder table) {
+        this.lootTables.put(name, table);
+    }
 
     private final DataGenerator generator;
 

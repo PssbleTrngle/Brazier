@@ -22,7 +22,8 @@ public class WoodlandMansionPiecesMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "Lnet/minecraft/world/gen/feature/structure/WoodlandMansionPieces$MansionTemplate;handleDataMarker(Ljava/lang/String;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IWorld;Ljava/util/Random;Lnet/minecraft/util/math/MutableBoundingBox;)V")
     public void handleDataMarker(String function, BlockPos pos, IWorld world, Random rand, MutableBoundingBox sbb, CallbackInfo callback) {
         if (BrazierConfig.SERVER.SPAWN_CRAZED.get()) Content.CRAZED.ifPresent(type -> {
-            if (function.equals("Mage") && rand.nextInt(BrazierConfig.SERVER.CRAZED_CHANCE.get() - 1) == 0) {
+            double chance = BrazierConfig.SERVER.CRAZED_CHANCE.get();
+            if (function.equals("Mage") && chance > 0 && rand.nextDouble() <= chance) {
                 Crazed crazed = type.create(world.getWorld());
                 assert crazed != null;
                 crazed.enablePersistence();
