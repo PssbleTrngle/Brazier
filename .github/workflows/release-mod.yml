@@ -86,15 +86,7 @@ jobs:
         with:
           message: Update Changelog
           add: build.properties CHANGELOG.md
-<<<<<<< HEAD
-<<<<<<< Updated upstream
-          ref: ${{ GITHUB_REF }}
-=======
           branch: ${{ env.GITHUB_REF }}
->>>>>>> Stashed changes
-=======
-          ref: ${{ env.GITHUB_REF }}
->>>>>>> c60f6138bc2483943cbf086a1a3478dae5f60c95
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
           force: true
