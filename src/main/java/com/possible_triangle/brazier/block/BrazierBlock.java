@@ -47,7 +47,7 @@ public class BrazierBlock extends ContainerBlock {
                 .hardnessAndResistance(3.0F)
                 .harvestTool(ToolType.PICKAXE)
                 .notSolid()
-                .func_235838_a_(s -> s.get(LIT) ? 15 : 0));
+                .setLightLevel(s -> s.get(LIT) ? 15 : 0));
         setDefaultState(super.getDefaultState().with(LIT, false));
     }
 
@@ -64,8 +64,8 @@ public class BrazierBlock extends ContainerBlock {
         return (
                 entity instanceof MonsterEntity
                         && entity.isNonBoss()
-                        && !Content.BRAZIER_WHITELIST.func_230235_a_(type)
-        ) || Content.BRAZIER_BLACKLIST.func_230235_a_(type);
+                        && !Content.BRAZIER_WHITELIST.contains(type)
+        ) || Content.BRAZIER_BLACKLIST.contains(type);
     }
 
     public static boolean prevents(SpawnReason reason) {
@@ -110,7 +110,7 @@ public class BrazierBlock extends ContainerBlock {
     public ActionResultType onBlockActivated(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockRayTraceResult hit) {
         return Content.LIVING_TORCH.filter(torch -> {
             ItemStack stack = player.getHeldItem(hand);
-            if (!stack.isEmpty() && Content.TORCHES.func_230235_a_(stack.getItem())) {
+            if (!stack.isEmpty() && Content.TORCHES.contains(stack.getItem())) {
                 if (!player.isCreative()) stack.shrink(1);
                 player.addItemStackToInventory(new ItemStack(torch, 1));
                 return true;
@@ -125,11 +125,11 @@ public class BrazierBlock extends ContainerBlock {
     }
 
     @Override
-    public void onEntityCollision(BlockState state, World worldIn, BlockPos pos, Entity entity) {
-        if (!entity.func_230279_az_() && state.get(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
+    public void onEntityCollision(BlockState state, World world, BlockPos pos, Entity entity) {
+        if (!entity.isImmuneToFire() && state.get(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
             entity.attackEntityFrom(DamageSource.IN_FIRE, 2F);
         }
-        super.onEntityCollision(state, worldIn, pos, entity);
+        super.onEntityCollision(state, world, pos, entity);
     }
 
 }

@@ -23,6 +23,7 @@ import net.minecraft.util.math.BlockRayTraceResult;
 import net.minecraft.util.math.RayTraceContext;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraft.world.spawner.AbstractSpawner;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -44,10 +45,10 @@ public class LazySpawnEgg extends Item {
     }
 
     public ActionResultType onItemUse(ItemUseContext context) {
-        World world = context.getWorld();
-        if (world.isRemote) {
+        if (context.getWorld().isRemote()) {
             return ActionResultType.SUCCESS;
         } else {
+            ServerWorld world = (ServerWorld) context.getWorld();
             ItemStack itemstack = context.getItem();
             BlockPos pos = context.getPos();
             Direction direction = context.getFace();
@@ -77,18 +78,17 @@ public class LazySpawnEgg extends Item {
     }
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack held = player.getHeldItem(hand);
-        RayTraceResult raytraceresult = rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
-        if (raytraceresult.getType() != RayTraceResult.Type.BLOCK) {
+        BlockRayTraceResult raytrace = rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
+        if (raytrace.getType() != RayTraceResult.Type.BLOCK) {
             return ActionResult.resultPass(held);
         } else if (world.isRemote) {
             return ActionResult.resultSuccess(held);
         } else {
-            BlockRayTraceResult blockraytraceresult = (BlockRayTraceResult)raytraceresult;
-            BlockPos blockpos = blockraytraceresult.getPos();
+            BlockPos blockpos = raytrace.getPos();
             if (!(world.getBlockState(blockpos).getBlock() instanceof FlowingFluidBlock)) {
                 return ActionResult.resultPass(held);
-            } else if (world.isBlockModifiable(player, blockpos) && player.canPlayerEdit(blockpos, blockraytraceresult.getFace(), held)) {
-                if (type.get().spawn(world, held, player, blockpos, SpawnReason.SPAWN_EGG, false, false) == null) {
+            } else if (world.isBlockModifiable(player, blockpos) && player.canPlayerEdit(blockpos, raytrace.getFace(), held)) {
+                if (type.get().spawn((ServerWorld) world, held, player, blockpos, SpawnReason.SPAWN_EGG, false, false) == null) {
                     return ActionResult.resultPass(held);
                 } else {
                     if (!player.abilities.isCreativeMode) {

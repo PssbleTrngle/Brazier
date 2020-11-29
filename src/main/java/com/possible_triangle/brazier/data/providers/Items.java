@@ -4,8 +4,8 @@ import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.ResourceLocation;
-import net.minecraftforge.client.model.generators.ExistingFileHelper;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
+import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.registries.ForgeRegistryEntry;
 
 import java.util.stream.Stream;

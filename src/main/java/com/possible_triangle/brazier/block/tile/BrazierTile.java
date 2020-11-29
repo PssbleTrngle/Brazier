@@ -96,7 +96,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
                 for (int z = -2; z <= 2; z++)
                     if (Math.abs(x * z) < 4) {
                         BlockState state = world.getBlockState(pos.add(x, -height, z));
-                        b = b && Content.BRAZIER_BASE_BLOCKS.func_230235_a_(state.getBlock());
+                        b = b && Content.BRAZIER_BASE_BLOCKS.contains(state.getBlock());
                     }
             if (!b) return height - 1;
         }
@@ -104,8 +104,8 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     }
 
     @Override
-    public void func_230337_a_(BlockState state, CompoundNBT nbt) {
-        super.func_230337_a_(state, nbt);
+    public void read(BlockState state, CompoundNBT nbt) {
+        super.read(state, nbt);
         if (nbt.contains("height")) setHeight(nbt.getInt("height"));
     }
 

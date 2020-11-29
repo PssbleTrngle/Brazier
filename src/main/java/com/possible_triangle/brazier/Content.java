@@ -56,8 +56,8 @@ import static com.possible_triangle.brazier.Brazier.MODID;
 public class Content {
 
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(MODID, "brazier_base_blocks").toString());
-    public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.func_232896_a_(new ResourceLocation(MODID, "brazier_whitelist").toString());
-    public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.func_232896_a_(new ResourceLocation(MODID, "brazier_blacklist").toString());
+    public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.getTagById(new ResourceLocation(MODID, "brazier_whitelist").toString());
+    public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.getTagById(new ResourceLocation(MODID, "brazier_blacklist").toString());
     public static final ITag<Item> TORCHES = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "torches").toString());
 
     public static final ITag<Item> ASH_TAG = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "ash").toString());

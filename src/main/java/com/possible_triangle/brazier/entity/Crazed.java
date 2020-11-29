@@ -25,7 +25,7 @@ import net.minecraft.util.SoundEvent;
 import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IWorld;
+import net.minecraft.world.IServerWorld;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.common.Mod;
 
@@ -44,10 +44,10 @@ public class Crazed extends SpellcastingIllagerEntity {
 
     public static void init(EntityType<? extends LivingEntity> type) {
         GlobalEntityTypeAttributes.put(type, MonsterEntity.func_234295_eP_()
-                .func_233815_a_(Attributes.field_233821_d_, 0.6D)
-                .func_233815_a_(Attributes.field_233819_b_, 12.0D)
-                .func_233815_a_(Attributes.field_233818_a_, 24.0D)
-                .func_233813_a_()
+                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D)
+                .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
+                .createMutableAttribute(Attributes.MAX_HEALTH, 24.0D)
+                .create()
         );
     }
 
@@ -83,8 +83,7 @@ public class Crazed extends SpellcastingIllagerEntity {
     }
 
     @Override
-    public void func_213660_a(int p_213660_1_, boolean p_213660_2_) {
-    }
+    public void applyWaveBonus(int wave, boolean something) {    }
 
     protected SoundEvent getAmbientSound() {
         return SoundEvents.ENTITY_EVOKER_AMBIENT;
@@ -154,7 +153,7 @@ public class Crazed extends SpellcastingIllagerEntity {
 
         private List<LivingEntity> getTargets() {
             return world.getEntitiesWithinAABB(LivingEntity.class, getBoundingBox().grow(BUFF_RADIUS), e ->
-                    e.isAlive() && (EntityTypeTags.RAIDERS.func_230235_a_(e.getType()) || e.isOnSameTeam(Crazed.this))
+                    e.isAlive() && (EntityTypeTags.RAIDERS.contains(e.getType()) || e.isOnSameTeam(Crazed.this))
             );
         }
 
@@ -175,7 +174,7 @@ public class Crazed extends SpellcastingIllagerEntity {
         }
     }
 
-    public static boolean canSpawnHere(EntityType<? extends MonsterEntity> type, IWorld world, SpawnReason reason, BlockPos pos, Random random) {
+    public static boolean canSpawnHere(EntityType<? extends MonsterEntity> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random random) {
         return canMonsterSpawnInLight(type, world, reason, pos, random) && (reason != SpawnReason.NATURAL || world.getBlockState(pos).isFireSource(world, pos, Direction.UP));
     }
 

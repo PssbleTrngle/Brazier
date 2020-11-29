@@ -20,7 +20,7 @@ public class SpawnPowder extends Block {
         super(Properties.create(Material.MISCELLANEOUS)
                 .doesNotBlockMovement()
                 .zeroHardnessAndResistance()
-                .func_235838_a_($ -> 1)
+                .setLightLevel($ -> 1)
         );
     }
 

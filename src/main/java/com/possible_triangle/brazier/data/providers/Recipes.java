@@ -27,7 +27,7 @@ public class Recipes extends RecipeProvider {
                         .patternLine("BFB")
                         .patternLine("SSS")
                         .key('B', Blocks.IRON_BARS)
-                        .key('S', Blocks.field_235406_np_)
+                        .key('S', Blocks.BLACKSTONE)
                         .key('F', flame)
                         .addCriterion("collected_flame", hasItem(flame))
                         .build(consumer)
@@ -51,7 +51,7 @@ public class Recipes extends RecipeProvider {
                         .build(consumer)
         );
 
-        ShapedRecipeBuilder.shapedRecipe(Blocks.field_235374_mn_)
+        ShapedRecipeBuilder.shapedRecipe(Blocks.WARPED_WART_BLOCK)
                 .patternLine("xxx")
                 .patternLine("xxx")
                 .patternLine("xxx")
