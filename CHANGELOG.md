@@ -1,6 +1,8 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+# 1.16.1
+
 ## [1.1.0] 2020-08-17
 ### Added
 - Cyclinder distance calculation
@@ -70,4 +72,7 @@ All notable changes to this project will be documented in this file.
 - Correct warped wart loot pool
 - Config option for jungle loot no longer ignored
 
-## 1.16.3
+# 1.16.3.
+
+## [2.0.0] - 2020-11-29
+Initial 1.16.3 release
