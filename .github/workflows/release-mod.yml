@@ -3,7 +3,8 @@ name: Release
 on:
   pull_request:
     types: [ closed ]
-    branches: [ master ]
+    branches:
+      - "[1-9].*.*"
 
 jobs:
 
@@ -85,7 +86,7 @@ jobs:
         with:
           message: Update Changelog
           add: build.properties CHANGELOG.md
-          ref: master
+          ref: ${{ GITHUB_REF }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
           force: true
