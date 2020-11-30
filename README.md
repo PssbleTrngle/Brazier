@@ -1,11 +1,13 @@
 [ISSUES]: https://github.com/PssbleTrngle/Brazier/issues
 [PROJECT]: https://www.curseforge.com/minecraft/mc-mods/brazier
 [DOWNLOAD]: https://www.curseforge.com/minecraft/mc-mods/brazier/files
+[FORGE]: https://www.curseforge.com/linkout?remoteUrl=https%253a%252f%252ffiles.minecraftforge.net%252f
 
 ![](https://cloud.somethingcatchy.net/s/PAAcwsoT8FrkPRf/preview)
 
 # Brazier
 [![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
+[![Loader](https://img.shields.io/badge/built%20with-forge-red.svg?logo=conda-forge)][FORGE]
 [![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
 [![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
 [![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
