@@ -9,7 +9,7 @@ on:
 jobs:
 
   publish:
-    if: github.event.pull_request.merged
+    if: github.event.pull_request.merged && contains(github.event.pull_request.labels.*.name, 'release')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -28,7 +28,6 @@ jobs:
           value: ${{ steps.version.outputs.next }} 
         
       - name: Build Mod
-        if: contains(github.event.pull_request.labels.*.name, 'release')
         run: chmod +x ./gradlew && ./gradlew build
           
       - name: Get current date
@@ -47,7 +46,6 @@ jobs:
           write-mode: append
                  
       - name: Upload to CurseForge
-        if: contains(github.event.pull_request.labels.*.name, 'release')
         uses: itsmeow/curseforge-upload@master
         with:
           token: ${{ secrets.CURSEFORGE_TOKEN }}
@@ -71,7 +69,6 @@ jobs:
           body: ${{ github.event.pull_request.body }}
   
       - name: Upload Mod Jar
-        if: contains(github.event.pull_request.labels.*.name, 'release')
         uses: actions/upload-release-asset@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
