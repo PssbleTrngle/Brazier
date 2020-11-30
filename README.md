@@ -28,7 +28,10 @@ These values are customizable in the config file.
 By lighting a torch on the brazier, you get a living torch. Holding it, you are able to see the outline of the area the brazier covers.
 
 ![](https://media.forgecdn.net/attachments/308/532/base_blocks.png)
-![](https://media.forgecdn.net/attachments/308/537/multiblocks.png)
+
+To enable mob farms, players can place them above (if the config option "protectAbove" is not set), or use cursed ash.
+
+Cursed ash is a placeable powder which bypasses brazier protection. It is crafted using ash, which is dropped by wither skeletons and warped netherwarts, which are a rare drop when harvesting netherwarts.
 
 ---
 
