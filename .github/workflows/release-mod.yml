@@ -57,7 +57,7 @@ jobs:
           changelog: ${{ github.event.pull_request.body }}
           changelog_type: markdown
           display_name: Version ${{ steps.version.outputs.next }}
-          game_versions: 8056,4458,7498
+          game_versions: 8134,8056,4458,7498
           release_type: release
 
       - name: Create Release
