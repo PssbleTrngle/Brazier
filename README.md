@@ -6,8 +6,8 @@
 
 # Brazier
 [![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
-[![Downloads](https://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
-[![Version](https://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
+[![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
+[![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
 [![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
 
 *This mod is still work in progress, and [feedback][ISSUES] regarding the balancing of the range or the structures base blocks is highly requested*
