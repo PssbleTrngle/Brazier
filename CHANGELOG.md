@@ -75,4 +75,9 @@ All notable changes to this project will be documented in this file.
 # 1.16.3.
 
 ## [2.0.0] - 2020-11-29
-Initial 1.16.3 release
+Initial 1.16.3 release.
+
+## [2.0.1] - 2020-11-30
+### Fixed
+- Mod now requires correct forge & mc versions
+- Should also work on 1.16.4

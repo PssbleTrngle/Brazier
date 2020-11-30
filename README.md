@@ -1,13 +1,15 @@
 [ISSUES]: https://github.com/PssbleTrngle/Brazier/issues
 [PROJECT]: https://www.curseforge.com/minecraft/mc-mods/brazier
 [DOWNLOAD]: https://www.curseforge.com/minecraft/mc-mods/brazier/files
+[FORGE]: https://files.minecraftforge.net/
 
 ![](https://cloud.somethingcatchy.net/s/PAAcwsoT8FrkPRf/preview)
 
 # Brazier
 [![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
-[![Downloads](https://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
-[![Version](https://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
+[![Loader](https://img.shields.io/badge/built%20with-forge-red.svg?logo=conda-forge)][FORGE]
+[![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
+[![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
 [![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
 
 *This mod is still work in progress, and [feedback][ISSUES] regarding the balancing of the range or the structures base blocks is highly requested*
@@ -26,7 +28,10 @@ These values are customizable in the config file.
 By lighting a torch on the brazier, you get a living torch. Holding it, you are able to see the outline of the area the brazier covers.
 
 ![](https://media.forgecdn.net/attachments/308/532/base_blocks.png)
-![](https://media.forgecdn.net/attachments/308/537/multiblocks.png)
+
+To enable mob farms, players can place them above (if the config option "protectAbove" is not set), or use cursed ash.
+
+Cursed ash is a placeable powder which bypasses brazier protection. It is crafted using ash, which is dropped by wither skeletons and warped netherwarts, which are a rare drop when harvesting netherwarts.
 
 ---
 
