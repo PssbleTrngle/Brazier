@@ -87,8 +87,15 @@ minecraft {
     }
 }
 
+repositories {
+    maven { // CTM
+        url "http://maven.tterrag.com/"
+    }
+}
+
 dependencies {
     minecraft "net.minecraftforge:forge:${config.mc_version}-${config.forge_version}"
+    runtimeOnly fg.deobf("team.chisel.ctm:CTM:MC${config.ctm_version}")
 }
 
 jar {
