@@ -3,6 +3,7 @@ package com.possible_triangle.brazier.data.providers;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
+import net.minecraft.block.LanternBlock;
 import net.minecraft.block.WallTorchBlock;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.util.Direction;
@@ -71,6 +72,17 @@ public class Blocks extends BlockStateProvider {
                         .face(Direction.DOWN).texture("#texture").uvs(0, 16, 16, 0).end()
                         .end().ao(false)
         ));
+
+        Content.LIVING_LANTERN.ifPresent(lantern -> getVariantBuilder(lantern).forAllStates(s -> {
+            String postfix = s.get(LanternBlock.HANGING) ? "_hanging" : "";
+            return ConfiguredModel.builder()
+                    .modelFile(models().singleTexture(
+                            lantern.getRegistryName().getPath() + postfix,
+                            mcLoc("block/template" + postfix + "_lantern"),
+                            "lantern",
+                            blockTexture(lantern)
+                    )).build();
+        }));
 
     }
 }

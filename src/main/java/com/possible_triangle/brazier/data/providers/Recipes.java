@@ -6,7 +6,10 @@ import net.minecraft.data.*;
 import net.minecraft.item.Item;
 import net.minecraft.item.Items;
 import net.minecraft.item.crafting.Ingredient;
+import net.minecraft.tags.ItemTags;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.common.Tags;
+import net.minecraftforge.common.data.ForgeItemTagsProvider;
 
 import java.util.function.Consumer;
 
@@ -59,5 +62,15 @@ public class Recipes extends RecipeProvider {
                 .addCriterion("collected_wart", hasItem(Content.WARPED_WART_TAG))
                 .build(consumer, new ResourceLocation(MODID, "warped_warp_block"));
 
+        Content.LIVING_LANTERN.ifPresent(lantern -> Content.LIVING_TORCH.ifPresent(torch ->
+                ShapedRecipeBuilder.shapedRecipe(lantern)
+                        .patternLine("xxx")
+                        .patternLine("xtx")
+                        .patternLine("xxx")
+                        .key('x', Tags.Items.NUGGETS_IRON)
+                        .key('t', torch)
+                        .addCriterion("crafted_torch", hasItem(torch))
+                        .build(consumer)
+        ));
     }
 }

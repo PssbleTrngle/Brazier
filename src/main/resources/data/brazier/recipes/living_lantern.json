@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "xxx",
+    "xtx",
+    "xxx"
+  ],
+  "key": {
+    "x": {
+      "tag": "forge:nuggets/iron"
+    },
+    "t": {
+      "item": "brazier:living_torch"
+    }
+  },
+  "result": {
+    "item": "brazier:living_lantern"
+  }
+}

@@ -13,7 +13,10 @@ import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LanternBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
@@ -78,6 +81,7 @@ public class Content {
 
     public static final RegistryObject<Block> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
     public static final RegistryObject<Block> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
+    public static final RegistryObject<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)), p -> p.group(ItemGroup.DECORATIONS));
 
     public static final RegistryObject<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().group(ItemGroup.MATERIALS).rarity(Rarity.UNCOMMON)));
     public static final RegistryObject<Item> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
@@ -154,5 +158,6 @@ public class Content {
         BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
 
         SPAWN_POWDER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
+        LIVING_LANTERN.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
     }
 }
