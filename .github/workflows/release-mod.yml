@@ -86,6 +86,5 @@ jobs:
           branch: ${{ env.GITHUB_REF }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          force: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -81,3 +81,7 @@ Initial 1.16.3 release.
 ### Fixed
 - Mod now requires correct forge & mc versions
 - Should also work on 1.16.4
+
+## [2.0.2] - 2020-12-02
+### Fixed
+- Wrong server config descriptions
