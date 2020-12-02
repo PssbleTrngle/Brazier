@@ -1,5 +1,5 @@
 modLoader="javafml"
-loaderVersion="[34,)"
+loaderVersion="[32,)"
 issueTrackerURL="https://github.com/PssbleTrngle/Brazier/issues"
 license="https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
 displayURL="https://www.curseforge.com/minecraft/mc-mods/brazier"
@@ -14,7 +14,7 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/brazier"
 [[dependencies.brazier]]
     modId="forge"
     mandatory=true
-    versionRange="[34.0.3,)"
+    versionRange="[32.0.108,)"
     ordering="NONE"
     side="BOTH"
 [[dependencies.brazier]]
