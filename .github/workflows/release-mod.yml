@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - uses: PssbleTrngle/VersionManagment@v1.0.4
         with:
@@ -83,7 +83,7 @@ jobs:
         with:
           message: Update Changelog
           add: build.properties CHANGELOG.md
-          branch: ${{ env.GITHUB_REF }}
+          branch: ${{ github.ref }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
         env:
