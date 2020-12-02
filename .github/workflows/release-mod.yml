@@ -46,7 +46,7 @@ jobs:
           write-mode: append
 
       - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@master
+        uses: itsmeow/curseforge-upload@v2
         with:
           token: ${{ secrets.CURSEFORGE_TOKEN }}
           project_id: 402616
@@ -57,6 +57,7 @@ jobs:
           display_name: Version ${{ steps.version.outputs.next }} (${{ github.ref }})
           game_versions: 8134,8056,4458,7498
           release_type: release
+          relations: ctm:optionalDependency
 
       - name: Create Release
         id: release
