@@ -89,4 +89,8 @@ Initial 1.16.3 release.
 
 ## [2.1.0] - 2020-12-02
 ### Changed
-- Version range to allow usage with 1.16.1 & 1.16.2 (experimental)
+- Version range to allow usage with 1.16.1 & 1.16.2 (experimental).
+
+## [2.1.1] - 2020-12-02
+### Changed
+- FML Loader version to allow 32.*
