@@ -46,7 +46,7 @@ jobs:
           write-mode: append
 
       - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@master
+        uses: itsmeow/curseforge-upload@v2
         with:
           token: ${{ secrets.CURSEFORGE_TOKEN }}
           project_id: 402616
