@@ -15,7 +15,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
-      - uses: PssbleTrngle/VersionManagment@v1.0.4
+      - uses: PssbleTrngle/VersionManagment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         id: version
@@ -56,7 +56,7 @@ jobs:
           changelog_type: markdown
           display_name: Version ${{ steps.version.outputs.next }} (${{ github.ref }})
           game_versions: 8134,8056,4458,7498
-          release_type: release
+          release_type: ${{ steps.version.outputs.type }}
           relations: ctm:optionalDependency
 
       - name: Create Release
@@ -68,6 +68,7 @@ jobs:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
+          prerelease: ${{ steps.version.outputs.type == 'alpha' }}
 
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
