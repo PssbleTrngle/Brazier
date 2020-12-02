@@ -85,3 +85,8 @@ Initial 1.16.3 release.
 ## [2.0.2] - 2020-12-02
 ### Fixed
 - Wrong server config descriptions
+.
+
+## [2.1.0] - 2020-12-02
+### Changed
+- Version range to allow usage with 1.16.1 & 1.16.2 (experimental)
