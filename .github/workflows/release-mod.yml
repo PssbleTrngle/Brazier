@@ -54,7 +54,7 @@ jobs:
           file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           changelog: ${{ github.event.pull_request.body }}
           changelog_type: markdown
-          display_name: Version ${{ steps.version.outputs.next }}
+          display_name: Version ${{ steps.version.outputs.next }} (${{ github.ref }})
           game_versions: 8134,8056,4458,7498
           release_type: release
 
