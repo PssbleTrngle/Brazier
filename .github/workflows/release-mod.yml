@@ -13,38 +13,38 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
-      
+        uses: actions/checkout@v2
+
       - uses: PssbleTrngle/VersionManagment@v1.0.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         id: version
-          
+
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:
           path: 'build.properties'
           property: 'mod_version'
-          value: ${{ steps.version.outputs.next }} 
-        
+          value: ${{ steps.version.outputs.next }}
+
       - name: Build Mod
         run: chmod +x ./gradlew && ./gradlew build
-          
+
       - name: Get current date
         id: date
         run: echo "::set-output name=date::$(date +'%Y-%m-%d')"
-          
+
       - name: Update Changelog
         uses: DamianReeves/write-file-action@v1.0
         with:
           path: CHANGELOG.md
           contents: |
             .
-            
+
             ## [${{ steps.version.outputs.next }}] - ${{ steps.date.outputs.date }}
             ${{ github.event.pull_request.body }}
           write-mode: append
-                 
+
       - name: Upload to CurseForge
         uses: itsmeow/curseforge-upload@master
         with:
@@ -53,11 +53,11 @@ jobs:
           game_endpoint: minecraft
           file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           changelog: ${{ github.event.pull_request.body }}
-          changelog_type: markdown  
-          display_name: Version ${{ steps.version.outputs.next }}
+          changelog_type: markdown
+          display_name: Version ${{ steps.version.outputs.next }} (${{ github.ref }})
           game_versions: 7892,4458,7498
           release_type: release
-        
+
       - name: Create Release
         id: release
         uses: actions/create-release@v1
@@ -67,7 +67,7 @@ jobs:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
-  
+
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
         env:
@@ -79,13 +79,12 @@ jobs:
           asset_content_type: application/java-archive
 
       - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v4
+        uses: EndBug/add-and-commit@v5
         with:
           message: Update Changelog
           add: build.properties CHANGELOG.md
-          branch: ${{ env.GITHUB_REF }}
+          branch: ${{ github.ref }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          force: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
