@@ -3,8 +3,7 @@ name: Release
 on:
   pull_request:
     types: [ closed ]
-    branches:
-      - "[1-9].*.*"
+    branches: [ "[1-9].*.*" ]
 
 jobs:
 
