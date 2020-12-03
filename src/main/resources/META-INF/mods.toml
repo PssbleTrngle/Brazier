@@ -20,6 +20,6 @@ displayURL="https://www.curseforge.com/minecraft/mc-mods/brazier"
 [[dependencies.brazier]]
     modId="minecraft"
     mandatory=true
-    versionRange="[1.16.1, 1.17)"
+    versionRange="[1.16.3, 1.17)"
     ordering="NONE"
     side="BOTH"
