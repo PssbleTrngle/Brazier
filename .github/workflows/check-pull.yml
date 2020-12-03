@@ -11,5 +11,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      - if: contains(github.event.pull_request.labels.*.name, 'release') && github.event.pull_request.body == ''
+      - name: check Changelog
+        if: contains(github.event.pull_request.labels.*.name, 'release') && github.event.pull_request.body == ''
         run: exit 1
