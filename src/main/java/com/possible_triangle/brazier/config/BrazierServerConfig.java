@@ -23,17 +23,17 @@ public class BrazierServerConfig {
         builder.comment("Options related to the brazier structure").push("brazier");
 
         MAX_HEIGHT = builder
-                .comment("Should the living flame generate in jungle temple chests")
+                .comment("The maximum height a brazier will recognize")
                 .translation("config.brazier.maxHeight")
                 .defineInRange("maxHeight", 10, 1, Integer.MAX_VALUE);
 
         RANGE_PER_LEVEL = builder
-                .comment("Should the living flame generate in jungle temple chests")
+                .comment("By how many blocks will the range grow per level (height)")
                 .translation("config.brazier.rangePerLevel")
                 .defineInRange("rangePerLevel", 10, 0, Integer.MAX_VALUE);
 
         BASE_RANGE = builder
-                .comment("Should the living flame generate in jungle temple chests")
+                .comment("The base range. Base range + blocks per level = actual range")
                 .translation("config.brazier.baseRange")
                 .defineInRange("baseRange", 20, 0, Integer.MAX_VALUE);
 

@@ -3,8 +3,7 @@ name: Release
 on:
   pull_request:
     types: [ closed ]
-    branches:
-      - "[1-9].*.*"
+    branches: [ "[1-9].*.*" ]
 
 jobs:
 
@@ -13,9 +12,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
-      - uses: PssbleTrngle/VersionManagment@v1.0.4
+      - uses: PssbleTrngle/VersionManagment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         id: version
@@ -46,7 +45,7 @@ jobs:
           write-mode: append
 
       - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@master
+        uses: itsmeow/curseforge-upload@v2
         with:
           token: ${{ secrets.CURSEFORGE_TOKEN }}
           project_id: 402616
@@ -54,9 +53,10 @@ jobs:
           file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           changelog: ${{ github.event.pull_request.body }}
           changelog_type: markdown
-          display_name: Version ${{ steps.version.outputs.next }}
+          display_name: Version ${{ steps.version.outputs.next }} (${{ github.ref }})
           game_versions: 8134,8056,4458,7498
-          release_type: release
+          release_type: ${{ steps.version.outputs.type }}
+          relations: ctm:optionalDependency
 
       - name: Create Release
         id: release
@@ -67,6 +67,7 @@ jobs:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
+          prerelease: ${{ steps.version.outputs.type == 'alpha' }}
 
       - name: Upload Mod Jar
         uses: actions/upload-release-asset@v1
@@ -83,9 +84,8 @@ jobs:
         with:
           message: Update Changelog
           add: build.properties CHANGELOG.md
-          branch: ${{ env.GITHUB_REF }}
+          branch: ${{ github.ref }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          force: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
