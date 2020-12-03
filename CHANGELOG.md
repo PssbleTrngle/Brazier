@@ -93,4 +93,9 @@ Initial 1.16.3 release.
 
 ## [2.1.1] - 2020-12-02
 ### Changed
-- FML Loader version to allow 32.*
+- FML Loader version to allow 32.*.
+
+## [2.1.2] - 2020-12-03
+### Fixed
+- Brazier runes not rendering for more than 9 blocks of the side
+- Rendering code being a mess
