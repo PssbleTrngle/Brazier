@@ -11,5 +11,5 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       
-      - if: contains(github.event.pull_request.labels.*.name, 'release') && github.event.pull_request.body == ''
+      - if: contains(github.event.pull_request.labels.*.name, 'release') && github.event.pull_request.body.trim() == ''
         run: exit 1
