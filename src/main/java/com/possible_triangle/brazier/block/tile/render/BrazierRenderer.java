@@ -26,14 +26,12 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import org.lwjgl.opengl.GL11;
 
-import java.util.stream.Stream;
-
 @OnlyIn(Dist.CLIENT)
 @Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BrazierRenderer extends TileEntityRenderer<BrazierTile> {
 
     public static TextureAtlasSprite RUNES;
-    public static String TEXTURE_KEY = "block/brazier_runes_debug";
+    public static String TEXTURE_KEY = "block/brazier_runes";
     public static final RenderType RENDER_TYPE;
 
     private static final int TEXTURE_HEIGHT = 9;
@@ -73,7 +71,7 @@ public class BrazierRenderer extends TileEntityRenderer<BrazierTile> {
         IVertexBuilder vertex = buffer.getBuffer(RENDER_TYPE);
         for (int i = 0; i < 4; i++) {
             float v = RUNES.getMaxU() - RUNES.getMinU();
-            float start = v / 9F * i;
+            float start = v / 9F * i * 2;
             float minU = RUNES.getMinU() + start;
             float maxU = minU + v / 9F * 1.5F;
 
@@ -88,32 +86,36 @@ public class BrazierRenderer extends TileEntityRenderer<BrazierTile> {
         matrizes.pop();
     }
 
-    private void renderSide(MatrixStack matrizes, float alpha, IRenderTypeBuffer buffer, Vector3f side, int height) {
+    private void renderSide(MatrixStack matrizes, float alpha, IRenderTypeBuffer buffer, int height) {
+        matrizes.push();
         int times = height / TEXTURE_HEIGHT;
 
-        for (int i = 0; i <= times; i++) {
-            float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
-            float offset = i * TEXTURE_HEIGHT;
+        for (int quarter = 0; quarter < 4; quarter++) {
+            matrizes.rotate(Vector3f.YN.rotationDegrees(90F));
 
-            matrizes.push();
-            matrizes.rotate(side.rotationDegrees(90F));
-            if (side.getZ() == 0) matrizes.rotate(Vector3f.YP.rotationDegrees(90F));
-            matrizes.translate(side.getX() + side.getZ() > 0 ? -segment : 0, 2.55F, 0);
+            for (int i = 0; i <= times; i++) {
+                float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
+                float offset = i * TEXTURE_HEIGHT;
 
-            Matrix4f matrix = matrizes.getLast().getMatrix();
-            IVertexBuilder vertex = buffer.getBuffer(RENDER_TYPE);
-            float maxU = RUNES.getMinU() + segment * ((RUNES.getMaxU() - RUNES.getMinU()) / ((float) TEXTURE_HEIGHT));
-            float startU = side.getZ() == 0 ? RUNES.getMinU() : maxU;
-            float endU = side.getZ() == 0 ? maxU : RUNES.getMinU();
+                matrizes.push();
+                matrizes.rotate(Vector3f.ZN.rotationDegrees(90F));
+                matrizes.translate(0, 2.55F, 0);
 
-            vertex.pos(matrix, offset, 0, -0.25F).color(1F, 1F, 1F, alpha).tex(startU, RUNES.getMinV()).lightmap(0xF000F0).endVertex();
-            vertex.pos(matrix, offset, 0, +0.25F).color(1F, 1F, 1F, alpha).tex(startU, RUNES.getMaxV()).lightmap(0xF000F0).endVertex();
-            vertex.pos(matrix, offset + segment, 0, +0.25F).color(1F, 1F, 1F, alpha).tex(endU, RUNES.getMaxV()).lightmap(0xF000F0).endVertex();
-            vertex.pos(matrix, offset + segment, 0, -0.25F).color(1F, 1F, 1F, alpha).tex(endU, RUNES.getMinV()).lightmap(0xF000F0).endVertex();
+                Matrix4f matrix = matrizes.getLast().getMatrix();
+                IVertexBuilder vertex = buffer.getBuffer(RENDER_TYPE);
+                float maxU = RUNES.getMinU() + segment * ((RUNES.getMaxU() - RUNES.getMinU()) / ((float) TEXTURE_HEIGHT));
 
-            matrizes.pop();
+                vertex.pos(matrix, offset, 0, -0.25F).color(1F, 1F, 1F, alpha).tex(RUNES.getMinU(), RUNES.getMinV()).lightmap(0xF000F0).endVertex();
+                vertex.pos(matrix, offset, 0, +0.25F).color(1F, 1F, 1F, alpha).tex(RUNES.getMinU(), RUNES.getMaxV()).lightmap(0xF000F0).endVertex();
+                vertex.pos(matrix, offset + segment, 0, +0.25F).color(1F, 1F, 1F, alpha).tex(maxU, RUNES.getMaxV()).lightmap(0xF000F0).endVertex();
+                vertex.pos(matrix, offset + segment, 0, -0.25F).color(1F, 1F, 1F, alpha).tex(maxU, RUNES.getMinV()).lightmap(0xF000F0).endVertex();
+
+                matrizes.pop();
+            }
+
         }
 
+        matrizes.pop();
     }
 
     private void renderFlame(MatrixStack matrizes, IRenderTypeBuffer buffer, int light) {
@@ -123,16 +125,15 @@ public class BrazierRenderer extends TileEntityRenderer<BrazierTile> {
     @Override
     public void render(BrazierTile tile, float partialTicks, MatrixStack matrizes, IRenderTypeBuffer buffer, int light, int overlay) {
         int height = tile.getHeight();
+        float alpha = 1.0F;
         if (height > 0) {
 
             matrizes.push();
             matrizes.translate(0.5, 0, 0.5);
 
             if (BrazierConfig.CLIENT.RENDER_RUNES.get()) {
-                renderTop(matrizes, 1F, buffer);
-                Stream.of(Vector3f.XP, Vector3f.XN, Vector3f.ZN, Vector3f.ZP).forEach(v -> {
-                    renderSide(matrizes, 1F, buffer, v, height);
-                });
+                renderTop(matrizes, alpha, buffer);
+                renderSide(matrizes, alpha, buffer, height);
             }
 
             matrizes.push();
