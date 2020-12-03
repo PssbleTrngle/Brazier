@@ -1,1 +1,20 @@
+name: Check Pullrequest
 
+on:
+  pull_request:
+    types: [ edited, opened, labeled, unlabeled ]
+    branches: [ "[1-9].*.*" ]
+
+jobs:
+
+  check_changelog:
+    runs-on: ubuntu-latest
+    steps:
+      - if: contains(github.event.pull_request.labels.*.name, 'release') != true
+        run: exit 0
+      
+      - name: check Changelog
+        if: github.event.pull_request.body
+        run: exit 0
+
+      - run: exit 1
