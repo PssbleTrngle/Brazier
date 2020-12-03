@@ -98,4 +98,8 @@ Initial 1.16.3 release.
 ## [2.1.2] - 2020-12-03
 ### Fixed
 - Brazier runes not rendering for more than 9 blocks of the side
-- Rendering code being a mess
+- Rendering code being a mess.
+
+## [2.2.0] - 2020-12-03
+### Added
+- Living Lantern
