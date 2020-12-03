@@ -4,13 +4,10 @@ on:
   pull_request:
     types: [ edited, opened, labeled, unlabeled ]
     branches: [ "[1-9].*.*" ]
-  push: 
-    branches: [ "[1-9].*.*" ]
 
 jobs:
 
   check_changelog:
-    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
       

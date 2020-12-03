@@ -80,11 +80,12 @@ jobs:
           asset_content_type: application/java-archive
 
       - name: Commit and Push Changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: EndBug/add-and-commit@v5
         with:
-          commit_message: Update Changelog
+          message: Update Changelog
+          add: build.properties CHANGELOG.md
           branch: ${{ github.ref }}
-          file_pattern: build.properties CHANGELOG.md
-          commit_user_email: 41898282+github-actions[bot]@users.noreply.github.com
-          commit_author: GitHub Actions <41898282+github-actions[bot]@users.noreply.github.com>
-          push_options: '--force'
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
