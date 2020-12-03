@@ -11,19 +11,18 @@ import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
-import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
+import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
+import net.minecraft.block.Blocks;
+import net.minecraft.block.LanternBlock;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.RenderTypeLookup;
 import net.minecraft.entity.EntityClassification;
 import net.minecraft.entity.EntitySpawnPlacementRegistry;
 import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
+import net.minecraft.item.*;
 import net.minecraft.particles.BasicParticleType;
 import net.minecraft.particles.ParticleType;
 import net.minecraft.tags.BlockTags;
@@ -58,8 +57,9 @@ public class Content {
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(MODID, "brazier_base_blocks").toString());
     public static final ITag<EntityType<?>> BRAZIER_WHITELIST = EntityTypeTags.getTagById(new ResourceLocation(MODID, "brazier_whitelist").toString());
     public static final ITag<EntityType<?>> BRAZIER_BLACKLIST = EntityTypeTags.getTagById(new ResourceLocation(MODID, "brazier_blacklist").toString());
-    public static final ITag<Item> TORCHES = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "torches").toString());
 
+    public static final ITag<Item> TORCHES = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "torches").toString());
+    public static final ITag<Item> INDICATORS = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "range_indicator").toString());
     public static final ITag<Item> ASH_TAG = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "ash").toString());
     public static final ITag<Item> WARPED_WART_TAG = ItemTags.makeWrapperTag(new ResourceLocation(MODID, "warped_wart").toString());
 
@@ -78,9 +78,10 @@ public class Content {
 
     public static final RegistryObject<Block> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
     public static final RegistryObject<Block> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
+    public static final RegistryObject<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(AbstractBlock.Properties.from(Blocks.LANTERN)), p -> p.group(ItemGroup.DECORATIONS));
 
     public static final RegistryObject<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().group(ItemGroup.MATERIALS).rarity(Rarity.UNCOMMON)));
-    public static final RegistryObject<Item> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
+    public static final RegistryObject<Item> LIVING_TORCH = ITEMS.register("living_torch", () -> new WallOrFloorItem(LIVING_TORCH_BLOCK.get(), LIVING_TORCH_BLOCK_WALL.get(), (new Item.Properties()).group(ItemGroup.DECORATIONS)));
 
     public static final RegistryObject<Item> ASH = ITEMS.register("ash", () -> new Item(new Item.Properties().group(ItemGroup.MATERIALS)));
     public static final RegistryObject<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().group(ItemGroup.MATERIALS)));
@@ -154,5 +155,6 @@ public class Content {
         BRAZIER_TILE.ifPresent(tile -> ClientRegistry.bindTileEntityRenderer(tile, BrazierRenderer::new));
 
         SPAWN_POWDER.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
+        LIVING_LANTERN.ifPresent(b -> RenderTypeLookup.setRenderLayer(b, RenderType.getCutout()));
     }
 }

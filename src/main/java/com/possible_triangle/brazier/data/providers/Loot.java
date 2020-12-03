@@ -29,7 +29,7 @@ public class Loot extends InjectingLootTableProvider {
                 ).setParameterSet(LootParameterSets.ENTITY)
         ));
 
-        Stream.of(Content.BRAZIER, Content.LIVING_TORCH_BLOCK, Content.LIVING_TORCH_BLOCK_WALL, Content.SPAWN_POWDER)
+        Stream.of(Content.BRAZIER, Content.LIVING_TORCH_BLOCK, Content.LIVING_TORCH_BLOCK_WALL, Content.LIVING_LANTERN, Content.SPAWN_POWDER)
                 .filter(RegistryObject::isPresent).map(RegistryObject::get)
                 .forEach(block -> addLootTable(block.getLootTable(), LootTable.builder()
                         .addLootPool(LootPool.builder().rolls(ConstantRange.of(1))

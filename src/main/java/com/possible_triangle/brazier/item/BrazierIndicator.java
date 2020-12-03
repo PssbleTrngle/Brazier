@@ -10,14 +10,14 @@ import net.minecraftforge.event.TickEvent;
 
 import java.util.stream.Stream;
 
-public interface BrazierIndicator {
+public class BrazierIndicator {
 
-    static void playerTick(TickEvent.PlayerTickEvent event) {
+    public static void playerTick(TickEvent.PlayerTickEvent event) {
         if (event.player.world.isRemote || event.player.ticksExisted % 2 != 0) return;
         ServerWorld world = (ServerWorld) event.player.world;
 
         Stream<ItemStack> items = Stream.of(event.player.getHeldItemOffhand(), event.player.getHeldItemMainhand());
-        if (items.map(ItemStack::getItem).anyMatch(BrazierIndicator.class::isInstance)) {
+        if (items.map(ItemStack::getItem).anyMatch(Content.INDICATORS::contains)) {
 
             int step = 3;
             float radius = 5F;
