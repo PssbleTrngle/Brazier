@@ -102,4 +102,9 @@ Initial 1.16.3 release.
 
 ## [2.2.0] - 2020-12-03
 ### Added
-- Living Lantern
+- Living Lantern.
+
+## [2.3.0] - 2021-01-05
+### Added
+- German Translation
+- Korean Translation (thanks to @othuntgithub)
