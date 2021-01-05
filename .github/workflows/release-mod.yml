@@ -3,7 +3,7 @@ name: Release
 on:
   pull_request:
     types: [ closed ]
-    branches: [ "fabric-[1-9].*.*" ]
+    branches: [ "[1-9].*.*" ]
 
 jobs:
 
@@ -17,7 +17,6 @@ jobs:
       - uses: PssbleTrngle/VersionManagment@v2
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          prefix: 'fabric-'
         id: version
 
       - name: Update mod version
@@ -54,10 +53,10 @@ jobs:
           file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
           changelog: ${{ github.event.pull_request.body }}
           changelog_type: markdown
-          display_name: Fabric ${{ steps.version.outputs.next }} (${{ github.ref }})
-          game_versions: 8134,8056,4458,7499
+          display_name: ${{ steps.version.outputs.next }} (${{ github.ref }})
+          game_versions: 8134,8056,4458,7498
           release_type: ${{ steps.version.outputs.type }}
-          relations: fabric-api:requiredDependency
+          relations: ctm:optionalDependency
 
       - name: Create Release
         id: release
