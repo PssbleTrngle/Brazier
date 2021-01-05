@@ -1,0 +1,21 @@
+{
+  "block.brazier.brazier": "Freudenfeuer",
+  "block.brazier.living_torch": "Lebendige Fackel",
+  "block.brazier.living_lantern": "Lebendige Laterne",
+  "block.brazier.spawn_powder": "Verfluchte Asche",
+  "item.brazier.living_flame": "Lebendige Flamme",
+  "entity.brazier.crazed_flame": "Rasende Flamme",
+  "item.brazier.crazed_spawn_egg": "Rasender-Spawn-Ei",
+  "item.brazier.ash": "Asche",
+  "item.brazier.warped_nether_wart": "Wirrwarze",
+  "entity.brazier.crazed": "Rasender",
+  "advancements.brazier.place_brazier.title": "Hinfort mit dir, Dämon!",
+  "advancements.brazier.place_brazier.description": "Platziere ein Freudenfeuer und vertreibe die Monster der Nacht",
+  "config.brazier.jungleLoot": "",
+  "config.brazier.maxHeight": "",
+  "config.brazier.rangePerLevel": "",
+  "config.brazier.baseRange": "",
+  "config.brazier.distanceCalc": "",
+  "config.brazier.renderRunes": "",
+  "config.brazier.crazedChance": ""
+}
