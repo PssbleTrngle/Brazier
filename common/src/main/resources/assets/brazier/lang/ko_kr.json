@@ -1,0 +1,21 @@
+{
+  "block.brazier.brazier": "화롯불",
+  "block.brazier.living_torch": "살아있는 횃불",
+  "block.brazier.living_lantern": "살아있는 랜턴",
+  "block.brazier.spawn_powder": "저주받은 재",
+  "item.brazier.living_flame": "살아있는 불꽃",
+  "entity.brazier.crazed_flame": "미치광이 불꽃",
+  "item.brazier.crazed_spawn_egg": "미치광이 생성 알",
+  "item.brazier.ash": "재",
+  "item.brazier.warped_nether_wart": "뒤틀린 네더 사마귀",
+  "entity.brazier.crazed": "미치광이",
+  "advancements.brazier.place_brazier.title": "아니다, 이 악마야",
+  "advancements.brazier.place_brazier.description": "화롯불을 설치하고 몬스터들의 습격을 방지하세요",
+  "config.brazier.jungleLoot": "",
+  "config.brazier.maxHeight": "",
+  "config.brazier.rangePerLevel": "",
+  "config.brazier.baseRange": "",
+  "config.brazier.distanceCalc": "",
+  "config.brazier.renderRunes": "",
+  "config.brazier.crazedChance": ""
+}
