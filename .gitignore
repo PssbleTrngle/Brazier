@@ -27,4 +27,4 @@ forge*changelog.txt
 .bat
 **.propertiesr
 
-src/generated/
+common/src/generated/
