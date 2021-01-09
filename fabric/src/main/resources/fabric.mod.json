@@ -1,0 +1,34 @@
+{
+  "schemaVersion": 1,
+  "id": "bourgeoisie",
+  "version": "${version}",
+  "name": "Bourgeoisie",
+  "description": "Seize the mines of production",
+  "authors": [
+    "possible_triangle"
+  ],
+  "contact": {
+    "sources": "https://github.com/PssbleTrngle/Bourgeoisie",
+    "issues": "https://github.com/PssbleTrngle/Bourgeoisie/issues"
+  },
+  "license": "https://github.com/PssbleTrngle/Bourgeoisie/LICENSE.md",
+  "icon": "assets/bourgeoisie/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.possible_triangle.fabric.BourgeoisieFabric"
+    ]
+  },
+  "mixins": [
+    "bourgeoisie.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": ">=1.16.4",
+    "architectury": ">=1.1.55"
+  },
+  "suggests": {
+    "flamingo": "*"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "brazier:warped_nether_wart",
+    {
+      "id": "nether_extension:warped_wart",
+      "required": false
+    }
+  ]
+}

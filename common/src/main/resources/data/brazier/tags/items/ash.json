@@ -1,0 +1,10 @@
+{
+  "replace": false,
+  "values": [
+    "brazier:ash",
+    {
+      "id": "nether_extension:ash",
+      "required": false
+    }
+  ]
+}

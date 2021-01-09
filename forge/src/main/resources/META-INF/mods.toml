@@ -1,0 +1,34 @@
+modLoader = "kotlinforforge"
+loaderVersion = "[1.7,)"
+issueTrackerURL = "https://github.com/PssbleTrngle/Bourgeoisie/issues"
+license = "https://github.com/PssbleTrngle/Bourgeoisie/LICENSE.md"
+
+[[mods]]
+modId = "bourgeoisie"
+version = "${version}"
+displayName = "Bourgeoisie"
+authors = "possible_triangle"
+description = '''
+Seize the mines of production
+'''
+
+[[dependencies.bourgeoisie]]
+modId = "forge"
+mandatory = true
+versionRange = "[35,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bourgeoisie]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.16.2,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.bourgeoisie]]
+modId = "architectury"
+mandatory = true
+versionRange = "[1.1.55,)"
+ordering = "AFTER"
+side = "BOTH"

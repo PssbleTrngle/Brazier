@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "BFB",
+    "SSS"
+  ],
+  "key": {
+    "B": {
+      "item": "minecraft:iron_bars"
+    },
+    "S": {
+      "item": "minecraft:blackstone"
+    },
+    "F": {
+      "item": "brazier:living_flame"
+    }
+  },
+  "result": {
+    "item": "brazier:brazier"
+  }
+}
