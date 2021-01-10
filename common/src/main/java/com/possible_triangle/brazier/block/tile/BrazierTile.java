@@ -1,11 +1,13 @@
 package com.possible_triangle.brazier.block.tile;
 
 import com.google.common.collect.Maps;
+import com.mojang.math.Vector3d;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.config.BrazierConfig;
 import com.possible_triangle.brazier.config.DistanceHandler;
 import net.minecraft.block.BlockState;
+import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundNBT;
 import net.minecraft.tileentity.ITickableTileEntity;
 import net.minecraft.util.SoundCategory;
@@ -14,6 +16,7 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.HashMap;
@@ -26,7 +29,7 @@ public class BrazierTile extends BaseTile implements ITickableTileEntity {
     private int ticksExisted = 0;
     private int height = 0;
 
-    public static boolean isBorder(Vector3d pos) {
+    public static boolean isBorder(Vec3 pos) {
         synchronized (BRAZIERS) {
             return BRAZIERS.entrySet().stream().anyMatch(e -> {
                 double dist = DistanceHandler.getDistance(pos, e.getKey());

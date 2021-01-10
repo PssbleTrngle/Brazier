@@ -1,11 +1,14 @@
-package com.possible_triangle.fabric;
+package com.possible_triangle.brazier.fabric;
 
-import com.possible_triangle.Bourgeoisie;
+import com.possible_triangle.brazier.Brazier;
 import net.fabricmc.api.ModInitializer;
 
-public class BourgeoisieFabric implements ModInitializer {
+public class BrazierFabric implements ModInitializer {
+
     @Override
     public void onInitialize() {
-        Bourgeoisie.INSTANCE.init();
+        Brazier.init();
+        Brazier.setup();
     }
+
 }

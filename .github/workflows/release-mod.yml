@@ -23,7 +23,7 @@ jobs:
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:
-          path: 'build.properties'
+          path: 'gradle.properties'
           property: 'mod_version'
           value: ${{ steps.version.outputs.next }}
 
@@ -85,7 +85,7 @@ jobs:
         uses: EndBug/add-and-commit@v4
         with:
           message: Update Changelog
-          add: build.properties CHANGELOG.md
+          add: gradle.properties CHANGELOG.md
           branch: ${{ env.GITHUB_REF }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com

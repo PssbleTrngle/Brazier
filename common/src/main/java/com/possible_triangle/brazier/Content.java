@@ -1,5 +1,8 @@
 package com.possible_triangle.brazier;
 
+import me.shedaniel.architectury.registry.DeferredRegister;
+import me.shedaniel.architectury.registry.Registries;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.block.LazyTorchBlock;
 import com.possible_triangle.brazier.block.LazyWallTorchBlock;
@@ -13,37 +16,12 @@ import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.RenderTypeLookup;
-import net.minecraft.entity.EntityClassification;
-import net.minecraft.entity.EntitySpawnPlacementRegistry;
-import net.minecraft.entity.EntityType;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.Rarity;
-import net.minecraft.particles.BasicParticleType;
-import net.minecraft.particles.ParticleType;
 import net.minecraft.tags.BlockTags;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.tags.ITag;
 import net.minecraft.tags.ItemTags;
-import net.minecraft.tileentity.TileEntityType;
-import net.minecraft.util.ResourceLocation;
-import net.minecraft.world.gen.Heightmap;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ColorHandlerEvent;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
-import net.minecraftforge.eventbus.api.SubscribeEvent;
-import net.minecraftforge.fml.RegistryObject;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
-import net.minecraftforge.registries.DeferredRegister;
-import net.minecraftforge.registries.ForgeRegistries;
+import net.minecraft.world.item.Item;
 
 import java.awt.*;
 import java.util.function.Function;
@@ -52,7 +30,6 @@ import java.util.stream.Stream;
 
 import static com.possible_triangle.brazier.Brazier.MODID;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
 public class Content {
 
     public static final ITag<Block> BRAZIER_BASE_BLOCKS = BlockTags.makeWrapperTag(new ResourceLocation(MODID, "brazier_base_blocks").toString());
