@@ -1,6 +1,5 @@
 package com.possible_triangle.brazier.item;
 
-import com.mojang.math.Vector3d;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
 import net.minecraft.server.level.ServerLevel;

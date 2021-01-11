@@ -16,12 +16,14 @@ import net.minecraft.util.SoundEvents;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.vector.Vector3d;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.phys.Vec3;
 import net.minecraft.world.server.ServerWorld;
 
 import java.util.HashMap;
 
-public class BrazierTile extends BaseTile implements ITickableTileEntity {
+public class BrazierTile extends BaseTile implements TickableBlockEntity {
 
     private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
     private static final float TOLERANCE = 0.03F;

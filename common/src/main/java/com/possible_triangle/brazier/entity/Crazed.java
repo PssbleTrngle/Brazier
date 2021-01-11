@@ -1,108 +1,114 @@
 package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.MobEntity;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.ai.attributes.Attributes;
-import net.minecraft.entity.ai.attributes.GlobalEntityTypeAttributes;
-import net.minecraft.entity.ai.goal.*;
-import net.minecraft.entity.merchant.villager.AbstractVillagerEntity;
-import net.minecraft.entity.monster.AbstractRaiderEntity;
-import net.minecraft.entity.monster.GuardianEntity;
-import net.minecraft.entity.monster.MonsterEntity;
-import net.minecraft.entity.monster.SpellcastingIllagerEntity;
-import net.minecraft.entity.passive.IronGolemEntity;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.potion.EffectInstance;
-import net.minecraft.potion.Effects;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.Direction;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.common.Mod;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResult;
+import net.minecraft.world.damagesource.DamageSource;
+import net.minecraft.world.effect.MobEffectInstance;
+import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.Mob;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.entity.ai.attributes.AttributeInstance;
+import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
+import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
+import net.minecraft.world.entity.ai.goal.FollowMobGoal;
+import net.minecraft.world.entity.ai.goal.WaterAvoidingRandomStrollGoal;
+import net.minecraft.world.entity.ai.goal.target.HurtByTargetGoal;
+import net.minecraft.world.entity.ai.goal.target.NearestAttackableTargetGoal;
+import net.minecraft.world.entity.animal.IronGolem;
+import net.minecraft.world.entity.monster.Guardian;
+import net.minecraft.world.entity.monster.Monster;
+import net.minecraft.world.entity.monster.SpellcasterIllager;
+import net.minecraft.world.entity.npc.Villager;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.entity.raid.Raider;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.SpawnEggItem;
+import net.minecraft.world.level.Level;
 
 import java.util.List;
 import java.util.Random;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
-public class Crazed extends SpellcastingIllagerEntity {
+public class Crazed extends SpellcasterIllager {
 
     public static final double BUFF_RADIUS = 7;
 
     @SuppressWarnings("unused")
-    public Crazed(World world) {
+    public Crazed(Level world) {
         this(Content.CRAZED.get(), world);
     }
 
-    public static void init(EntityType<? extends LivingEntity> type) {
-        GlobalEntityTypeAttributes.put(type, MonsterEntity.func_234295_eP_()
-                .createMutableAttribute(Attributes.MOVEMENT_SPEED, 0.6D)
-                .createMutableAttribute(Attributes.FOLLOW_RANGE, 12.0D)
-                .createMutableAttribute(Attributes.MAX_HEALTH, 24.0D)
-                .create()
+    public static void init(EntityType<?> type) {
+        AttributeInstance.put(type, Monster.createMonsterAttributes()
+                .add(Attributes.MOVEMENT_SPEED, 0.6D)
+                .add(Attributes.FOLLOW_RANGE, 12.0D)
+                .add(Attributes.MAX_HEALTH, 24.0D)
+                .build()
         );
     }
 
-    public Crazed(EntityType<? extends Crazed> type, World world) {
+    public Crazed(EntityType<? extends Crazed> type, Level world) {
         super(type, world);
     }
 
+    /* TODO
     @Override
-    public ItemStack getPickedResult(RayTraceResult target) {
+    public ItemStack getPickedResult( target) {
         return Content.CRAZED_SPAWN_EGG.map(ItemStack::new).orElse(ItemStack.EMPTY);
     }
+    */
 
     @Override
     protected void registerGoals() {
         super.registerGoals();
-        this.goalSelector.addGoal(1, new CastingASpellGoal());
-        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, PlayerEntity.class, 8.0F, 0.6D, 1.0D));
+        this.goalSelector.addGoal(1, new SpellcasterCastingSpellGoal());
+        this.goalSelector.addGoal(2, new AvoidEntityGoal<>(this, Player.class, 8.0F, 0.6D, 1.0D));
         this.goalSelector.addGoal(5, new BuffSpellGoal());
         this.goalSelector.addGoal(6, new FlameSpellGoal());
-        this.goalSelector.addGoal(8, new WaterAvoidingRandomWalkingGoal(this, 0.6D));
-        this.goalSelector.addGoal(9, new LookAtGoal(this, PlayerEntity.class, 3.0F, 1.0F));
-        this.goalSelector.addGoal(10, new LookAtGoal(this, MobEntity.class, 8.0F));
-        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, AbstractRaiderEntity.class)).setCallsForHelp());
-        this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, PlayerEntity.class, true)).setUnseenMemoryTicks(300));
-        this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, AbstractVillagerEntity.class, false)).setUnseenMemoryTicks(300));
-        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolemEntity.class, false));
-        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, GuardianEntity.class, false));
+        this.goalSelector.addGoal(8, new WaterAvoidingRandomStrollGoal(this, 0.6D));
+        this.goalSelector.addGoal(9, new LookAtPlayerGoal(this, Player.class, 3.0F, 1.0F));
+        this.targetSelector.addGoal(1, (new HurtByTargetGoal(this, Raider.class)));
+        this.targetSelector.addGoal(2, (new NearestAttackableTargetGoal<>(this, Player.class, true)).setUnseenMemoryTicks(300));
+        this.targetSelector.addGoal(3, (new NearestAttackableTargetGoal<>(this, Villager.class, false)).setUnseenMemoryTicks(300));
+        this.targetSelector.addGoal(3, new NearestAttackableTargetGoal<>(this, IronGolem.class, false));
+        this.targetSelector.addGoal(4, new NearestAttackableTargetGoal<>(this, Guardian.class, false));
     }
 
     @Override
-    protected SoundEvent getSpellSound() {
-        return SoundEvents.ITEM_FIRECHARGE_USE;
+    protected SoundEvent getCastingSoundEvent() {
+        return SoundEvents.FIRECHARGE_USE;
     }
 
     @Override
-    public void applyWaveBonus(int wave, boolean something) {    }
+    public void applyRaidBuffs(int wave, boolean something) {
+    }
 
     protected SoundEvent getAmbientSound() {
-        return SoundEvents.ENTITY_EVOKER_AMBIENT;
+        return SoundEvents.EVOKER_AMBIENT;
     }
 
     protected SoundEvent getDeathSound() {
-        return SoundEvents.ENTITY_EVOKER_DEATH;
+        return SoundEvents.EVOKER_DEATH;
     }
 
     protected SoundEvent getHurtSound(DamageSource source) {
-        return SoundEvents.ENTITY_EVOKER_HURT;
+        return SoundEvents.EVOKER_HURT;
     }
 
     @Override
-    public SoundEvent getRaidLossSound() {
-        return SoundEvents.ENTITY_VINDICATOR_CELEBRATE;
+    public SoundEvent getCelebrateSound() {
+        return SoundEvents.VINDICATOR_CELEBRATE;
     }
 
-    class FlameSpellGoal extends SpellcastingIllagerEntity.UseSpellGoal {
+    class FlameSpellGoal extends SpellcasterIllager.SpellcasterUseSpellGoal {
         private FlameSpellGoal() {
         }
 
@@ -114,27 +120,27 @@ public class Crazed extends SpellcastingIllagerEntity {
             return 100;
         }
 
-        protected void castSpell() {
-            LivingEntity target = Crazed.this.getAttackTarget();
-            if (target != null) spawnFlame(target.prevPosX, target.prevPosY, target.prevPosZ);
+        protected void performSpellCasting() {
+            LivingEntity target = Crazed.this.getTarget();
+            if (target != null) spawnFlame(target.position().x, target.position().y, target.position().z);
         }
 
         private void spawnFlame(double x, double y, double z) {
             BlockPos blockpos = new BlockPos(x, y, z);
-            if (!Crazed.this.world.hasWater(blockpos))
-                Crazed.this.world.addEntity(new CrazedFlame(Crazed.this.world, x, y + 0.4, z, Crazed.this));
+            if (!Crazed.this.level.isWaterAt(blockpos))
+                Crazed.this.level.addFreshEntity(new CrazedFlame(Crazed.this.level, x, y + 0.4, z, Crazed.this));
         }
 
         protected SoundEvent getSpellPrepareSound() {
-            return SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK;
+            return SoundEvents.EVOKER_PREPARE_ATTACK;
         }
 
-        protected SpellType getSpellType() {
-            return SpellType.FANGS;
+        protected IllagerSpell getSpell() {
+            return IllagerSpell.FANGS;
         }
     }
 
-    class BuffSpellGoal extends SpellcastingIllagerEntity.UseSpellGoal {
+    class BuffSpellGoal extends SpellcasterUseSpellGoal {
         private BuffSpellGoal() {
         }
 
@@ -147,35 +153,35 @@ public class Crazed extends SpellcastingIllagerEntity {
         }
 
         @Override
-        public boolean shouldContinueExecuting() {
-            return super.shouldContinueExecuting() && getTargets().stream().anyMatch(e -> !e.isPotionActive(Effects.FIRE_RESISTANCE));
+        public boolean canContinueToUse() {
+            return super.canContinueToUse() && getTargets().stream().anyMatch(e -> !e.hasEffect(MobEffects.FIRE_RESISTANCE));
         }
 
         private List<LivingEntity> getTargets() {
-            return world.getEntitiesWithinAABB(LivingEntity.class, getBoundingBox().grow(BUFF_RADIUS), e ->
-                    e.isAlive() && (EntityTypeTags.RAIDERS.contains(e.getType()) || e.isOnSameTeam(Crazed.this))
+            return level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(BUFF_RADIUS), e ->
+                    e.isAlive() && (EntityTypeTags.RAIDERS.contains(e.getType()) || e.isAlliedTo(Crazed.this))
             );
         }
 
-        protected void castSpell() {
+        protected void performSpellCasting() {
             getTargets().forEach(this::buff);
         }
 
         private void buff(LivingEntity entity) {
-            entity.addPotionEffect(new EffectInstance(Effects.FIRE_RESISTANCE, 20 * 10, 0));
+            entity.addEffect(new MobEffectInstance(MobEffects.FIRE_RESISTANCE, 20 * 10, 0));
         }
 
         protected SoundEvent getSpellPrepareSound() {
-            return SoundEvents.ENTITY_EVOKER_PREPARE_ATTACK;
+            return SoundEvents.EVOKER_PREPARE_ATTACK;
         }
 
-        protected SpellType getSpellType() {
-            return SpellType.FANGS;
+        protected IllagerSpell getSpell() {
+            return IllagerSpell.FANGS;
         }
     }
 
-    public static boolean canSpawnHere(EntityType<? extends MonsterEntity> type, IServerWorld world, SpawnReason reason, BlockPos pos, Random random) {
-        return canMonsterSpawnInLight(type, world, reason, pos, random) && (reason != SpawnReason.NATURAL || world.getBlockState(pos).isFireSource(world, pos, Direction.UP));
+    public static boolean canSpawnHere(EntityType<? extends Monster> type, ServerLevel world, MobSpawnType reason, BlockPos pos, Random random) {
+        return checkAnyLightMonsterSpawnRules(type, world, reason, pos, random) && reason != MobSpawnType.NATURAL;
     }
 
 }
