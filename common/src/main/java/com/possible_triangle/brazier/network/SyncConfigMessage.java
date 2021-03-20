@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.network;
 
 import com.electronwill.nightconfig.toml.TomlFormat;
-import com.possible_triangle.brazier.config.BrazierConfig;
+import com.possible_triangle.brazier.config.ServerConfig;
 import net.minecraft.network.PacketBuffer;
 import net.minecraftforge.fml.network.NetworkDirection;
 import net.minecraftforge.fml.network.NetworkEvent;
@@ -29,7 +29,7 @@ public class SyncConfigMessage {
         NetworkEvent.Context context = contextSupplier.get();
         context.enqueueWork(() -> {
             if (context.getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-                BrazierConfig.SERVER_SPEC.setConfig(TomlFormat.instance().createParser().parse(new ByteArrayInputStream(message.configData)));
+                ServerConfig.SERVER_SPEC.setConfig(TomlFormat.instance().createParser().parse(new ByteArrayInputStream(message.configData)));
             }
         });
         context.setPacketHandled(true);

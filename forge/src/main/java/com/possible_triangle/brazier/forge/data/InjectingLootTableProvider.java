@@ -1,11 +1,11 @@
-package com.possible_triangle.brazier.data;
+package com.possible_triangle.brazier.forge.data;
 
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.loot.LootPool;
-import net.minecraft.loot.LootTable;
-import net.minecraft.loot.TableLootEntry;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.DataProvider;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.storage.loot.LootPool;
+import net.minecraft.world.level.storage.loot.LootTable;
+import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.eventbus.api.EventPriority;
@@ -39,7 +39,7 @@ public abstract class InjectingLootTableProvider {
         if (injects.stream().anyMatch(i -> i.name.equals(loc))) {
             LOGGER.warn(String.format("Attempted to add duplicate inject table '%s'", injectName));
         } else {
-            addLootTable(loc, LootTable.builder().addLootPool(pool.name("inject")));
+            addLootTable(loc, LootTable.lootTable().withPool(pool.name("inject")));
             injects.add(new Inject(loc, into, predicate));
         }
     }
@@ -50,7 +50,7 @@ public abstract class InjectingLootTableProvider {
         tables.add(provider -> provider.addLootTable(name, table));
     }
 
-    public IDataProvider getProvider(DataGenerator generator) {
+    public DataProvider getProvider(DataGenerator generator) {
         return new BaseLootTableProvider(generator) {
             @Override
             protected void addTables() {
@@ -65,7 +65,7 @@ public abstract class InjectingLootTableProvider {
         long injected = injects.stream()
                 .filter(i -> i.predicate.get())
                 .filter(i -> i.into.equals(event.getName()))
-                .map(i -> LootPool.builder().addEntry(TableLootEntry.builder(i.name)).name(i.name.getPath()).build())
+                .map(i -> LootPool.lootPool().add(LootTableReference.lootTableReference(i.name)).name(i.name.getPath()).build())
                 .peek(event.getTable()::addPool)
                 .count();
 

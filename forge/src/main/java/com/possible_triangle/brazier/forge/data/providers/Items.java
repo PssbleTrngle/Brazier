@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.data.providers;
+package com.possible_triangle.brazier.forge.data.providers;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;

@@ -23,7 +23,7 @@ public class BrazierForge {
     }
 
     private void doClientStuff(final FMLClientSetupEvent event) {
-        Brazier.clientSetup(event.getMinecraftSupplier().get());
+        Brazier.clientSetup();
     }
 
 }

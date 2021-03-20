@@ -1,23 +1,18 @@
 package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
-import me.shedaniel.architectury.networking.NetworkChannel;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.damagesource.DamageSource;
-import net.minecraft.world.damagesource.IndirectEntityDamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
-import javax.annotation.Nullable;
 import java.util.UUID;
 
 public class CrazedFlame extends Entity {
@@ -81,12 +76,11 @@ public class CrazedFlame extends Entity {
         }
     }
 
-    public void setCaster(@Nullable LivingEntity caster) {
+    public void setCaster(LivingEntity caster) {
         this.caster = caster;
         this.casterUuid = caster == null ? null : caster.getUUID();
     }
 
-    @Nullable
     public LivingEntity getCaster() {
         if (this.caster == null && this.casterUuid != null && this.level instanceof ServerLevel) {
             Entity entity = ((ServerLevel) this.level).getEntity(this.casterUuid);

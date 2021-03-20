@@ -1,8 +1,8 @@
-package com.possible_triangle.brazier.data.providers;
+package com.possible_triangle.brazier.forge.data.providers;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.config.BrazierConfig;
-import com.possible_triangle.brazier.data.InjectingLootTableProvider;
+import com.possible_triangle.brazier.config.ServerConfig;
+import com.possible_triangle.brazier.forge.data.InjectingLootTableProvider;
 import net.minecraft.advancements.criterion.StatePropertiesPredicate;
 import net.minecraft.block.Blocks;
 import net.minecraft.block.NetherWartBlock;
@@ -49,7 +49,7 @@ public class Loot extends InjectingLootTableProvider {
         Content.LIVING_FLAME.ifPresent(flame -> addInject("flame_jungle_temple", LootTables.CHESTS_JUNGLE_TEMPLE, LootPool.builder()
                 .addEntry(ItemLootEntry.builder(flame))
                 .addEntry(EmptyLootEntry.func_216167_a().weight(1)),
-                BrazierConfig.SERVER.JUNGLE_LOOT::get
+                ServerConfig.SERVER.JUNGLE_LOOT::get
         ));
 
         Content.ASH.ifPresent(ash -> addInject("wither_ash", EntityType.WITHER_SKELETON.getLootTable(), LootPool.builder()

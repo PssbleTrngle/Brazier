@@ -1,6 +1,6 @@
-package com.possible_triangle.brazier.data;
+package com.possible_triangle.brazier.forge.data;
 
-import com.possible_triangle.brazier.data.providers.*;
+import com.possible_triangle.brazier.forge.data.providers.*;
 import net.minecraft.data.DataGenerator;
 import net.minecraftforge.common.data.ExistingFileHelper;
 import net.minecraftforge.eventbus.api.SubscribeEvent;

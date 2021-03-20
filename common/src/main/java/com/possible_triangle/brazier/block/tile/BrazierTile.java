@@ -1,26 +1,25 @@
 package com.possible_triangle.brazier.block.tile;
 
 import com.google.common.collect.Maps;
-import com.mojang.math.Vector3d;
+import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.config.BrazierConfig;
+import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.config.DistanceHandler;
-import net.minecraft.block.BlockState;
+import me.shedaniel.architectury.hooks.TagHooks;
 import net.minecraft.core.BlockPos;
-import net.minecraft.nbt.CompoundNBT;
-import net.minecraft.tileentity.ITickableTileEntity;
-import net.minecraft.util.SoundCategory;
-import net.minecraft.util.SoundEvent;
-import net.minecraft.util.SoundEvents;
-import net.minecraft.util.math.AxisAlignedBB;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.vector.Vector3d;
-import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.data.tags.BlockTagsProvider;
+import net.minecraft.nbt.CompoundTag;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.sounds.SoundEvent;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
-import net.minecraft.world.server.ServerWorld;
 
+import java.time.temporal.ValueRange;
 import java.util.HashMap;
 
 public class BrazierTile extends BaseTile implements TickableBlockEntity {
@@ -45,7 +44,7 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
     public static boolean inRange(BlockPos pos) {
         synchronized (BRAZIERS) {
             return BRAZIERS.entrySet().stream().anyMatch(e -> {
-                if(!BrazierConfig.SERVER.PROTECT_ABOVE.get() && e.getKey().getY() < pos.getY()) return false;
+                if(!Brazier.SERVER_CONFIG.get().PROTECT_ABOVE && e.getKey().getY() < pos.getY()) return false;
                 double dist = DistanceHandler.getDistance(pos, e.getKey());
                 int maxDist = e.getValue() * e.getValue();
                 return dist <= maxDist;
@@ -56,9 +55,9 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
     private void setHeight(int height) {
         if (this.height != height) {
             this.height = height;
-            markDirty();
-            if (this.pos != null) synchronized (BRAZIERS) {
-                BRAZIERS.put(pos, getRange());
+            setChanged();
+            if (this.getBlockPos() != null) synchronized (BRAZIERS) {
+                BRAZIERS.put(this.getBlockPos(), getRange());
             }
         }
     }
@@ -68,55 +67,58 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         ++this.ticksExisted;
         if (this.ticksExisted % 40 == 0) checkStructure();
 
-        if (this.height > 0 && world instanceof ServerWorld && ticksExisted % 10 == 0) {
-            ((ServerWorld) world).spawnParticle(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
+        if (this.height > 0 && level instanceof ServerLevel && ticksExisted % 10 == 0) {
+            BlockPos pos = this.getBlockPos();
+            ((ServerLevel) level).sendParticles(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
         }
     }
 
     public void playSound(SoundEvent sound) {
-        if (world != null) world.playSound(null, this.pos, sound, SoundCategory.BLOCKS, 1.0F, 1.0F);
+        if (level != null) level.playSound(null, this.getBlockPos(), sound, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
     private void checkStructure() {
-        if (world != null) {
+        if (level != null) {
             int height = findHeight();
             if (height != this.height) {
 
                 setHeight(height);
-                BlockState s = world.getBlockState(pos);
-                world.setBlockState(pos, s.with(BrazierBlock.LIT, height > 0));
-                if (height > 0) playSound(SoundEvents.ITEM_FIRECHARGE_USE);
-                else playSound(SoundEvents.BLOCK_FIRE_EXTINGUISH);
+                BlockState s = level.getBlockState(getBlockPos());
+                level.setBlockAndUpdate(getBlockPos(), s.setValue(BrazierBlock.LIT, height > 0));
+                if (height > 0) playSound(SoundEvents.FIRECHARGE_USE);
+                else playSound(SoundEvents.FIRE_EXTINGUISH);
             }
         }
     }
 
     private int findHeight() {
-        assert world != null;
-        int max = BrazierConfig.SERVER.MAX_HEIGHT.get();
-        if (!world.getBlockState(pos.up()).isAir(world, pos)) return 0;
+        assert level != null;
+        int max = Brazier.SERVER_CONFIG.get().MAX_HEIGHT;
+        BlockPos pos = getBlockPos();
+        if (!level.getBlockState(pos.above()).isAir()) return 0;
         for (int height = 1; height <= max; height++) {
             boolean b = true;
             for (int x = -2; x <= 2; x++)
                 for (int z = -2; z <= 2; z++)
                     if (Math.abs(x * z) < 4) {
-                        BlockState state = world.getBlockState(pos.add(x, -height, z));
-                        b = b && Content.BRAZIER_BASE_BLOCKS.contains(state.getBlock());
+                        BlockState state = level.getBlockState(pos.offset(x, -height, z));
+                        b = b && state.is(Content.BRAZIER_BASE_BLOCKS);
                     }
             if (!b) return height - 1;
         }
         return max;
     }
+    
 
     @Override
-    public void read(BlockState state, CompoundNBT nbt) {
-        super.read(state, nbt);
+    public void load(BlockState state, CompoundTag nbt) {
+        super.load(state, nbt);
         if (nbt.contains("height")) setHeight(nbt.getInt("height"));
     }
 
     @Override
-    public CompoundNBT write(CompoundNBT nbt) {
-        nbt = super.write(nbt);
+    public CompoundTag save(CompoundTag nbt) {
+        nbt = super.save(nbt);
         nbt.putInt("height", height);
         return nbt;
     }
@@ -127,7 +129,8 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
 
     public int getRange() {
         if (height <= 0) return 0;
-        return BrazierConfig.SERVER.BASE_RANGE.get() + BrazierConfig.SERVER.RANGE_PER_LEVEL.get() * (height - 1);
+        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        return config.BASE_RANGE + config.RANGE_PER_LEVEL * (height - 1);
     }
 
     public int getHeight() {
@@ -135,21 +138,24 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
     }
 
     @Override
-    public void onLoad() {
+    public void setPosition(BlockPos blockPos) {
+        super.setPosition(blockPos);
         if (this.height > 0) synchronized (BRAZIERS) {
-            BRAZIERS.put(pos, getRange());
+            BRAZIERS.put(blockPos, getRange());
         }
     }
 
     @Override
-    public void remove() {
+    public void setRemoved() {
+        super.setRemoved();
         synchronized (BRAZIERS) {
-            BRAZIERS.remove(pos);
+            BRAZIERS.remove(getBlockPos());
         }
     }
 
     @Override
-    public AxisAlignedBB getRenderBoundingBox() {
-        return super.getRenderBoundingBox().grow(height);
+    public double getViewDistance() {
+        return height + 1;
     }
+
 }

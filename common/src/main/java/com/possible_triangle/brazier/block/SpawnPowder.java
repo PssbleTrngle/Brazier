@@ -1,42 +1,48 @@
 package com.possible_triangle.brazier.block;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.material.Material;
-import net.minecraft.util.Direction;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.shapes.ISelectionContext;
-import net.minecraft.util.math.shapes.VoxelShape;
-import net.minecraft.world.IBlockReader;
-import net.minecraft.world.IWorld;
-import net.minecraft.world.IWorldReader;
+
+import net.minecraft.core.BlockPos;
+import net.minecraft.core.Direction;
+import net.minecraft.world.level.BlockGetter;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelReader;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.material.Material;
+import net.minecraft.world.phys.shapes.CollisionContext;
+import net.minecraft.world.phys.shapes.VoxelShape;
 
 public class SpawnPowder extends Block {
 
-    private static final VoxelShape SHAPE = Block.makeCuboidShape(2.0D, 0.0D, 2.0D, 14.0D, 1.0D, 14.0D);
+    private static final VoxelShape SHAPE = box(2.0D, 0.0D, 2.0D, 14.0D, 1.0D, 14.0D);
 
     public SpawnPowder() {
-        super(Properties.create(Material.MISCELLANEOUS)
-                .doesNotBlockMovement()
-                .zeroHardnessAndResistance()
-                .setLightLevel($ -> 1)
+        super(Properties.of(Material.DECORATION)
+                .noCollission()
+                .instabreak()
+                .lightLevel($ -> 1)
         );
     }
 
     @Override
-    public VoxelShape getShape(BlockState state, IBlockReader world, BlockPos pos, ISelectionContext context) {
+    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
         return SHAPE;
     }
 
     @Override
-    public boolean isValidPosition(BlockState state, IWorldReader world, BlockPos pos) {
-        BlockState below = world.getBlockState(pos.down());
-        return below.isSolidSide(world, pos.down(), Direction.UP);
+    public boolean canSurvive(BlockState state, LevelReader world, BlockPos pos) {
+        BlockState below = world.getBlockState(pos.below());
+        return below.isFaceSturdy(world, pos.below(), Direction.UP);
     }
 
-    public BlockState updatePostPlacement(BlockState state, Direction facing, BlockState neighbor, IWorld world, BlockPos block, BlockPos facingPos) {
-        return !state.isValidPosition(world, block) ? Blocks.AIR.getDefaultState() : super.updatePostPlacement(state, facing, neighbor, world, block, facingPos);
+
+    public void neighborChanged(BlockState blockState, Level level, BlockPos blockPos, Block block, BlockPos blockPos2, boolean bl) {
+        if (!level.isClientSide) {
+            if (!blockState.canSurvive(level, blockPos)) {
+                dropResources(blockState, level, blockPos);
+                level.removeBlock(blockPos, false);
+            }
+        }
     }
 
 }

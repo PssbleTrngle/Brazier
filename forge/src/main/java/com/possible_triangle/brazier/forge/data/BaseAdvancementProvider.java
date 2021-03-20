@@ -1,13 +1,13 @@
-package com.possible_triangle.brazier.data;
+package com.possible_triangle.brazier.forge.data;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.data.DirectoryCache;
-import net.minecraft.data.IDataProvider;
-import net.minecraft.data.LootTableProvider;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.data.DataProvider;
+import net.minecraft.data.HashCache;
+import net.minecraft.data.loot.LootTableProvider;
+import net.minecraft.resources.ResourceLocation;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,15 +33,16 @@ public abstract class BaseAdvancementProvider extends LootTableProvider {
 
     protected abstract void addAdvancements(BiConsumer<ResourceLocation,Advancement.Builder> registry);
 
+
     @Override
-    public void act(DirectoryCache cache) {
+    public void run(HashCache cache) {
         addAdvancements(advancements::put);
 
         Path outputFolder = this.generator.getOutputFolder();
         advancements.forEach((key, advancement) -> {
             Path path = outputFolder.resolve("data/" + key.getNamespace() + "/advancements/" + key.getPath() + ".json");
             try {
-                IDataProvider.save(GSON, cache, advancement.serialize(), path);
+                DataProvider.save(GSON, cache, advancement.serializeToJson(), path);
             } catch (IOException e) {
                 LOGGER.error("Couldn't write loot table {}", path, e);
             }

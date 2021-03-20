@@ -1,34 +1,21 @@
 package com.possible_triangle.brazier.item;
 
-import net.minecraft.block.BlockState;
-import net.minecraft.block.Blocks;
-import net.minecraft.block.FlowingFluidBlock;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityType;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemUseContext;
-import net.minecraft.stats.Stats;
-import net.minecraft.tileentity.MobSpawnerTileEntity;
-import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.ActionResultType;
-import net.minecraft.util.Direction;
-import net.minecraft.util.Hand;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.BlockRayTraceResult;
-import net.minecraft.util.math.RayTraceContext;
-import net.minecraft.util.math.RayTraceResult;
-import net.minecraft.world.World;
-import net.minecraft.world.server.ServerWorld;
-import net.minecraft.world.spawner.AbstractSpawner;
-import net.minecraftforge.api.distmarker.Dist;
-import net.minecraftforge.api.distmarker.OnlyIn;
+import me.shedaniel.architectury.registry.CreativeTabs;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.InteractionHand;
+import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Items;
+import net.minecraft.world.level.Level;
 
 import java.util.Objects;
+import java.util.Properties;
 import java.util.function.Supplier;
 
 public class LazySpawnEgg extends Item {
@@ -38,30 +25,31 @@ public class LazySpawnEgg extends Item {
     private final int secondaryColor;
 
     public LazySpawnEgg(Supplier<EntityType<? extends Entity>> type, int primaryColor, int secondaryColor) {
-        super((new Properties()).group(ItemGroup.MISC));
+        super(new Properties().tab(CreativeModeTab.TAB_MISC));
         this.type = type;
         this.primaryColor = primaryColor;
         this.secondaryColor = secondaryColor;
     }
 
-    public ActionResultType onItemUse(ItemUseContext context) {
-        if (context.getWorld().isRemote()) {
-            return ActionResultType.SUCCESS;
+    @Override
+    public InteractionResultHolder<ItemStack> use(Level world, Player player, InteractionHand hand) {
+        if (world.isClientSide()) {
+            return InteractionResultHolder.SUCCESS;
         } else {
-            ServerWorld world = (ServerWorld) context.getWorld();
-            ItemStack itemstack = context.getItem();
+            ServerLevel serverWorld = (ServerLevel) world;
+            ItemStack itemstack = player.getItemInHand(hand);
             BlockPos pos = context.getPos();
             Direction direction = context.getFace();
             BlockState blockstate = world.getBlockState(pos);
             if (blockstate.isIn(Blocks.SPAWNER)) {
                 TileEntity tileentity = world.getTileEntity(pos);
                 if (tileentity instanceof MobSpawnerTileEntity) {
-                    AbstractSpawner abstractspawner = ((MobSpawnerTileEntity)tileentity).getSpawnerBaseLogic();
+                    AbstractSpawner abstractspawner = ((MobSpawnerTileEntity) tileentity).getSpawnerBaseLogic();
                     abstractspawner.setEntityType(type.get());
                     tileentity.markDirty();
                     world.notifyBlockUpdate(pos, blockstate, blockstate, 3);
                     itemstack.shrink(1);
-                    return ActionResultType.CONSUME;
+                    return InteractionResultHolder.CONSUME;
                 }
             }
 
@@ -73,9 +61,10 @@ public class LazySpawnEgg extends Item {
                 itemstack.shrink(1);
             }
 
-            return ActionResultType.CONSUME;
+            return InteractionResultHolder.CONSUME;
         }
     }
+
     public ActionResult<ItemStack> onItemRightClick(World world, PlayerEntity player, Hand hand) {
         ItemStack held = player.getHeldItem(hand);
         BlockRayTraceResult raytrace = rayTrace(world, player, RayTraceContext.FluidMode.SOURCE_ONLY);
