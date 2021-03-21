@@ -2,6 +2,17 @@ plugins {
     id "com.github.johnrengelman.shadow" version "5.0.0"
 }
 
+repositories {
+    maven {
+        name = "Progwml6 maven"
+        url = "https://dvs1.progwml6.com/files/maven/"
+    }
+    maven {
+        name = "ModMaven"
+        url = "https://modmaven.k-4u.nl"
+    }
+}
+
 configurations {
     shadowCommon // Don't use shadow from the shadow plugin because we don't want IDEA to index this.
 }
@@ -32,6 +43,10 @@ dependencies {
 
     //Cloth Config
     modCompile("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+
+    // JEI
+    modCompile("mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api")
+    modRuntime("mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}")
 }
 
 processResources {

@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.particle.brazier;
+package com.possible_triangle.brazier.particle.fabric;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.particle.ParticleFactory;

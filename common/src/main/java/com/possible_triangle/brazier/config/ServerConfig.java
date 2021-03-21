@@ -33,12 +33,15 @@ public class ServerConfig implements ConfigData {
    public boolean PROTECT_ABOVE = false;
 
    @ConfigEntry.Category("brazier")
-   public boolean SPAWN_POWDER = true;
-
-   @ConfigEntry.Category("brazier")
    @ConfigEntry.Gui.Tooltip
    @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
    public DistanceHandler.Type DISTANCE_CALC = DistanceHandler.Type.CYLINDER;
+
+   @ConfigEntry.Category("content")
+   public boolean SPAWN_POWDER = true;
+
+   @ConfigEntry.Category("content")
+   public boolean DECORATION = true;
 
 
 }

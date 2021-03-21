@@ -104,22 +104,17 @@ public class Content {
     }
 
     public static void init() {
-        ENTITIES.register();
-        ITEMS.register();
-        BLOCKS.register();
-        TILES.register();
         PARTICLES.register();
+        ENTITIES.register();
+        BLOCKS.register();
+        ITEMS.register();
+        TILES.register();
     }
 
     public static void setup() {
         //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, Crazed::canSpawnHere);
         Content.CRAZED.ifPresent(Crazed::init);
     }
-
-    //@SubscribeEvent
-    //public static void registerParticles(ParticleFactoryRegisterEvent event) {
-    //    FLAME_PARTICLE.ifPresent(type -> Minecraft.getInstance().particles.registerFactory(type, FlameParticle.Factory::new));
-    //}
 
 
     //@Environment(EnvType.CLIENT)

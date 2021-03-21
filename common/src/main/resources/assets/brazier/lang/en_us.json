@@ -11,11 +11,6 @@
   "entity.brazier.crazed": "Crazed",
   "advancements.brazier.place_brazier.title": "Begone, demon!",
   "advancements.brazier.place_brazier.description": "Place a brazier down and drive away the monsters of the night",
-  "config.brazier.jungleLoot": "",
-  "config.brazier.maxHeight": "",
-  "config.brazier.rangePerLevel": "",
-  "config.brazier.baseRange": "",
-  "config.brazier.distanceCalc": "",
-  "config.brazier.renderRunes": "",
-  "config.brazier.crazedChance": ""
+  "description.brazier.brazier-1": "The brazier is a beacon-like multiblock which prevents hostile mob spawns in a certain radius.",
+  "description.brazier.brazier-2": "\nYou can ignite a normal torch on it, creating a living torch.\nWhen holding a living torch, you are able to see the outline of the protected are when getting close to it"
 }
