@@ -1,14 +1,15 @@
 package com.possible_triangle.brazier.mixin;
 
+import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.entity.Crazed;
-import net.minecraft.block.Blocks;
-import net.minecraft.entity.SpawnReason;
-import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MutableBoundingBox;
-import net.minecraft.world.IServerWorld;
-import net.minecraft.world.gen.feature.structure.WoodlandMansionPieces;
+import net.minecraft.core.BlockPos;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.level.ServerLevelAccessor;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.levelgen.structure.BoundingBox;
+import net.minecraft.world.level.levelgen.structure.WoodlandMansionPieces;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -16,21 +17,21 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 import java.util.Random;
 
-@Mixin(WoodlandMansionPieces.MansionTemplate.class)
+@Mixin(WoodlandMansionPieces.WoodlandMansionPiece.class)
 public class WoodlandMansionPiecesMixin {
 
-    @Inject(at = @At("HEAD"), cancellable = true, method = "Lnet/minecraft/world/gen/feature/structure/WoodlandMansionPieces$MansionTemplate;handleDataMarker(Ljava/lang/String;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IServerWorld;Ljava/util/Random;Lnet/minecraft/util/math/MutableBoundingBox;)V")
-    public void handleDataMarker(String function, BlockPos pos, IServerWorld world, Random rand, MutableBoundingBox sbb, CallbackInfo callback) {
-        if (ServerConfig.SERVER.SPAWN_CRAZED.get()) Content.CRAZED.ifPresent(type -> {
-            double chance = ServerConfig.SERVER.CRAZED_CHANCE.get();
-            if (function.equals("Mage") && chance > 0 && rand.nextDouble() <= chance) {
-                Crazed crazed = type.create(world.getWorld());
+    @Inject(at = @At("HEAD"), cancellable = true, method = "handleDataMarker(Ljava/lang/String;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/ServerLevelAccessor;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)V")
+    public void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor world, Random rand, BoundingBox ssb, CallbackInfo callback) {
+        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        if (config.SPAWN_CRAZED) Content.CRAZED.ifPresent(type -> {
+            if (function.equals("Mage") && config.CRAZED_CHANCE > 0 && rand.nextDouble() <= config.CRAZED_CHANCE) {
+                Crazed crazed = type.create(world.getLevel());
                 assert crazed != null;
-                crazed.enablePersistence();
-                crazed.moveToBlockPosAndAngles(pos, 0.0F, 0.0F);
-                crazed.onInitialSpawn(world, world.getDifficultyForLocation(crazed.getPosition()), SpawnReason.STRUCTURE, null, null);
-                world.addEntity(crazed);
-                world.setBlockState(pos, Blocks.AIR.getDefaultState(), 2);
+                crazed.setPersistenceRequired();
+                crazed.moveTo(pos, 0.0F, 0.0F);
+                crazed.finalizeSpawn(world, world.getCurrentDifficultyAt(crazed.blockPosition()), MobSpawnType.STRUCTURE, null, null);
+                world.addFreshEntityWithPassengers(crazed);
+                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
                 callback.cancel();
             }
         });

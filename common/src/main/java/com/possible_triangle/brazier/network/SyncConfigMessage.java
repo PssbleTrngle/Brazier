@@ -1,38 +1,41 @@
 package com.possible_triangle.brazier.network;
 
-import com.electronwill.nightconfig.toml.TomlFormat;
+import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.config.ServerConfig;
-import net.minecraft.network.PacketBuffer;
-import net.minecraftforge.fml.network.NetworkDirection;
-import net.minecraftforge.fml.network.NetworkEvent;
+import me.shedaniel.architectury.networking.NetworkManager;
+import net.fabricmc.api.EnvType;
+import net.minecraft.network.FriendlyByteBuf;
 
-import java.io.ByteArrayInputStream;
 import java.util.function.Supplier;
 
 public class SyncConfigMessage {
 
     private final byte[] configData;
+    private static final ByteConfigSerializer<ServerConfig> serializer = new ByteConfigSerializer<>();
 
-    public SyncConfigMessage(final byte[] configFileData) {
-        this.configData = configFileData;
+    public SyncConfigMessage(ServerConfig config) {
+        this(serializer.serialize(config));
     }
 
-    public static void encode(SyncConfigMessage message, PacketBuffer buf) {
+    public SyncConfigMessage(byte[] configData) {
+        this.configData = configData;
+    }
+
+    public static void encode(SyncConfigMessage message, FriendlyByteBuf buf) {
         buf.writeByteArray(message.configData);
     }
 
-    public static SyncConfigMessage decode(PacketBuffer buf) {
+    public static SyncConfigMessage decode(FriendlyByteBuf buf) {
         return new SyncConfigMessage(buf.readByteArray());
     }
 
-    public static void handle(SyncConfigMessage message, Supplier<NetworkEvent.Context> contextSupplier) {
-        NetworkEvent.Context context = contextSupplier.get();
-        context.enqueueWork(() -> {
-            if (context.getDirection() == NetworkDirection.PLAY_TO_CLIENT) {
-                ServerConfig.SERVER_SPEC.setConfig(TomlFormat.instance().createParser().parse(new ByteArrayInputStream(message.configData)));
+    public static void handle(SyncConfigMessage message, Supplier<NetworkManager.PacketContext> contextSupplier) {
+        NetworkManager.PacketContext context = contextSupplier.get();
+        context.queue(() -> {
+            if (context.getEnv() == EnvType.CLIENT) {
+                serializer.deserialize(message.configData).ifPresent(Brazier::setSyncedConfig);
             }
         });
-        context.setPacketHandled(true);
     }
 
 }

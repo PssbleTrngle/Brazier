@@ -1,14 +1,12 @@
 package com.possible_triangle.brazier.forge;
 
 import com.possible_triangle.brazier.Brazier;
-import me.shedaniel.architectury.platform.forge.EventBuses;
-import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
 import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
-@Mod(Brazier.MODID)
+@Mod(Brazier.MOD_ID)
 public class BrazierForge {
 
     public BrazierForge () {

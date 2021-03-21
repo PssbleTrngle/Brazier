@@ -19,7 +19,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
-    public static final ModelResourceLocation MODEL = new ModelResourceLocation(new ResourceLocation(Brazier.MODID, "living_flame"), "inventory");
+    public static final ModelResourceLocation MODEL = new ModelResourceLocation(new ResourceLocation(Brazier.MOD_ID, "living_flame"), "inventory");
 
     public CrazedFlameRenderer(EntityRenderDispatcher entityRendererManager) {
         super(entityRendererManager);

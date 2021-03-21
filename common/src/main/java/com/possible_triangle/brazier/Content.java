@@ -39,23 +39,23 @@ import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
 
-import static com.possible_triangle.brazier.Brazier.MODID;
+import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Content {
 
-    public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.getBlockOptional(new ResourceLocation(MODID, "brazier_base_blocks"));
+    public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.getBlockOptional(new ResourceLocation(MOD_ID, "brazier_base_blocks"));
 
-    public static final Tag.Named<EntityType<?>> BRAZIER_WHITELIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MODID, "brazier_whitelist"));
-    public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MODID, "brazier_blacklist"));
-    public static final Tag.Named<Item> TORCHES = TagHooks.getItemOptional(new ResourceLocation(MODID, "torches"));
-    public static final Tag.Named<Item> ASH_TAG = TagHooks.getItemOptional(new ResourceLocation(MODID, "ash"));
-    public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.getItemOptional(new ResourceLocation(MODID, "warped_wart"));
+    public static final Tag.Named<EntityType<?>> BRAZIER_WHITELIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MOD_ID, "brazier_whitelist"));
+    public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MOD_ID, "brazier_blacklist"));
+    public static final Tag.Named<Item> TORCHES = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "torches"));
+    public static final Tag.Named<Item> ASH_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "ash"));
+    public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "warped_wart"));
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MODID, Registry.ITEM_REGISTRY);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MODID, Registry.BLOCK_REGISTRY);
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(MODID, Registry.BLOCK_ENTITY_TYPE_REGISTRY);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MODID, Registry.ENTITY_TYPE_REGISTRY);
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MODID, Registry.PARTICLE_TYPE_REGISTRY);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(MOD_ID, Registry.BLOCK_ENTITY_TYPE_REGISTRY);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_REGISTRY);
 
     public static final RegistrySupplier<SimpleParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new ModParticleType(false));
 
@@ -78,6 +78,8 @@ public class Content {
             () -> EntityType.Builder.<Crazed>of(Crazed::new, MobCategory.MONSTER).fireImmune().build("crazed")
     );
 
+    @Deprecated
+    public static final RegistrySupplier<Item> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new Item(new Item.Properties()));
     /*
     public static final RegistrySupplier<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(CRAZED::get,
             new Color(9804699).getRGB(),

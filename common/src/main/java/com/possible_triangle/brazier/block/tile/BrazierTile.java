@@ -4,22 +4,18 @@ import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.config.DistanceHandler;
-import me.shedaniel.architectury.hooks.TagHooks;
+import com.possible_triangle.brazier.config.ServerConfig;
 import net.minecraft.core.BlockPos;
-import net.minecraft.data.tags.BlockTagsProvider;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.tags.BlockTags;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.Vec3;
 
-import java.time.temporal.ValueRange;
 import java.util.HashMap;
 
 public class BrazierTile extends BaseTile implements TickableBlockEntity {

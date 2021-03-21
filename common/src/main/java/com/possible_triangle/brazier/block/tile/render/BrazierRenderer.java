@@ -39,12 +39,12 @@ public class BrazierRenderer extends BlockEntityRenderer<BrazierTile> {
     static {
         RenderType.CompositeState glState;
         glState = RenderType.CompositeState.builder().setTextureState(new TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, true))
-               // .setTransparencyState(.getPrivateValue(RenderState.class, null, "field_228515_g_"))
+                // .setTransparencyState(.getPrivateValue(RenderState.class, null, "field_228515_g_"))
                 .setDiffuseLightingState(new DiffuseLightingStateShard(true))
                 .setAlphaState(new RenderStateShard.AlphaStateShard(0.004F))
                 .setLightmapState(new LightmapStateShard(true))
                 .createCompositeState(false);
-        RENDER_TYPE = RenderType.create(Brazier.MODID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 128, glState);
+        RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 128, glState);
     }
 
     /*

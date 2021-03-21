@@ -10,7 +10,7 @@ import net.minecraft.resources.ResourceLocation;
 
 public class CrazedRender extends EvokerRenderer<Crazed> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Brazier.MODID, "textures/entity/crazed.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Brazier.MOD_ID, "textures/entity/crazed.png");
 
     @Override
     public void render(Crazed entity, float yaw, float ticks, PoseStack matrizes, MultiBufferSource buffer, int light) {

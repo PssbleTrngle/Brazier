@@ -2,38 +2,47 @@ package com.possible_triangle.brazier;
 
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.config.ClientConfig;
-import com.possible_triangle.brazier.config.LoginHandler;
 import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.network.BrazierNetwork;
+import com.possible_triangle.brazier.network.SyncConfigMessage;
+import me.shedaniel.architectury.event.events.EntityEvent;
 import me.shedaniel.architectury.event.events.PlayerEvent;
 import me.shedaniel.architectury.event.events.TickEvent;
-import me.shedaniel.architectury.event.events.EntityEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
-import net.minecraft.client.Minecraft;
 
+import java.util.Optional;
 import java.util.function.Supplier;
 
 public class Brazier {
 
-    public static final String MODID = "brazier";
+    public static final String MOD_ID = "brazier";
 
-    public static Supplier<ServerConfig> SERVER_CONFIG;
-    public static Supplier<ClientConfig> CLIENT_CONFIG;
+    private static ConfigHolder<ServerConfig> LOCAL_SERVER_CONFIG;
+    private static ServerConfig SYNCED_SERVER_CONFIG;
+    public static ConfigHolder<ClientConfig> CLIENT_CONFIG;
+
+    public static Supplier<ServerConfig> SERVER_CONFIG = () -> Optional.ofNullable(SYNCED_SERVER_CONFIG).orElseGet(LOCAL_SERVER_CONFIG);
 
     public static void init() {
 
-        SERVER_CONFIG = AutoConfig.register(ServerConfig.class, Toml4jConfigSerializer::new)::getConfig;
-        CLIENT_CONFIG = AutoConfig.register(ClientConfig.class, Toml4jConfigSerializer::new)::getConfig;
+        LOCAL_SERVER_CONFIG = AutoConfig.register(ServerConfig.class, Toml4jConfigSerializer::new);
+        CLIENT_CONFIG = AutoConfig.register(ClientConfig.class, Toml4jConfigSerializer::new);
 
         Content.init();
         BrazierNetwork.init();
 
         TickEvent.PLAYER_POST.register(BrazierIndicator::playerTick);
         EntityEvent.ADD.register(BrazierBlock::mobSpawn);
-        PlayerEvent.PLAYER_JOIN.register(LoginHandler::playerJoined);
+        PlayerEvent.PLAYER_JOIN.register(player ->
+                BrazierNetwork.CHANNEL.sendToPlayer(player, new SyncConfigMessage(Brazier.SERVER_CONFIG.get()))
+        );
+    }
+
+    public static void setSyncedConfig(ServerConfig config) {
+        SYNCED_SERVER_CONFIG = config;
     }
 
     public static void setup() {

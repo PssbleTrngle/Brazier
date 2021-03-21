@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import java.util.function.Supplier;
 
-import static com.possible_triangle.brazier.Brazier.MODID;
+import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public abstract class InjectingLootTableProvider {
 
@@ -35,7 +35,7 @@ public abstract class InjectingLootTableProvider {
     }
 
     protected void addInject(String injectName, ResourceLocation into, LootPool.Builder pool, Supplier<Boolean> predicate) {
-        ResourceLocation loc = new ResourceLocation(MODID, "inject/" + injectName);
+        ResourceLocation loc = new ResourceLocation(MOD_ID, "inject/" + injectName);
         if (injects.stream().anyMatch(i -> i.name.equals(loc))) {
             LOGGER.warn(String.format("Attempted to add duplicate inject table '%s'", injectName));
         } else {

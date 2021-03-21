@@ -3,10 +3,10 @@ package com.possible_triangle.brazier.forge.data.providers;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import net.minecraft.block.WallTorchBlock;
+import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
-import net.minecraft.util.Direction;
-import net.minecraft.util.ResourceLocation;
+import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
 import net.minecraftforge.client.model.generators.ModelFile;
@@ -15,7 +15,7 @@ import net.minecraftforge.common.data.ExistingFileHelper;
 public class Blocks extends BlockStateProvider {
 
     public Blocks(DataGenerator generator, ExistingFileHelper fileHelper) {
-        super(generator, Brazier.MODID, fileHelper);
+        super(generator, Brazier.MOD_ID, fileHelper);
     }
 
     private ResourceLocation extend(ResourceLocation in, String with) {
@@ -26,7 +26,7 @@ public class Blocks extends BlockStateProvider {
     protected void registerStatesAndModels() {
 
         Content.BRAZIER.ifPresent(b -> getVariantBuilder(b).forAllStates(s -> {
-            boolean lit = s.get(BrazierBlock.LIT);
+            boolean lit = s.getValue(BrazierBlock.LIT);
             ResourceLocation r = blockTexture(b);
             ResourceLocation model = lit ? extend(r, "_lit") : r;
             return ConfiguredModel.builder()
@@ -52,10 +52,10 @@ public class Blocks extends BlockStateProvider {
                     );
 
                     getVariantBuilder(b).forAllStates(state -> {
-                        Direction facing = state.get(WallTorchBlock.HORIZONTAL_FACING);
+                        Direction facing = state.getValue(WallTorchBlock.FACING);
                         return ConfiguredModel.builder()
                                 .modelFile(model)
-                                .rotationY((int) facing.getHorizontalAngle() + 90)
+                                .rotationY((int) facing.toYRot() + 90)
                                 .build();
                     });
                 }
