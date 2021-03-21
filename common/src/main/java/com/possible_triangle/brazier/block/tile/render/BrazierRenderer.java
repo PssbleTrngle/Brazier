@@ -21,8 +21,10 @@ import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
+import net.minecraft.resources.ResourceLocation;
 import org.lwjgl.opengl.GL11;
 
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
@@ -31,6 +33,8 @@ public class BrazierRenderer extends BlockEntityRenderer<BrazierTile> {
 
     public static TextureAtlasSprite RUNES;
     public static final RenderType RENDER_TYPE;
+    private static final int TEXTURE_HEIGHT = 9;
+    public static String TEXTURE_KEY = "block/brazier_runes";
 
     public BrazierRenderer(BlockEntityRenderDispatcher dispatcher) {
         super(dispatcher);
@@ -47,54 +51,69 @@ public class BrazierRenderer extends BlockEntityRenderer<BrazierTile> {
         RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 128, glState);
     }
 
-    /*
-    @SubscribeEvent
-    public static void atlasStitch(TextureStitchEvent.Pre event) {
-        if (event.getMap().getTextureLocation().equals(PlayerContainer.LOCATION_BLOCKS_TEXTURE)) {
-            event.addSprite(new ResourceLocation(Brazier.MODID, "block/brazier_runes"));
+    public static void atlasStitch(TextureAtlas atlas, Consumer<ResourceLocation> sprites) {
+        if (atlas.location().equals(TextureAtlas.LOCATION_BLOCKS)) {
+            sprites.accept(new ResourceLocation(Brazier.MOD_ID, TEXTURE_KEY));
         }
     }
 
-    @SubscribeEvent
-    public static void atlasStitch(TextureStitchEvent.vertext event) {
-        if (event.getMap().getTextureLocation().equals(PlayerContainer.LOCATION_BLOCKS_TEXTURE)) {
-            RUNES = event.getMap().getSprite(new ResourceLocation(Brazier.MODID, "block/brazier_runes"));
+    public static void atlasStitch(TextureAtlas atlas) {
+        if (atlas.location().equals(TextureAtlas.LOCATION_BLOCKS)) {
+            RUNES = atlas.getSprite(new ResourceLocation(Brazier.MOD_ID, TEXTURE_KEY));
         }
     }
-    */
 
-    private void renderTop(PoseStack matrizes, float alpha, MultiBufferSource buffer, Vector3f vvvv) {
+    private void renderTop(PoseStack matrizes, float alpha, MultiBufferSource buffer) {
         matrizes.pushPose();
         matrizes.translate(0, 0.05F, 0);
         Matrix4f matrix = matrizes.last().pose();
         VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
         for (int i = 0; i < 4; i++) {
             float v = RUNES.getU1() - RUNES.getU0();
-            float start = v / 9F * i;
+            float start = v / 9F * i * 2;
             float minU = RUNES.getU0() + start;
-            float maxU= minU + v / 9F * 1.5F;
+            float maxU = minU + v / 9F * 1.5F;
+
             matrizes.mulPose(Vector3f.YN.rotationDegrees(90F));
+
             vertex.vertex(matrix, 1.0F, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV0()).uv2(0xF000F0).endVertex();
             vertex.vertex(matrix, 1.0F, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV1()).uv2(0xF000F0).endVertex();
             vertex.vertex(matrix, 2.5F, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(minU, RUNES.getV1()).uv2(0xF000F0).endVertex();
             vertex.vertex(matrix, 2.5F, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(minU, RUNES.getV0()).uv2(0xF000F0).endVertex();
+
         }
         matrizes.popPose();
     }
 
-    private void renderSide(PoseStack matrizes, float alpha, MultiBufferSource buffer, Vector3f v, int height) {
-        float segment = Math.min(9, height) - 0.25F;
+    private void renderSide(PoseStack matrizes, float alpha, MultiBufferSource buffer, int height) {
         matrizes.pushPose();
-        matrizes.mulPose(v.rotationDegrees(90F));
-        if (v.z() == 0) matrizes.mulPose(Vector3f.YP.rotationDegrees(90F));
-        matrizes.translate(v.x() + v.z() > 0 ? -segment : 0, 2.55F, 0);
-        Matrix4f matrix = matrizes.last().pose();
-        VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
-        float maxU = RUNES.getU0() + segment * ((RUNES.getU1() - RUNES.getU0()) / 9F);
-        vertex.vertex(matrix, 0, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV0()).uv2(0xF000F0).endVertex();
-        vertex.vertex(matrix, 0, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV1()).uv2(0xF000F0).endVertex();
-        vertex.vertex(matrix, segment, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU1(), RUNES.getV1()).uv2(0xF000F0).endVertex();
-        vertex.vertex(matrix, segment, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU0(), RUNES.getV0()).uv2(0xF000F0).endVertex();
+        int times = height / TEXTURE_HEIGHT;
+
+        for (int quarter = 0; quarter < 4; quarter++) {
+            matrizes.mulPose(Vector3f.YN.rotationDegrees(90F));
+
+            for (int i = 0; i <= times; i++) {
+                float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
+                float offset = i * TEXTURE_HEIGHT;
+
+                matrizes.pushPose();
+                matrizes.mulPose(Vector3f.ZN.rotationDegrees(90F));
+                matrizes.translate(0, 2.55F, 0);
+
+                Matrix4f matrix = matrizes.last().pose();
+                VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
+                float maxU = RUNES.getU0() + segment * ((RUNES.getU1() - RUNES.getU0()) / ((float) TEXTURE_HEIGHT));
+
+                vertex.vertex(matrix, offset, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU0(), RUNES.getV0()).uv2(0xF000F0).endVertex();
+                vertex.vertex(matrix, offset, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU0(), RUNES.getV1()).uv2(0xF000F0).endVertex();
+                vertex.vertex(matrix, offset + segment, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV1()).uv2(0xF000F0).endVertex();
+                vertex.vertex(matrix, offset + segment, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV0()).uv2(0xF000F0).endVertex();
+
+                matrizes.popPose();
+            }
+
+        }
+
         matrizes.popPose();
     }
 
@@ -105,15 +124,17 @@ public class BrazierRenderer extends BlockEntityRenderer<BrazierTile> {
     @Override
     public void render(BrazierTile tile, float partialTicks, PoseStack matrizes, MultiBufferSource buffer, int light, int overlay) {
         int height = tile.getHeight();
+        float alpha = 1.0F;
+
         if (height > 0) {
 
             matrizes.pushPose();
             matrizes.translate(0.5, 0, 0.5);
 
-            if(Brazier.CLIENT_CONFIG.get().RENDER_RUNES) {
+            if (Brazier.CLIENT_CONFIG.get().RENDER_RUNES) {
                 Stream.of(Vector3f.XP, Vector3f.XN, Vector3f.ZN, Vector3f.ZP).forEach(v -> {
-                    renderSide(matrizes, 1F, buffer, v, height);
-                    renderTop(matrizes, 1F, buffer, v);
+                    renderSide(matrizes, alpha, buffer, height);
+                    renderTop(matrizes, alpha, buffer);
                 });
             }
 

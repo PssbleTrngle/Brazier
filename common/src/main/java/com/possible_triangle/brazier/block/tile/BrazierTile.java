@@ -151,7 +151,7 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
 
     @Override
     public double getViewDistance() {
-        return height + 1;
+        return super.getViewDistance();
     }
 
 }

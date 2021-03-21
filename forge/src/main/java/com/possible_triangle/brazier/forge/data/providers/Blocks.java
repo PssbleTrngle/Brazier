@@ -6,6 +6,7 @@ import com.possible_triangle.brazier.block.BrazierBlock;
 import net.minecraft.core.Direction;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.block.Lantern;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraftforge.client.model.generators.BlockStateProvider;
 import net.minecraftforge.client.model.generators.ConfiguredModel;
@@ -60,6 +61,17 @@ public class Blocks extends BlockStateProvider {
                     });
                 }
         );
+
+        Content.LIVING_LANTERN.ifPresent(lantern -> getVariantBuilder(lantern).forAllStates(s -> {
+            String postfix = s.getValue(Lantern.HANGING) ? "_hanging" : "";
+            return ConfiguredModel.builder()
+                    .modelFile(models().singleTexture(
+                            lantern.getRegistryName().getPath() + postfix,
+                            mcLoc("block/template" + postfix + "_lantern"),
+                            "lantern",
+                            blockTexture(lantern)
+                    )).build();
+        }));
 
         Content.SPAWN_POWDER.ifPresent(b -> simpleBlock(b,
                 models().getBuilder(b.getRegistryName().getPath())

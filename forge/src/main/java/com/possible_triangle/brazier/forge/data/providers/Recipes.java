@@ -8,6 +8,7 @@ import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
@@ -23,7 +24,7 @@ public class Recipes extends RecipeProvider {
 
     @Override
     protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
-        Item flame = Content.LIVING_FLAME.orElse(net.minecraft.world.item.Items.BLAZE_POWDER);
+        Item flame = Content.LIVING_FLAME.orElse(Items.BLAZE_POWDER);
 
         Content.BRAZIER.ifPresent(brazier ->
                 ShapedRecipeBuilder.shaped(brazier)
@@ -36,7 +37,7 @@ public class Recipes extends RecipeProvider {
                         .save(consumer)
         );
 
-        Content.LIVING_TORCH.ifPresent(torch ->
+        Content.LIVING_LANTERN.ifPresent(torch ->
                 ShapelessRecipeBuilder.shapeless(torch, 2)
                         .requires(torch)
                         .requires(Ingredient.of(Content.TORCHES))
@@ -44,11 +45,30 @@ public class Recipes extends RecipeProvider {
                         .save(consumer)
         );
 
+        Content.LIVING_TORCH.ifPresent(torch -> {
+            ShapelessRecipeBuilder.shapeless(torch, 2)
+                    .requires(torch)
+                    .requires(Ingredient.of(Content.TORCHES))
+                    .unlockedBy("collected_torch", has(torch))
+                    .save(consumer);
+
+            Content.LIVING_TORCH.ifPresent(lantern ->
+                    ShapedRecipeBuilder.shaped(lantern)
+                            .pattern("xxx")
+                            .pattern("xtx")
+                            .pattern("xxx")
+                            .define('x', Items.IRON_NUGGET)
+                            .define('t', torch)
+                            .unlockedBy("collected_torch", has(lantern))
+                            .save(consumer)
+            );
+        });
+
         Content.SPAWN_POWDER.ifPresent(powder ->
                 ShapelessRecipeBuilder.shapeless(powder, 6)
                         .requires(Ingredient.of(Content.ASH_TAG), 4)
-                        .requires(net.minecraft.world.item.Items.CHARCOAL, 1)
-                        .requires(Content.WARPED_NETHERWART.orElse(net.minecraft.world.item.Items.NETHER_WART))
+                        .requires(Items.CHARCOAL, 1)
+                        .requires(Content.WARPED_NETHERWART.orElse(Items.NETHER_WART))
                         .unlockedBy("collected_flame", has(flame))
                         .unlockedBy("collected_ash", has(Content.ASH_TAG))
                         .save(consumer)

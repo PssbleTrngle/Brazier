@@ -24,7 +24,7 @@ public class Items extends ItemModelProvider {
                 .map(ResourceLocation::getPath)
                 .ifPresent(b -> this.withExistingParent(b, modLoc("block/" + b)));
 
-        Stream.of(Content.LIVING_FLAME, Content.SPAWN_POWDER, Content.WARPED_NETHERWART, Content.ASH)
+        Stream.of(Content.LIVING_FLAME, Content.SPAWN_POWDER, Content.WARPED_NETHERWART, Content.ASH, Content.LIVING_LANTERN)
                 .map(RegistrySupplier::toOptional)
                 .forEach(item -> item
                         .map(ForgeRegistryEntry::getRegistryName)
