@@ -8,7 +8,6 @@ import java.util.function.BiFunction;
 
 public class DistanceHandler {
 
-    @SuppressWarnings("unused")
     public enum Type {
 
         SPHERE((a, b) -> b.distSqr(a.x, a.y, a.z, true)),
