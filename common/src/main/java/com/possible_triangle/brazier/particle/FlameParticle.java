@@ -3,14 +3,14 @@ package com.possible_triangle.brazier.particle;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
-import net.minecraft.client.particle.*;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.client.particle.ParticleRenderType;
+import net.minecraft.client.particle.RisingParticle;
 import net.minecraft.util.Mth;
 
 @Environment(EnvType.CLIENT)
 public class FlameParticle extends RisingParticle {
 
-    private FlameParticle(ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
+    public FlameParticle(ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
         super(clientLevel, d, e, f, g, h, i);
     }
 
@@ -40,21 +40,6 @@ public class FlameParticle extends RisingParticle {
         }
 
         return j | k << 16;
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static class Provider implements ParticleProvider<SimpleParticleType> {
-        private final SpriteSet sprite;
-
-        public Provider(SpriteSet spriteSet) {
-            this.sprite = spriteSet;
-        }
-
-        public Particle createParticle(SimpleParticleType type, ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {
-            FlameParticle flameParticle = new FlameParticle(clientLevel, d, e, f, g, h, i);
-            flameParticle.pickSprite(this.sprite);
-            return flameParticle;
-        }
     }
 
 }

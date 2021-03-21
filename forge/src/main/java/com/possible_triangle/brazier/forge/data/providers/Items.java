@@ -2,6 +2,7 @@ package com.possible_triangle.brazier.forge.data.providers;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
+import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;
@@ -23,11 +24,13 @@ public class Items extends ItemModelProvider {
                 .map(ResourceLocation::getPath)
                 .ifPresent(b -> this.withExistingParent(b, modLoc("block/" + b)));
 
-        Stream.of(Content.LIVING_FLAME, Content.SPAWN_POWDER, Content.WARPED_NETHERWART, Content.ASH).forEach(c -> c.toOptional()
-                .map(ForgeRegistryEntry::getRegistryName)
-                .map(ResourceLocation::getPath)
-                .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("item/" + i)))
-        );
+        Stream.of(Content.LIVING_FLAME, Content.SPAWN_POWDER, Content.WARPED_NETHERWART, Content.ASH)
+                .map(RegistrySupplier::toOptional)
+                .forEach(item -> item
+                        .map(ForgeRegistryEntry::getRegistryName)
+                        .map(ResourceLocation::getPath)
+                        .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("item/" + i)))
+                );
 
         Content.LIVING_TORCH.toOptional()
                 .map(ForgeRegistryEntry::getRegistryName)

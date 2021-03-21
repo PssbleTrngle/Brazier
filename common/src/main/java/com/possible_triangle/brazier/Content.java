@@ -11,7 +11,8 @@ import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LivingTorch;
-import com.possible_triangle.brazier.particle.ModParticleType;
+import com.possible_triangle.brazier.particle.FlameParticle;
+import com.possible_triangle.brazier.particle.ParticleRegistry;
 import me.shedaniel.architectury.hooks.TagHooks;
 import me.shedaniel.architectury.registry.BlockEntityRenderers;
 import me.shedaniel.architectury.registry.DeferredRegister;
@@ -33,6 +34,8 @@ import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.Blocks;
+import net.minecraft.world.level.block.Lantern;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 
 import java.util.function.Function;
@@ -57,18 +60,20 @@ public class Content {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_REGISTRY);
 
-    public static final RegistrySupplier<SimpleParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new ModParticleType(false));
+    public static final Supplier<SimpleParticleType> FLAME_PARTICLE = ParticleRegistry.register("flame", FlameParticle::new);
 
-    public static final RegistrySupplier<Block> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.tab(CreativeModeTab.TAB_MISC));
+    public static final RegistrySupplier<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.tab(CreativeModeTab.TAB_MISC));
     public static final RegistrySupplier<BlockEntityType<BrazierTile>> BRAZIER_TILE = TILES.register("brazier", () ->
             BlockEntityType.Builder.of(BrazierTile::new, BRAZIER.get()).build(null)
     );
 
-    public static final RegistrySupplier<Block> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<Block> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
+    public static final RegistrySupplier<LazyTorchBlock> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
+    public static final RegistrySupplier<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
+    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new Lantern(Block.Properties.copy(Blocks.LANTERN)), p -> p.tab(CreativeModeTab.TAB_DECORATIONS));
+
 
     public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_BREWING).rarity(Rarity.UNCOMMON)));
-    public static final RegistrySupplier<Item> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
+    public static final RegistrySupplier<LivingTorch> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
 
     public static final RegistrySupplier<Item> ASH = ITEMS.register("ash", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
     public static final RegistrySupplier<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
@@ -92,8 +97,8 @@ public class Content {
             .fireImmune()
             .build("crazed_flame"));
 
-    public static RegistrySupplier<Block> registerBlock(String name, Supplier<Block> supplier, Function<Item.Properties, Item.Properties> props) {
-        RegistrySupplier<Block> block = BLOCKS.register(name, supplier);
+    public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, Function<Item.Properties, Item.Properties> props) {
+        RegistrySupplier<T> block = BLOCKS.register(name, supplier);
         ITEMS.register(name, () -> new BlockItem(block.get(), props.apply(new Item.Properties())));
         return block;
     }
@@ -135,7 +140,7 @@ public class Content {
         CRAZED.ifPresent(type -> EntityRenderers.register(type, CrazedRender::new));
         CRAZED_FLAME.ifPresent(type -> EntityRenderers.register(type, CrazedFlameRenderer::new));
 
-        Stream.of(BRAZIER, LIVING_TORCH_BLOCK, LIVING_TORCH_BLOCK_WALL, SPAWN_POWDER)
+        Stream.of(BRAZIER, LIVING_TORCH_BLOCK, LIVING_TORCH_BLOCK_WALL, SPAWN_POWDER, LIVING_LANTERN)
                 .filter(RegistrySupplier::isPresent)
                 .map(RegistrySupplier::get)
                 .map(b -> (Block) b)

@@ -1,32 +1,29 @@
-modLoader = "kotlinforforge"
-loaderVersion = "[1.7,)"
-issueTrackerURL = "https://github.com/PssbleTrngle/Bourgeoisie/issues"
-license = "https://github.com/PssbleTrngle/Bourgeoisie/LICENSE.md"
+modLoader = "javafml"
+loaderVersion = "[35,)"
+issueTrackerURL = "https://github.com/PssbleTrngle/Brazier/issues"
+license = "https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
+displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
 
 [[mods]]
-modId = "bourgeoisie"
+modId = "brazier"
 version = "${version}"
-displayName = "Bourgeoisie"
+displayName = "Brazier"
 authors = "possible_triangle"
-description = '''
-Seize the mines of production
-'''
+description = '''Prevent mob spawning with a beacon-like structure'''
 
-[[dependencies.bourgeoisie]]
+[[dependencies.brazier]]
 modId = "forge"
 mandatory = true
-versionRange = "[35,)"
+versionRange = "[32.0.108,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[dependencies.bourgeoisie]]
+[[dependencies.brazier]]
 modId = "minecraft"
 mandatory = true
-versionRange = "[1.16.2,)"
+versionRange = "[1.16.3,)"
 ordering = "NONE"
 side = "BOTH"
-
-[[dependencies.bourgeoisie]]
+[[dependencies.brazier]]
 modId = "architectury"
 mandatory = true
 versionRange = "[1.1.55,)"
