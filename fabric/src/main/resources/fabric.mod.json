@@ -1,0 +1,35 @@
+{
+  "schemaVersion": 1,
+  "id": "brazier",
+  "version": "${version}",
+  "name": "Brazier",
+  "description": "Prevent mob spawning with a beacon-like structure",
+  "authors": [
+    "possible_triangle"
+  ],
+  "contact": {
+    "sources": "https://github.com/PssbleTrngle/Brazier",
+    "issues": "https://github.com/PssbleTrngle/Brazier/issues"
+  },
+  "license": "https://github.com/PssbleTrngle/Brazier/LICENSE.txt",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.possible_triangle.brazier.fabric.BrazierFabric"
+    ],
+    "client": [
+      "com.possible_triangle.brazier.fabric.BrazierFabric"
+    ]
+  },
+  "mixins": [
+    "brazier.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.7.4",
+    "fabric": "*",
+    "minecraft": ">=1.16.4",
+    "architectury": ">=1.1.55"
+  },
+  "suggests": {
+  }
+}

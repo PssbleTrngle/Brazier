@@ -75,7 +75,7 @@ All notable changes to this project will be documented in this file.
 # 1.16.3.
 
 ## [2.0.0] - 2020-11-29
-Initial 1.16.3 release.
+Initial 1.16.3 release
 
 ## [2.0.1] - 2020-11-30
 ### Fixed
@@ -85,7 +85,7 @@ Initial 1.16.3 release.
 ## [2.0.2] - 2020-12-02
 ### Fixed
 - Wrong server config descriptions
-.
+  .
 
 ## [2.1.0] - 2020-12-02
 ### Changed

@@ -1,0 +1,51 @@
+name: Build Forge
+
+on:
+  push:
+    paths-ignore:
+      - fabric/**
+    tags:
+      - "[1-9]+.[1-9]+.[1-9]+"
+
+jobs:
+
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v1
+
+      - name: Build Mod
+        run: chmod +x ./gradlew && ./gradlew forge:build
+
+      - name: Fetch release
+        id: release
+        uses: jonfriesen/get-release-by-tag@v1.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref }}
+
+      - name: Upload to Release
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release.outputs.release.data.upload_url }}
+          asset_path: forge/build/libs/brazier-${{ steps.release.outputs.release.data.tag_name }}-forge.jar
+          asset_name: brazier-forge.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload to CurseForge
+        uses: itsmeow/curseforge-upload@master
+        with:
+          token: ${{ secrets.CURSEFORGE_TOKEN }}
+          project_id: 402616
+          game_endpoint: minecraft
+          file_path: forge/build/libs/brazier-${{ steps.release.outputs.release.data.tag_name }}-forge.jar
+          changelog: ${{ steps.release.outputs.release.data.body }}
+          changelog_type: markdown
+          display_name: Version ${{ steps.release.outputs.release.data.tag_name }}
+          game_versions: 8203,8134,8056,7498
+          release_type: release
+          relations: architectury-forge:requiredDependency,cloth-config-forge:requiredDependency,jei:optionalDependency

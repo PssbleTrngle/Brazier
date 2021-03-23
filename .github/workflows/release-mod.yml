@@ -3,7 +3,8 @@ name: Release
 on:
   pull_request:
     types: [ closed ]
-    branches: [ "[1-9].*.*" ]
+    branches:
+      - "[1-9].*.*"
 
 jobs:
 
@@ -12,9 +13,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v1
 
-      - uses: PssbleTrngle/VersionManagment@v2
+      - uses: PssbleTrngle/VersionManagment@v1.0.4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
         id: version
@@ -22,12 +23,9 @@ jobs:
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:
-          path: 'build.properties'
+          path: 'gradle.properties'
           property: 'mod_version'
           value: ${{ steps.version.outputs.next }}
-
-      - name: Build Mod
-        run: chmod +x ./gradlew && ./gradlew build
 
       - name: Get current date
         id: date
@@ -44,22 +42,7 @@ jobs:
             ${{ github.event.pull_request.body }}
           write-mode: append
 
-      - name: Upload to CurseForge
-        uses: itsmeow/curseforge-upload@v2
-        with:
-          token: ${{ secrets.CURSEFORGE_TOKEN }}
-          project_id: 402616
-          game_endpoint: minecraft
-          file_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
-          changelog: ${{ github.event.pull_request.body }}
-          changelog_type: markdown
-          display_name: ${{ steps.version.outputs.next }} (${{ github.ref }})
-          game_versions: 8134,8056,4458,7498
-          release_type: ${{ steps.version.outputs.type }}
-          relations: ctm:optionalDependency
-
       - name: Create Release
-        id: release
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -67,25 +50,15 @@ jobs:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
-          prerelease: ${{ steps.version.outputs.type == 'alpha' }}
-
-      - name: Upload Mod Jar
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.release.outputs.upload_url }}
-          asset_path: build/libs/Brazier-${{ steps.version.outputs.next }}.jar
-          asset_name: brazier.jar
-          asset_content_type: application/java-archive
 
       - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v5
+        uses: EndBug/add-and-commit@v4
         with:
           message: Update Changelog
-          add: build.properties CHANGELOG.md
-          branch: ${{ github.ref }}
+          add: gradle.properties CHANGELOG.md
+          branch: ${{ env.GITHUB_REF }}
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          force: true
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
