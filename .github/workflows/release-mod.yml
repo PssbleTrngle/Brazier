@@ -13,7 +13,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v1
+        uses: actions/checkout@v2
 
       - uses: PssbleTrngle/VersionManagment@v1.0.4
         with:
@@ -42,7 +42,18 @@ jobs:
             ${{ github.event.pull_request.body }}
           write-mode: append
 
+      - name: Commit and Push Changes
+        uses: EndBug/add-and-commit@v7
+        id: commit
+        with:
+          message: Update Changelog
+          add: gradle.properties CHANGELOG.md
+          branch: ${{ github.ref }}
+          author_name: GitHub Actions
+          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+
       - name: Create Release
+        if: ${{ steps.commit.outputs.pushed }}
         uses: actions/create-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -50,12 +61,3 @@ jobs:
           tag_name: ${{ steps.version.outputs.next }}
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
-
-      - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v7.1.0
-        with:
-          message: Update Changelog
-          add: gradle.properties CHANGELOG.md
-          branch: ${{ github.ref }}
-          author_name: GitHub Actions
-          author_email: 41898282+github-actions[bot]@users.noreply.github.com
