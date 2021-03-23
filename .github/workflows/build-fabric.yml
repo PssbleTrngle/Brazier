@@ -3,7 +3,7 @@ name: Build Fabric
 on:
   push:
     paths-ignore:
-      - fabric/**
+      - forge/**
     tags:
       - "[1-9]+.[1-9]+.[1-9]+"
 
