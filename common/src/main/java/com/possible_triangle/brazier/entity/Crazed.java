@@ -51,13 +51,6 @@ public class Crazed extends SpellcasterIllager {
         super(type, world);
     }
 
-    /* TODO
-    @Override
-    public ItemStack getPickedResult( target) {
-        return Content.CRAZED_SPAWN_EGG.map(ItemStack::new).orElse(ItemStack.EMPTY);
-    }
-    */
-
     @Override
     protected void registerGoals() {
         super.registerGoals();
