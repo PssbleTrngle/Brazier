@@ -1,14 +1,18 @@
 [ISSUES]: https://github.com/PssbleTrngle/Brazier/issues
-[PROJECT]: https://www.curseforge.com/minecraft/mc-mods/brazier
+[FORGE]: https://www.curseforge.com/minecraft/mc-mods/brazier
+[FABRIC]: https://www.curseforge.com/minecraft/mc-mods/brazier-fabric
 [DOWNLOAD]: https://www.curseforge.com/minecraft/mc-mods/brazier/files
 
 ![](https://cloud.somethingcatchy.net/s/PAAcwsoT8FrkPRf/preview)
 
 # Brazier
 [![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
-[![Downloads](https://cf.way2muchnoise.eu/full_brazier_downloads.svg)][PROJECT]
-[![Version](https://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
+[![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][FORGE]
+[![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
 [![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
+
+[![Forge Download](https://img.shields.io/badge/Download%20for-Forge-red?style=for-the-badge&logo=curseforge)][FORGE]
+[![Fabric Download](https://img.shields.io/badge/Download%20for-Fabric-blue?style=for-the-badge&logo=curseforge)][FABRIC]
 
 *This mod is still work in progress, and [feedback][ISSUES] regarding the balancing of the range or the structures base blocks is highly requested*
 
