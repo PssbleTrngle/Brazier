@@ -52,7 +52,7 @@ jobs:
           body: ${{ github.event.pull_request.body }}
 
       - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v5
+        uses: EndBug/add-and-commit@v7.0.0
         with:
           message: Update Changelog
           add: gradle.properties CHANGELOG.md
