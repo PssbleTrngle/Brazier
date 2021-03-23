@@ -58,6 +58,6 @@ jobs:
           add: gradle.properties CHANGELOG.md
           branch: ${{ github.ref }}
           author_name: GitHub Actions
-          author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          author_email: github-actions@github.com
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
