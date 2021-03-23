@@ -51,14 +51,13 @@ jobs:
           release_name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
 
-      - name: Commit and Push Changes
-        uses: EndBug/add-and-commit@v4
-        with:
-          message: Update Changelog
-          add: gradle.properties CHANGELOG.md
-          branch: ${{ env.GITHUB_REF }}
-          author_name: GitHub Actions
-          author_email: 41898282+github-actions[bot]@users.noreply.github.com
-          force: true
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        - name: Commit and Push Changes
+          uses: EndBug/add-and-commit@v5
+          with:
+            message: Update Changelog
+            add: gradle.properties CHANGELOG.md
+            branch: ${{ github.ref }}
+            author_name: GitHub Actions
+            author_email: 41898282+github-actions[bot]@users.noreply.github.com
+          env:
+            GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
