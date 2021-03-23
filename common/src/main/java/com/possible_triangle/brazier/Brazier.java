@@ -38,7 +38,6 @@ public class Brazier {
         BrazierNetwork.init();
 
         TickEvent.PLAYER_POST.register(BrazierIndicator::playerTick);
-        //EntityEvent.ADD.register(BrazierBlock::mobSpawn);
         PlayerEvent.PLAYER_JOIN.register(player ->
                 BrazierNetwork.CHANNEL.sendToPlayer(player, new SyncConfigMessage(Brazier.SERVER_CONFIG.get()))
         );

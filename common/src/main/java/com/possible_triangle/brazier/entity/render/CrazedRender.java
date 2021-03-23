@@ -14,13 +14,13 @@ public class CrazedRender extends EvokerRenderer<Crazed> {
 
     @Override
     public void render(Crazed entity, float yaw, float ticks, PoseStack matrizes, MultiBufferSource buffer, int light) {
-        //entityModel.func_205062_a().showModel = true;
+        model.getHat().visible = true;
         super.render(entity, yaw, ticks, matrizes, buffer, light);
     }
 
     public CrazedRender(EntityRenderDispatcher manager) {
         super(manager);
-        //model..showModel = true;
+        model.getHat().visible = true;
     }
 
     @Override

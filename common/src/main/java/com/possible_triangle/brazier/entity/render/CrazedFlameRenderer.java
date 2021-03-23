@@ -1,6 +1,9 @@
 package com.possible_triangle.brazier.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
+import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.math.Matrix3f;
+import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.entity.CrazedFlame;
@@ -32,7 +35,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
     @Override
     public ResourceLocation getTextureLocation(CrazedFlame entity) {
-        return TextureAtlas.LOCATION_BLOCKS;
+        return new ResourceLocation(Brazier.MOD_ID, "item/living_flame");
     }
 
     @Override
@@ -43,14 +46,20 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
         matrizes.scale(scale, scale, scale);
         renderFlame(matrizes, this.entityRenderDispatcher, buffer, packedLightIn);
         matrizes.popPose();
+        super.render(entity, entityYaw, partialTicks, matrizes, buffer, packedLightIn);
+    }
+
+    private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, Matrix3f matrix3f, int i, float f, int j, int k, int l) {
+        vertexConsumer.vertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)k, (float)l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     public static void renderFlame(PoseStack matrizes, EntityRenderDispatcher rendererManager, MultiBufferSource buffer, int packedLightIn) {
-
         Minecraft mc = Minecraft.getInstance();
         BlockRenderDispatcher dispatcher = mc.getBlockRenderer();
         ModelManager modelManager = mc.getModelManager();
         float scale = 0.6F;
+
+        rendererManager.textureManager.bind(TextureAtlas.LOCATION_BLOCKS);
 
         matrizes.pushPose();
         matrizes.scale(scale, scale, scale);

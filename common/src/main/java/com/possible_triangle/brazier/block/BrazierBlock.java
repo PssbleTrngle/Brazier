@@ -10,12 +10,14 @@ import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.enchantment.EnchantmentHelper;
 import net.minecraft.world.level.BlockGetter;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.level.block.BaseEntityBlock;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.RenderShape;
@@ -49,7 +51,7 @@ public class BrazierBlock extends BaseEntityBlock {
         builder.add(LIT);
     }
 
-    public static boolean prevents(Entity entity) {
+    private static boolean prevents(Entity entity) {
         EntityType<?> type = entity.getType();
         return (
                 entity instanceof Monster
@@ -57,8 +59,7 @@ public class BrazierBlock extends BaseEntityBlock {
         ) || type.is(Content.BRAZIER_BLACKLIST);
     }
 
-    /*
-    public static boolean prevents(Spawn reason) {
+    private static boolean prevents(MobSpawnType reason) {
         switch (reason) {
             case CHUNK_GENERATION:
             case NATURAL:
@@ -68,24 +69,22 @@ public class BrazierBlock extends BaseEntityBlock {
                 return false;
         }
     }
-    /*
-     */
 
-    public static InteractionResult mobSpawn(Entity entity, Level world) {
+    public static boolean prevents(Entity entity, LevelAccessor world, MobSpawnType reason) {
         BlockPos pos = entity.blockPosition();
 
         // Check for spawn powder
         if (Brazier.SERVER_CONFIG.get().SPAWN_POWDER) {
             Block block = world.getBlockState(pos).getBlock();
             if (Content.SPAWN_POWDER.toOptional().filter(block::equals).isPresent()) {
-                return InteractionResult.PASS;
+                return false;
             }
         }
 
-        if (/*prevents(event.getSpawnReason()) && */prevents(entity) && BrazierTile.inRange(pos))
-            return InteractionResult.FAIL;
+        if (prevents(reason) && prevents(entity) && BrazierTile.inRange(pos))
+            return true;
 
-        return InteractionResult.PASS;
+        return false;
     }
 
     @Override

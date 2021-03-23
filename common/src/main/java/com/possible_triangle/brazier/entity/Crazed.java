@@ -40,7 +40,7 @@ public class Crazed extends SpellcasterIllager {
     }
 
     public static void init(EntityType<Crazed> type) {
-        EntityAttributes.register(type, Monster.createMonsterAttributes()
+        EntityUtil.register(type, Monster.createMonsterAttributes()
                 .add(Attributes.MOVEMENT_SPEED, 0.6D)
                 .add(Attributes.FOLLOW_RANGE, 12.0D)
                 .add(Attributes.MAX_HEALTH, 24.0D)

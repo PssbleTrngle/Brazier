@@ -134,10 +134,9 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
     }
 
     @Override
-    public void setPosition(BlockPos blockPos) {
-        super.setPosition(blockPos);
+    public void onLoad() {
         if (this.height > 0) synchronized (BRAZIERS) {
-            BRAZIERS.put(blockPos, getRange());
+            BRAZIERS.put(this.getBlockPos(), getRange());
         }
     }
 
@@ -147,11 +146,6 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         synchronized (BRAZIERS) {
             BRAZIERS.remove(getBlockPos());
         }
-    }
-
-    @Override
-    public double getViewDistance() {
-        return super.getViewDistance();
     }
 
 }

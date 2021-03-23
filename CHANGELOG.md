@@ -76,3 +76,35 @@ All notable changes to this project will be documented in this file.
 
 ## [2.0.0] - 2020-11-29
 Initial 1.16.3 release
+
+## [2.0.1] - 2020-11-30
+### Fixed
+- Mod now requires correct forge & mc versions
+- Should also work on 1.16.4
+
+## [2.0.2] - 2020-12-02
+### Fixed
+- Wrong server config descriptions
+  .
+
+## [2.1.0] - 2020-12-02
+### Changed
+- Version range to allow usage with 1.16.1 & 1.16.2 (experimental).
+
+## [2.1.1] - 2020-12-02
+### Changed
+- FML Loader version to allow 32.*.
+
+## [2.1.2] - 2020-12-03
+### Fixed
+- Brazier runes not rendering for more than 9 blocks of the side
+- Rendering code being a mess.
+
+## [2.2.0] - 2020-12-03
+### Added
+- Living Lantern.
+
+## [2.3.0] - 2021-01-05
+### Added
+- German Translation
+- Korean Translation (thanks to @othuntgithub)

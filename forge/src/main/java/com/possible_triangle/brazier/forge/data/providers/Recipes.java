@@ -57,7 +57,7 @@ public class Recipes extends RecipeProvider {
                             .pattern("xxx")
                             .pattern("xtx")
                             .pattern("xxx")
-                            .define('x', Items.IRON_NUGGET)
+                            .define('x', Content.IRON_NUGGET_TAG)
                             .define('t', torch)
                             .unlockedBy("collected_torch", has(lantern))
                             .save(consumer)

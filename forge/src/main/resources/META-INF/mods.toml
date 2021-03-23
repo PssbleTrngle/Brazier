@@ -5,27 +5,27 @@ license = "https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
 
 [[mods]]
-modId = "brazier"
-version = "${version}"
-displayName = "Brazier"
-authors = "possible_triangle"
-description = '''Prevent mob spawning with a beacon-like structure'''
+    modId = "brazier"
+    version = "${version}"
+    displayName = "Brazier"
+    authors = "possible_triangle"
+    description = '''Prevent mob spawning with a beacon-like structure'''
 
 [[dependencies.brazier]]
-modId = "forge"
-mandatory = true
-versionRange = "[32.0.108,)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "forge"
+    mandatory = true
+    versionRange = "[32.0.108,)"
+    ordering = "NONE"
+    side = "BOTH"
 [[dependencies.brazier]]
-modId = "minecraft"
-mandatory = true
-versionRange = "[1.16.3,)"
-ordering = "NONE"
-side = "BOTH"
+    modId = "minecraft"
+    mandatory = true
+    versionRange = "[1.16.3,)"
+    ordering = "NONE"
+    side = "BOTH"
 [[dependencies.brazier]]
-modId = "architectury"
-mandatory = true
-versionRange = "[1.1.55,)"
-ordering = "AFTER"
-side = "BOTH"
+    modId = "architectury"
+    mandatory = true
+    versionRange = "[1.1.55,)"
+    ordering = "AFTER"
+    side = "BOTH"

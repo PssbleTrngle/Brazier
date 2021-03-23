@@ -9,14 +9,6 @@ public class BaseTile extends BlockEntity {
         super(type);
     }
 
-    /*
-    public SUpdateTileEntityPacket getUpdatePacket() {
-        return new SUpdateTileEntityPacket(this.pos, 3, this.getUpdateTag());
-    }
-
-    public CompoundNBT getUpdateTag() {
-        return this.write(new CompoundNBT());
-    }
-    */
+   public void onLoad() {}
 
 }

@@ -16,6 +16,9 @@
   "entrypoints": {
     "main": [
       "com.possible_triangle.brazier.fabric.BrazierFabric"
+    ],
+    "client": [
+      "com.possible_triangle.brazier.fabric.BrazierFabric"
     ]
   },
   "mixins": [

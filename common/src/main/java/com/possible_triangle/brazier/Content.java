@@ -8,12 +8,15 @@ import com.possible_triangle.brazier.block.tile.BrazierTile;
 import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
+import com.possible_triangle.brazier.entity.EntityUtil;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.entity.render.CrazedRender;
+import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
 import com.possible_triangle.brazier.particle.ParticleRegistry;
 import me.shedaniel.architectury.hooks.TagHooks;
+import me.shedaniel.architectury.platform.Platform;
 import me.shedaniel.architectury.registry.BlockEntityRenderers;
 import me.shedaniel.architectury.registry.DeferredRegister;
 import me.shedaniel.architectury.registry.RegistrySupplier;
@@ -37,7 +40,9 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.Lantern;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 
+import java.awt.*;
 import java.util.function.Function;
 import java.util.function.Supplier;
 import java.util.stream.Stream;
@@ -52,6 +57,7 @@ public class Content {
     public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MOD_ID, "brazier_blacklist"));
     public static final Tag.Named<Item> TORCHES = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "torches"));
     public static final Tag.Named<Item> ASH_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "ash"));
+    public static final Tag.Named<Item> IRON_NUGGET_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "iron_nuggets"));
     public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "warped_wart"));
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
@@ -80,22 +86,22 @@ public class Content {
     public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.tab(CreativeModeTab.TAB_MATERIALS));
 
     public static final RegistrySupplier<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed",
-            () -> EntityType.Builder.<Crazed>of(Crazed::new, MobCategory.MONSTER).fireImmune().build("crazed")
+            () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new).fireImmune().build("crazed")
     );
 
-    @Deprecated
-    public static final RegistrySupplier<Item> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new Item(new Item.Properties()));
-    /*
-    public static final RegistrySupplier<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(CRAZED::get,
+    public static final RegistrySupplier<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(
+            (RegistrySupplier) CRAZED,
             new Color(9804699).getRGB(),
             new Color(0x89CB07).getRGB())
     );
-    */
 
-    public static final RegistrySupplier<EntityType<CrazedFlame>> CRAZED_FLAME = ENTITIES.register("crazed_flame", () -> EntityType.Builder.<CrazedFlame>of(CrazedFlame::new, MobCategory.MISC)
-            .sized(0.6F, 0.6F)
-            .fireImmune()
-            .build("crazed_flame"));
+    public static final RegistrySupplier<EntityType<CrazedFlame>> CRAZED_FLAME = ENTITIES.register("crazed_flame", () ->
+            EntityUtil.<CrazedFlame>buildType(MobCategory.MISC, CrazedFlame::new)
+                    .size(0.6F, 0.6F)
+                    .fireImmune()
+                    .clientHandler(CrazedFlame::new)
+            .build("crazed_flame")
+    );
 
     public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, Function<Item.Properties, Item.Properties> props) {
         RegistrySupplier<T> block = BLOCKS.register(name, supplier);
@@ -112,23 +118,18 @@ public class Content {
     }
 
     public static void setup() {
-        //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, Crazed::canSpawnHere);
         Content.CRAZED.ifPresent(Crazed::init);
+        //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, Crazed::canSpawnHere);
+
+        Conditional.when(config -> config.DECORATION, LIVING_LANTERN, LIVING_TORCH);
+        Conditional.when(config -> config.SPAWN_POWDER, SPAWN_POWDER);
+
+        Conditional.when(config -> config.JUNGLE_LOOT).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
+
+        Conditional.when($ -> !Platform.isModLoaded("nether_extension"))
+                .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
+                .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");
     }
-
-
-    //@Environment(EnvType.CLIENT)
-    //@SubscribeEvent
-    //public static void itemColors(ItemColors.Item event) {
-    //
-    //    event.getItemColors().register((s, i) -> {
-    //        if (s.getItem() instanceof LazySpawnEgg) {
-    //            LazySpawnEgg egg = (LazySpawnEgg) s.getItem();
-    //            return egg.getColor(i);
-    //        } else return -1;
-    //    }, CRAZED_SPAWN_EGG.get());
-    //
-    //}
 
     @Environment(EnvType.CLIENT)
     public static void clientSetup() {
