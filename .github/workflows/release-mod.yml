@@ -52,12 +52,16 @@ jobs:
           author_name: GitHub Actions
           author_email: 41898282+github-actions[bot]@users.noreply.github.com
 
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.ref }}
+
       - name: Create Release
+        uses: softprops/action-gh-release@v1
         if: ${{ steps.commit.outputs.pushed }}
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ steps.version.outputs.next }}
-          release_name: Release ${{ steps.version.outputs.next }}
+          name: Release ${{ steps.version.outputs.next }}
           body: ${{ github.event.pull_request.body }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
