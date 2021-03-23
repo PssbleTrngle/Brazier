@@ -108,3 +108,10 @@ Initial 1.16.3 release
 ### Added
 - German Translation
 - Korean Translation (thanks to @othuntgithub)
+.
+
+## [3.0.0] - 2021-03-23
+### Changed
+- Rebuild using the [archtictury api](https://github.com/architectury/architectury-api)
+- First fabric version
+- modified CI/CD pipeline
