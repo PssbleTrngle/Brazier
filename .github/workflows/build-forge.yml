@@ -18,6 +18,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ github.token }}
 
+      - name: Update mod version
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: 'gradle.properties'
+          property: 'mod_version'
+          value: ${{ steps.release.outputs.tag_name }}
+
       - name: Build Mod
         run: chmod +x ./gradlew && ./gradlew forge:build
 

@@ -113,4 +113,8 @@ Initial 1.16.3 release
 ### Changed
 - Rebuild using the archtictury api
 - First fabric version
-- modified CI/CD pipeline
+- modified CI/CD pipeline.
+
+## [3.0.01] - 2021-03-25
+### Fixed
+- Correct java build target version
