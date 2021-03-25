@@ -115,6 +115,6 @@ Initial 1.16.3 release
 - First fabric version
 - modified CI/CD pipeline.
 
-## [3.0.01] - 2021-03-25
+## [3.0.1] - 2021-03-25
 ### Fixed
 - Correct java build target version
