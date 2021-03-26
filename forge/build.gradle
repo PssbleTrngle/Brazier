@@ -23,7 +23,7 @@ architectury {
 }
 
 loom {
-    mixinConfig "brazier.mixins.json"
+    mixinConfigs = ["brazier-forge.mixins.json", "brazier-common.mixins.json"]
 }
 
 minecraft {

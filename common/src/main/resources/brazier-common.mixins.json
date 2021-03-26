@@ -1,14 +1,11 @@
-
 {
   "required": true,
   "package": "com.possible_triangle.brazier.mixin",
   "compatibilityLevel": "JAVA_8",
   "minVersion": "0.7.11",
   "mixins": [
-    "WoodlandMansionPiecesMixin",
     "WorldMixin",
-    "MobMixin",
-    "PathfinderMobMixin"
+    "WoodlandMansionPiecesMixin"
   ],
   "injectors": {
     "defaultRequire": 1

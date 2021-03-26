@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.compat.jei;
+package com.possible_triangle.brazier.forge.compat.jei;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Conditional;

@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.compat.jei;
+package com.possible_triangle.brazier.forge.compat.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;

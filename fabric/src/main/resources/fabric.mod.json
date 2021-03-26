@@ -22,7 +22,8 @@
     ]
   },
   "mixins": [
-    "brazier.mixins.json"
+    "brazier-common.mixins.json",
+    "brazier-fabric.mixins.json"
   ],
   "depends": {
     "fabricloader": ">=0.7.4",
