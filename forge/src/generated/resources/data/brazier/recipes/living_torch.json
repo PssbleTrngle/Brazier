@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "brazier:living_torch"
+    },
+    {
+      "tag": "brazier:torches"
+    }
+  ],
+  "result": {
+    "item": "brazier:living_torch",
+    "count": 2
+  }
+}

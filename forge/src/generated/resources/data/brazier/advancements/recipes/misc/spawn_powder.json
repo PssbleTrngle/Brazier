@@ -1,0 +1,43 @@
+{
+  "parent": "minecraft:recipes/root",
+  "rewards": {
+    "recipes": [
+      "brazier:spawn_powder"
+    ]
+  },
+  "criteria": {
+    "collected_flame": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "brazier:living_flame"
+          }
+        ]
+      }
+    },
+    "collected_ash": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "tag": "brazier:ash"
+          }
+        ]
+      }
+    },
+    "has_the_recipe": {
+      "trigger": "minecraft:recipe_unlocked",
+      "conditions": {
+        "recipe": "brazier:spawn_powder"
+      }
+    }
+  },
+  "requirements": [
+    [
+      "collected_flame",
+      "collected_ash",
+      "has_the_recipe"
+    ]
+  ]
+}

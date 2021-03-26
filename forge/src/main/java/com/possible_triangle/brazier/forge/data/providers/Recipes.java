@@ -37,14 +37,6 @@ public class Recipes extends RecipeProvider {
                         .save(consumer)
         );
 
-        Content.LIVING_LANTERN.ifPresent(torch ->
-                ShapelessRecipeBuilder.shapeless(torch, 2)
-                        .requires(torch)
-                        .requires(Ingredient.of(Content.TORCHES))
-                        .unlockedBy("collected_torch", has(torch))
-                        .save(consumer)
-        );
-
         Content.LIVING_TORCH.ifPresent(torch -> {
             ShapelessRecipeBuilder.shapeless(torch, 2)
                     .requires(torch)
@@ -52,7 +44,7 @@ public class Recipes extends RecipeProvider {
                     .unlockedBy("collected_torch", has(torch))
                     .save(consumer);
 
-            Content.LIVING_TORCH.ifPresent(lantern ->
+            Content.LIVING_LANTERN.ifPresent(lantern ->
                     ShapedRecipeBuilder.shaped(lantern)
                             .pattern("xxx")
                             .pattern("xtx")

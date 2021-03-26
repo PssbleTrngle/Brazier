@@ -23,7 +23,18 @@ architectury {
 }
 
 loom {
-    mixinConfigs = ["brazier-forge.mixins.json", "brazier-common.mixins.json"]
+    def modid = getRootProject().name
+    mixinConfigs = ["$modid-forge.mixins.json".toString(), "$modid-common.mixins.json".toString()]
+
+    dataGen {
+        mod modid
+    }
+
+    launches {
+        data {
+            arg '--existing', file("../common/src/main/resources").absolutePath
+        }
+    }
 }
 
 dependencies {

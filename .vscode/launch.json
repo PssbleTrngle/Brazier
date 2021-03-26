@@ -56,6 +56,21 @@
         "MOD_CLASSES": "main_8086d4e%%C:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\build\\resources\\main;main_8086d4e%%C:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\build\\classes\\java\\main"
       },
       "projectName": ":forge"
+    },
+    {
+      "type": "java",
+      "name": "Minecraft Data (:forge)",
+      "request": "launch",
+      "cwd": "${workspaceFolder}/run",
+      "console": "internalConsole",
+      "stopOnEntry": false,
+      "mainClass": "me.shedaniel.architectury.transformer.TransformerRuntime",
+      "vmArgs": "-Dfabric.dli.config\u003dC:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\.gradle\\loom-cache\\launch.cfg -Dfabric.dli.env\u003ddata -Dfabric.dli.main\u003dnet.minecraftforge.userdev.LaunchTesting -Darchitectury.main.class\u003dC:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\.gradle\\architectury\\.main_class -Darchitectury.runtime.transformer\u003dC:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\.gradle\\architectury\\.transforms -Darchitectury.properties\u003dC:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\.gradle\\architectury\\.properties -Djdk.attach.allowAttachSelf\u003dtrue -javaagent:C:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\.gradle\\architectury\\architectury-transformer-agent.jar",
+      "args": "",
+      "env": {
+        "MOD_CLASSES": "main_619d9be%%C:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\build\\resources\\main;main_619d9be%%C:\\Users\\nik\\Desktop\\Repos\\Minecraft\\Brazier\\forge\\build\\classes\\java\\main"
+      },
+      "projectName": ":forge"
     }
   ]
 }
