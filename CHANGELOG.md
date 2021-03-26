@@ -121,4 +121,10 @@ Initial 1.16.3 release
 
 ## [3.0.2] - 2021-03-26
 ### Fixed
-- Mixin refmaps being generated
+- Mixin refmaps being generated.
+
+## [3.0.3] - 2021-03-26
+### Changed
+- Spawn Powder recipe now accepts warped warts from Nether Extension
+- Lantern recipe accepts iron_nugget tag from forge/fabric
+- Recipe advancements
