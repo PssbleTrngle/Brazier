@@ -17,7 +17,7 @@
       "item": "minecraft:charcoal"
     },
     {
-      "item": "brazier:warped_nether_wart"
+      "tag": "brazier:warped_wart"
     }
   ],
   "result": {

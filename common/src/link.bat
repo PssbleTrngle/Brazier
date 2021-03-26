@@ -1,8 +1,8 @@
-rmdir /s/q "./main/resources/data/brazier/recipes"
-rmdir /s/q "./main/resources/data/brazier/loot_tables"
-rmdir /s/q "./main/resources/data/brazier/advancements"
-rmdir /s/q "./main/resources/assets/brazier/models/item"
-rmdir /s/q "./main/resources/assets/brazier/blockstates"
+rmdir /s/q "../../forge/src/generated/resources/data/brazier/recipes"
+rmdir /s/q "../../forge/src/generated/resources/data/brazier/loot_tables"
+rmdir /s/q "../../forge/src/generated/resources/data/brazier/advancements"
+rmdir /s/q "../../forge/src/generated/resources/assets/brazier/models/item"
+rmdir /s/q "../../forge/src/generated/resources/assets/brazier/blockstates"
 
 mklink /J "../../forge/src/generated/resources/data/brazier/recipes" "./main/resources/data/brazier/recipes"
 mklink /J "../../forge/src/generated/resources/data/brazier/loot_tables" "./main/resources/data/brazier/loot_tables"

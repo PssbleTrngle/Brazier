@@ -60,7 +60,7 @@ public class Recipes extends RecipeProvider {
                 ShapelessRecipeBuilder.shapeless(powder, 6)
                         .requires(Ingredient.of(Content.ASH_TAG), 4)
                         .requires(Items.CHARCOAL, 1)
-                        .requires(Content.WARPED_NETHERWART.orElse(Items.NETHER_WART))
+                        .requires(Content.WARPED_WART_TAG)
                         .unlockedBy("collected_flame", has(flame))
                         .unlockedBy("collected_ash", has(Content.ASH_TAG))
                         .save(consumer)
