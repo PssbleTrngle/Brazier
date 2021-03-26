@@ -49,5 +49,5 @@ jobs:
           changelog_type: markdown
           display_name: Version ${{ steps.release.outputs.tag_name }}
           game_versions: 8203,8134,8056,7498
-          release_type: release
+          release_type: beta
           relations: architectury-forge:requiredDependency,cloth-config-forge:requiredDependency,jei:optionalDependency
