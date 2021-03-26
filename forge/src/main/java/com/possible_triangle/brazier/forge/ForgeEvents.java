@@ -1,7 +1,9 @@
 package com.possible_triangle.brazier.forge;
 
+import com.possible_triangle.brazier.Conditional;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import net.minecraftforge.event.LootTableLoadEvent;
+import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
 import net.minecraftforge.eventbus.api.Event;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +21,12 @@ public class ForgeEvents {
 
     @SubscribeEvent
     public static void onLootLoaded(LootTableLoadEvent event) {
-        //Conditional.injectLoot(event.getName(), p -> event.getTable().addPool(p.build()));
+        Conditional.injectLoot(event.getName(), p -> event.getTable().addPool(p.build()));
+    }
+
+    @SubscribeEvent
+    public static void onTagLoaded(TagsUpdatedEvent event) {
+        Conditional.removeTags(event.getTagManager());
     }
 
 }

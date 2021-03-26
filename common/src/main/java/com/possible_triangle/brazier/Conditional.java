@@ -4,6 +4,7 @@ import com.mojang.datafixers.util.Pair;
 import com.possible_triangle.brazier.config.ServerConfig;
 import me.shedaniel.architectury.registry.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.tags.TagContainer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
@@ -21,6 +22,7 @@ public class Conditional {
 
     private static final List<Conditional> CONDITIONALS = new ArrayList<>();
 
+    @SafeVarargs
     public static Conditional when(Predicate<ServerConfig> condition, RegistrySupplier<? extends ItemLike>... items) {
         Conditional conditional = new Conditional(condition);
         CONDITIONALS.add(conditional);
@@ -50,6 +52,16 @@ public class Conditional {
                 .forEach(table);
     }
 
+    public static void removeTags(TagContainer tags) {
+        /* TODO remove tags from disabled items
+        TagCollection<Item> itemTags = tags.getItems();
+        disabled().map(ItemLike::asItem).forEach(item -> {
+            tags.getItems().getMatchingTags(item).stream()
+                    .map(itemTags::getTag);
+        });
+        */
+    }
+
     public final Predicate<ServerConfig> condition;
     public final List<RegistrySupplier<? extends ItemLike>> items = new ArrayList<>();
     public final List<Pair<ResourceLocation, ResourceLocation>> loot = new ArrayList<>();
@@ -58,17 +70,18 @@ public class Conditional {
         this.condition = condition;
     }
 
-    Conditional add(RegistrySupplier<? extends ItemLike>... item) {
+    @SafeVarargs
+    final Conditional add(RegistrySupplier<? extends ItemLike>... item) {
         items.addAll(Arrays.asList(item));
         return this;
     }
 
-    Conditional loot(ResourceLocation target, ResourceLocation inject) {
+    final Conditional loot(ResourceLocation target, ResourceLocation inject) {
         loot.add(new Pair<>(target, inject));
         return this;
     }
 
-    Conditional loot(ResourceLocation target, String inject) {
+    final Conditional loot(ResourceLocation target, String inject) {
         return loot(target, new ResourceLocation(Brazier.MOD_ID, "inject/" + inject));
     }
 

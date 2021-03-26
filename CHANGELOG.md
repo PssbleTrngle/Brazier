@@ -117,4 +117,8 @@ Initial 1.16.3 release
 
 ## [3.0.1] - 2021-03-25
 ### Fixed
-- Correct java build target version
+- Correct java build target version.
+
+## [3.0.2] - 2021-03-26
+### Fixed
+- Mixin refmaps being generated

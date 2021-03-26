@@ -127,6 +127,7 @@ public class Content {
         Conditional.when(config -> config.JUNGLE_LOOT).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
 
         Conditional.when($ -> !Platform.isModLoaded("nether_extension"))
+                .add(Content.ASH, Content.WARPED_NETHERWART)
                 .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
                 .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");
     }
