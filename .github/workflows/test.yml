@@ -15,10 +15,13 @@ jobs:
     strategy:
       matrix:
         loader: [ 'fabric', 'forge' ]
-        dist: [ 'server', 'client' ]
+        dist: [ 'server' ]
     steps:
       - name: Checkout
         uses: actions/checkout@v2
+
+      - if: ${{ matrix.dist == 'server' }}
+        run: echo "eula=true" > run/eula.txt
 
       - name: Test ${{ matrix.loader }} ${{ matrix.dist }}
         run: chmod +x ./gradlew && ./gradlew ${{ matrix.loader }}:run${{ matrix.dist }}
