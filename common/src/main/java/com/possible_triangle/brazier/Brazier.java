@@ -31,9 +31,6 @@ public class Brazier {
         LOCAL_SERVER_CONFIG = AutoConfig.register(ServerConfig.class, Toml4jConfigSerializer::new);
         CLIENT_CONFIG = AutoConfig.register(ClientConfig.class, Toml4jConfigSerializer::new);
 
-        TextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
-        TextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
-
         Content.init();
         BrazierNetwork.init();
 
@@ -52,6 +49,9 @@ public class Brazier {
     }
 
     public static void clientSetup() {
+        TextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
+        TextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
+
         Content.clientSetup();
     }
 

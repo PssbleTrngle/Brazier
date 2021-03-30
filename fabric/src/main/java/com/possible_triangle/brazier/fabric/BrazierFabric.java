@@ -27,8 +27,8 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        ParticleRegistryImpl.register();
         Brazier.clientSetup();
+        ParticleRegistryImpl.register();
         CustomEntityNetworking.register();
 
         Content.CRAZED_SPAWN_EGG.ifPresent(egg ->

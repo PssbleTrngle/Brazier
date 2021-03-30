@@ -127,4 +127,8 @@ Initial 1.16.3 release
 ### Changed
 - Spawn Powder recipe now accepts warped warts from Nether Extension
 - Lantern recipe accepts iron_nugget tag from forge/fabric
-- Recipe advancements
+- Recipe advancements.
+
+## [3.0.4] - 2021-03-30
+### Fixed
+- Server not starting due to particle client code loading

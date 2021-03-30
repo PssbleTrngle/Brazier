@@ -1,17 +1,15 @@
 package com.possible_triangle.brazier.entity.fabric;
 
-import com.possible_triangle.brazier.entity.EntityData;
 import com.possible_triangle.brazier.entity.EntityUtil;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricDefaultAttributeRegistry;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
-import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundAddEntityPacket;
 import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
+import net.minecraft.world.level.Level;
 
-import java.util.function.BiFunction;
 import java.util.function.Function;
 
 public class EntityUtilImpl {
@@ -33,7 +31,7 @@ public class EntityUtilImpl {
         FabricEntityTypeBuilder<E> builder = FabricEntityTypeBuilder.create(category, factory);
 
         return new EntityUtil.Builder<E>() {
-            private Function<ClientLevel, E> creator;
+            private Function<Level, E> creator;
 
             @Override
             public EntityUtil.Builder<E> size(float height, float width) {
@@ -48,7 +46,7 @@ public class EntityUtilImpl {
             }
 
             @Override
-            public EntityUtil.Builder<E> clientHandler(Function<ClientLevel, E> creator) {
+            public EntityUtil.Builder<E> clientHandler(Function<Level, E> creator) {
                 this.creator = creator;
                 return this;
             }

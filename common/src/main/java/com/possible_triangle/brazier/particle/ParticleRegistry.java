@@ -1,15 +1,23 @@
 package com.possible_triangle.brazier.particle;
 
-import me.shedaniel.architectury.annotations.ExpectPlatform;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.fabricmc.api.EnvType;
+import net.fabricmc.api.Environment;
+import net.minecraft.core.particles.ParticleType;
 
-import java.util.function.Supplier;
+import java.util.HashMap;
+import java.util.function.BiConsumer;
 
 public class ParticleRegistry {
 
-    @ExpectPlatform
-    public static Supplier<SimpleParticleType> register(String name, ParticleFactory factory) {
-        throw new AssertionError();
+    private static final HashMap<ParticleType<?>, ParticleFactory> PARTICLES = new HashMap<>();
+
+    public static void register(BiConsumer<ParticleType<?>,ParticleFactory> consumer) {
+        PARTICLES.forEach(consumer);
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void registerFactory(ParticleType<?> type, ParticleFactory factory) {
+        PARTICLES.put(type, factory);
     }
 
 }

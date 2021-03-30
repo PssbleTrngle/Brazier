@@ -4,7 +4,6 @@ import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.entity.forge.EntityUtilImpl;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
-import com.possible_triangle.brazier.particle.forge.ParticleRegistryImpl;
 import me.shedaniel.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
@@ -24,8 +23,6 @@ public class BrazierForge {
     public BrazierForge() {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EventBuses.registerModEventBus(Brazier.MOD_ID, bus);
-
-        ParticleRegistryImpl.PARTICLES_TYPES.register(bus);
 
         Brazier.init();
     }

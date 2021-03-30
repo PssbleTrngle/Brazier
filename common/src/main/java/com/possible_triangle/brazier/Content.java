@@ -14,6 +14,7 @@ import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
+import com.possible_triangle.brazier.particle.ModdedParticleType;
 import com.possible_triangle.brazier.particle.ParticleRegistry;
 import me.shedaniel.architectury.hooks.TagHooks;
 import me.shedaniel.architectury.platform.Platform;
@@ -66,7 +67,7 @@ public class Content {
     public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
     public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_REGISTRY);
 
-    public static final Supplier<SimpleParticleType> FLAME_PARTICLE = ParticleRegistry.register("flame", FlameParticle::new);
+    public static final RegistrySupplier<SimpleParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new ModdedParticleType(false));
 
     public static final RegistrySupplier<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.tab(CreativeModeTab.TAB_MISC));
     public static final RegistrySupplier<BlockEntityType<BrazierTile>> BRAZIER_TILE = TILES.register("brazier", () ->
@@ -130,6 +131,11 @@ public class Content {
                 .add(Content.ASH, Content.WARPED_NETHERWART)
                 .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
                 .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");
+    }
+
+    @Environment(EnvType.CLIENT)
+    public static void registerParticles() {
+        FLAME_PARTICLE.ifPresent(type -> ParticleRegistry.registerFactory(type, FlameParticle::new));
     }
 
     @Environment(EnvType.CLIENT)

@@ -11,20 +11,21 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.level.Level;
 
 import java.util.HashMap;
 import java.util.function.Function;
 
 public class CustomEntityNetworking {
 
-    private static final HashMap<String, Function<ClientLevel, ? extends Entity>> HANDLERS = new HashMap<>();
+    private static final HashMap<String, Function<Level, ? extends Entity>> HANDLERS = new HashMap<>();
 
     public static void register() {
         HANDLERS.forEach((name, creator) ->
                 ClientSidePacketRegistryImpl.INSTANCE.register(new ResourceLocation(Brazier.MOD_ID, name), (ctx, buffer) -> {
                     EntityData data = new EntityData(buffer);
                     ctx.getTaskQueue().execute(() -> {
-                        Entity entity = creator.apply((ClientLevel) ctx.getPlayer().level);
+                        Entity entity = creator.apply(ctx.getPlayer().level);
                         entity.setPosAndOldPos(data.x, data.y, data.z);
                         entity.setId(data.id);
                         entity.setUUID(data.uuid);
@@ -34,7 +35,7 @@ public class CustomEntityNetworking {
         );
     }
 
-    public static void registerHandler(String name, Function<ClientLevel, ? extends Entity> creator) {
+    public static void registerHandler(String name, Function<Level, ? extends Entity> creator) {
         HANDLERS.put(name, creator);
     }
 
