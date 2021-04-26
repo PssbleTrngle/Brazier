@@ -24,5 +24,7 @@ jobs:
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt
 
-      - name: Test ${{ matrix.loader }} ${{ matrix.dist }}
+      - name: Run ${{ matrix.loader }} ${{ matrix.dist }}
         run: chmod +x ./gradlew && ./gradlew ${{ matrix.loader }}:run${{ matrix.dist }}
+        env:
+          MC_TESTING: true

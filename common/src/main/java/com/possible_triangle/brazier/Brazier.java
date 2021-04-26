@@ -6,6 +6,7 @@ import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.network.BrazierNetwork;
 import com.possible_triangle.brazier.network.SyncConfigMessage;
+import me.shedaniel.architectury.event.events.LifecycleEvent;
 import me.shedaniel.architectury.event.events.PlayerEvent;
 import me.shedaniel.architectury.event.events.TextureStitchEvent;
 import me.shedaniel.architectury.event.events.TickEvent;
@@ -42,6 +43,10 @@ public class Brazier {
         PlayerEvent.PLAYER_JOIN.register(player ->
                 BrazierNetwork.CHANNEL.sendToPlayer(player, new SyncConfigMessage(Brazier.SERVER_CONFIG.get()))
         );
+
+        if (Boolean.parseBoolean(System.getenv("MC_TESTING"))) {
+            LifecycleEvent.SERVER_STARTED.register(server -> server.halt(false));
+        }
     }
 
     public static void setSyncedConfig(ServerConfig config) {
