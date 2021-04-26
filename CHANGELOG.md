@@ -131,4 +131,8 @@ Initial 1.16.3 release
 
 ## [3.0.4] - 2021-03-30
 ### Fixed
-- Server not starting due to particle client code loading
+- Server not starting due to particle client code loading.
+
+## [3.0.5] - 2021-04-26
+### Fixed
+- Updated architectury api to fix texture stitch bug

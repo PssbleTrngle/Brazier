@@ -12,6 +12,8 @@ import me.shedaniel.architectury.event.events.TickEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.Optional;
 import java.util.function.Supplier;
@@ -23,6 +25,8 @@ public class Brazier {
     private static ConfigHolder<ServerConfig> LOCAL_SERVER_CONFIG;
     private static ServerConfig SYNCED_SERVER_CONFIG;
     public static ConfigHolder<ClientConfig> CLIENT_CONFIG;
+
+    public static final Logger LOGGER = LogManager.getLogger();
 
     public static Supplier<ServerConfig> SERVER_CONFIG = () -> Optional.ofNullable(SYNCED_SERVER_CONFIG).orElseGet(LOCAL_SERVER_CONFIG);
 
