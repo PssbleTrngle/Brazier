@@ -14,7 +14,6 @@ import java.util.function.Function;
 
 public class EntityUtilImpl {
 
-
     public static Packet<?> createSpawnPacket(Entity entity, String name) {
 
         CustomEntityNetworking.notifyClients(entity, name);

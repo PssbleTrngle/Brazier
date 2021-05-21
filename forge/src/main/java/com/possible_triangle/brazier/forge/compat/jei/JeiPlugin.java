@@ -12,9 +12,12 @@ import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.crafting.Ingredient;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -37,10 +40,10 @@ public class JeiPlugin implements IModPlugin {
                 .map(ItemStack::new)
                 .forEach(item -> registration.addIngredientInfo(item, items, "description.brazier.brazier-1", "description.brazier.brazier-2"));
 
-       // Content.LIVING_TORCH.toOptional()
-       //         .map(item -> new LightOnBrazier.Recipe(Ingredient.of(Content.TORCHES), item))
-       //         .map(Collections::singleton)
-       //         .ifPresent(recipes -> registration.addRecipes(recipes, LightOnBrazier.UID));
+        Content.LIVING_TORCH.toOptional()
+                .map(item -> new LightOnBrazier.Recipe(Ingredient.of(Content.TORCHES), item))
+                .map(Collections::singleton)
+                .ifPresent(recipes -> registration.addRecipes(recipes, LightOnBrazier.UID));
 
     }
 
@@ -49,16 +52,24 @@ public class JeiPlugin implements IModPlugin {
         IIngredientManager ingredientManager = jei.getIngredientManager();
         IIngredientType<ItemStack> items = ingredientManager.getIngredientType(ItemStack.class);
 
-        List<ItemStack> hidden = Conditional.disabled()
-                .map(ItemStack::new)
-                .collect(Collectors.toList());
+        List<ItemStack> hidden = Stream.of(
 
-        ingredientManager.removeIngredientsAtRuntime(items, hidden);
+                Conditional.disabled()
+                        .map(ItemStack::new),
+
+                Stream.of(Content.ICON)
+                        .filter(RegistrySupplier::isPresent)
+                        .map(RegistrySupplier::get)
+                        .map(ItemStack::new)
+
+        ).flatMap(Function.identity()).collect(Collectors.toList());
+
+        if (!hidden.isEmpty()) ingredientManager.removeIngredientsAtRuntime(items, hidden);
 
     }
 
     @Override
     public void registerCategories(IRecipeCategoryRegistration registration) {
-        //registration.addRecipeCategories(new LightOnBrazier(registration.getJeiHelpers().getGuiHelper()));
+        registration.addRecipeCategories(new LightOnBrazier(registration.getJeiHelpers().getGuiHelper()));
     }
 }

@@ -11,6 +11,7 @@ import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.EntityUtil;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.entity.render.CrazedRender;
+import com.possible_triangle.brazier.item.HiddenItem;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
@@ -87,7 +88,10 @@ public class Content {
     public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.tab(CreativeModeTab.TAB_MATERIALS));
 
     public static final RegistrySupplier<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed",
-            () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new).fireImmune().build("crazed")
+            () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new)
+                    .size(2F, 0.5F)
+                    .fireImmune()
+                    .build("crazed")
     );
 
     public static final RegistrySupplier<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(
@@ -101,8 +105,10 @@ public class Content {
                     .size(0.6F, 0.6F)
                     .fireImmune()
                     .clientHandler(CrazedFlame::new)
-            .build("crazed_flame")
+                    .build("crazed_flame")
     );
+
+    public static final RegistrySupplier<HiddenItem> ICON = ITEMS.register("icon", HiddenItem::new);
 
     public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, Function<Item.Properties, Item.Properties> props) {
         RegistrySupplier<T> block = BLOCKS.register(name, supplier);

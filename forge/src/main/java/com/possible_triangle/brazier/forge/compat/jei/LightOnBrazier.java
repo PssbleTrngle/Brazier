@@ -1,8 +1,6 @@
 package com.possible_triangle.brazier.forge.compat.jei;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.mojang.blaze3d.vertex.VertexConsumer;
-import com.mojang.math.Vector3f;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import mezz.jei.api.constants.VanillaTypes;
@@ -11,26 +9,27 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.block.BlockRenderDispatcher;
-import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.language.I18n;
-import net.minecraft.client.resources.model.BakedModel;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
-import net.minecraft.world.level.block.Block;
-import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.state.BlockState;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
 
     public static final ResourceLocation UID = new ResourceLocation(Brazier.MOD_ID, "light_on_brazier");
+    private static List<ItemStack> BRAZIER_LIST = null;
+
+    public static List<ItemStack> getBrazier() {
+        if (BRAZIER_LIST == null) BRAZIER_LIST = Collections.singletonList(new ItemStack(Content.BRAZIER.get()));
+        return BRAZIER_LIST;
+    }
 
     private static final int HEIGHT = 32;
     private static final int WIDTH = 96;
@@ -41,14 +40,8 @@ public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
 
     public LightOnBrazier(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(WIDTH, HEIGHT);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(getBrazierBlock()));
+        this.icon = guiHelper.createDrawableIngredient(new ItemStack(Content.ICON.get()));
         this.display = I18n.get("category." + UID.getNamespace() + "." + UID.getPath());
-    }
-
-    private Block getBrazierBlock() {
-        return Content.BRAZIER.toOptional()
-                .map(b -> (Block) b)
-                .orElse(Blocks.SOUL_CAMPFIRE);
     }
 
     @Override
@@ -79,21 +72,27 @@ public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
     @Override
     public void setIngredients(Recipe recipe, IIngredients ingredients) {
         List<ItemStack> items = Arrays.asList(recipe.input.getItems());
-        ingredients.setInputs(VanillaTypes.ITEM, items);
+        ingredients.setInputLists(VanillaTypes.ITEM, Stream.of(items, getBrazier()).collect(Collectors.toList()));
         ingredients.setOutput(VanillaTypes.ITEM, new ItemStack(recipe.output));
     }
 
     @Override
     public void setRecipe(IRecipeLayout layout, Recipe recipe, IIngredients ingredients) {
-        layout.getItemStacks().init(0, true, 10, HEIGHT / 2 - 9);
-        layout.getItemStacks().set(0, ingredients.getInputs(VanillaTypes.ITEM).get(0));
+        List<List<ItemStack>> inputs = ingredients.getInputs(VanillaTypes.ITEM);
 
-        layout.getItemStacks().init(1, false, WIDTH - 25, HEIGHT / 2 -9);
-        layout.getItemStacks().set(1, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
+        layout.getItemStacks().init(0, true, WIDTH / 2 - 9, HEIGHT / 2 - 9);
+        layout.getItemStacks().set(0, new ItemStack(Content.ICON.get()));
+
+        layout.getItemStacks().init(1, true, 10, HEIGHT / 2 - 9);
+        layout.getItemStacks().set(1, inputs.get(0));
+
+        layout.getItemStacks().init(2, false, WIDTH - 25, HEIGHT / 2 - 9);
+        layout.getItemStacks().set(2, ingredients.getOutputs(VanillaTypes.ITEM).get(0));
     }
 
     @Override
     public void draw(Recipe recipe, PoseStack matrizes, double mouseX, double mouseY) {
+        /*
         matrizes.pushPose();
         matrizes.translate(WIDTH / 2F - 9, HEIGHT / 2F - 11, 0);
 
@@ -111,6 +110,7 @@ public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
         renderer.getModelRenderer().renderModel(matrizes.last(), buffer, state, model, 1F, 1F, 1F, 15, 15);
 
         matrizes.popPose();
+        */
     }
 
     public static class Recipe {

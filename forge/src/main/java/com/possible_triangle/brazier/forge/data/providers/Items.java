@@ -37,11 +37,15 @@ public class Items extends ItemModelProvider {
                 .map(ResourceLocation::getPath)
                 .ifPresent(i -> singleTexture(i, mcLoc("item/generated"), "layer0", modLoc("block/" + i)));
 
-
         Content.CRAZED_SPAWN_EGG.toOptional()
                 .map(ForgeRegistryEntry::getRegistryName)
                 .map(ResourceLocation::getPath)
                 .ifPresent(i -> withExistingParent(i, mcLoc("item/template_spawn_egg")));
+
+        Content.ICON.toOptional()
+                .map(ForgeRegistryEntry::getRegistryName)
+                .map(ResourceLocation::getPath)
+                .ifPresent(i -> withExistingParent(i, modLoc("block/brazier_lit")));
 
     }
 }

@@ -45,7 +45,8 @@ public class Brazier {
         );
 
         if (Boolean.parseBoolean(System.getenv("MC_TESTING"))) {
-            LifecycleEvent.SERVER_STARTED.register(server -> server.halt(false));
+            LOGGER.info("Detected testing environment, stopping server");
+            LifecycleEvent.SERVER_STARTED.register(server -> server.halt(true));
         }
     }
 
