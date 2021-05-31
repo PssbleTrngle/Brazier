@@ -130,24 +130,22 @@ Initial 1.16.3 release
 - Recipe advancements.
 
 ## [3.0.4] - 2021-03-30
-
 ### Fixed
-
 - Server not starting due to particle client code loading.
 
 ## [3.0.5] - 2021-04-26
-
 ### Fixed
-
 - Updated architectury api to fix texture stitch bug.
 
 ## [3.0.6] - 2021-05-21
-
 ### Fixed
-
 - Fabric crazed floating (#72)
 - JEI Warning when trying to hide an empty list of items
-
 ### Added
-
 - LitOnBrazier JEI Category
+
+## [3.0.7] -  2021-05-31
+### Fixed
+- Missing texture bug #69
+### Changed
+- Cursed ash sound
