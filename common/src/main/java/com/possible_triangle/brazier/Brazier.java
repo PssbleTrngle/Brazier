@@ -31,6 +31,10 @@ public class Brazier {
 
     public static Supplier<ServerConfig> SERVER_CONFIG = () -> Optional.ofNullable(SYNCED_SERVER_CONFIG).orElseGet(LOCAL_SERVER_CONFIG);
 
+    public static void setSyncedConfig(ServerConfig config) {
+        SYNCED_SERVER_CONFIG = config;
+    }
+
     public static void init() {
 
         LOCAL_SERVER_CONFIG = AutoConfig.register(ServerConfig.class, Toml4jConfigSerializer::new);
@@ -45,13 +49,17 @@ public class Brazier {
         );
 
         if (Boolean.parseBoolean(System.getenv("MC_TESTING"))) {
-            LOGGER.info("Detected testing environment, stopping server");
-            LifecycleEvent.SERVER_STARTED.register(server -> server.halt(true));
+            LifecycleEvent.SERVER_STARTED.register(server -> {
+                LOGGER.info("Detected testing environment, stopping server");
+                server.halt(true);
+            });
         }
+
     }
 
-    public static void setSyncedConfig(ServerConfig config) {
-        SYNCED_SERVER_CONFIG = config;
+    public static void clientInit() {
+        TextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
+        TextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
     }
 
     public static void setup() {
@@ -59,9 +67,6 @@ public class Brazier {
     }
 
     public static void clientSetup() {
-        TextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
-        TextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
-
         Content.clientSetup();
     }
 
