@@ -48,10 +48,12 @@ public class Brazier {
                 BrazierNetwork.CHANNEL.sendToPlayer(player, new SyncConfigMessage(Brazier.SERVER_CONFIG.get()))
         );
 
-        if (Boolean.parseBoolean(System.getenv("MC_TESTING"))) {
+        if (Boolean.parseBoolean(System.getenv("MC_TESTING")) || true) {
             LifecycleEvent.SERVER_STARTED.register(server -> {
                 LOGGER.info("Detected testing environment, stopping server");
-                server.halt(true);
+                server.getWorldData().overworldData().getScheduledEvents().schedule("shutdown", 100L, (object, timerQueue, l) -> {
+                    Runtime.getRuntime().halt(0);
+                });
             });
         }
 
