@@ -149,3 +149,7 @@ Initial 1.16.3 release
 - Missing texture bug #69
 ### Changed
 - Cursed ash sound
+
+## [3.0.8] - 2021-06-01
+### Fixed
+- Removed dev-code crashing servers
