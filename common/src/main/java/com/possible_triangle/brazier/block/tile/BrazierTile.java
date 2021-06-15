@@ -40,7 +40,7 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
     public static boolean inRange(BlockPos pos) {
         synchronized (BRAZIERS) {
             return BRAZIERS.entrySet().stream().anyMatch(e -> {
-                if(!Brazier.SERVER_CONFIG.get().PROTECT_ABOVE && e.getKey().getY() < pos.getY()) return false;
+                if (!Brazier.SERVER_CONFIG.get().PROTECT_ABOVE && e.getKey().getY() < pos.getY()) return false;
                 double dist = DistanceHandler.getDistance(pos, e.getKey());
                 int maxDist = e.getValue() * e.getValue();
                 return dist <= maxDist;
@@ -78,11 +78,12 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
             int height = findHeight();
             if (height != this.height) {
 
+                if (height > 0 && this.height == 0) playSound(SoundEvents.FIRECHARGE_USE);
+                else if (height == 0) playSound(SoundEvents.FIRE_EXTINGUISH);
+
                 setHeight(height);
                 BlockState s = level.getBlockState(getBlockPos());
                 level.setBlockAndUpdate(getBlockPos(), s.setValue(BrazierBlock.LIT, height > 0));
-                if (height > 0) playSound(SoundEvents.FIRECHARGE_USE);
-                else playSound(SoundEvents.FIRE_EXTINGUISH);
             }
         }
     }
@@ -104,7 +105,7 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         }
         return max;
     }
-    
+
 
     @Override
     public void load(BlockState state, CompoundTag nbt) {

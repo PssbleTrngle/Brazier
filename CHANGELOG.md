@@ -153,3 +153,8 @@ Initial 1.16.3 release
 ## [3.0.8] - 2021-06-01
 ### Fixed
 - Removed dev-code crashing servers
+
+## [3.0.9] - 2021-06-15
+### Fixed
+- Strays ignoring braziers due to some other mod-
+- Brazier activated sound played when only changing the height

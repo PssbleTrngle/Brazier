@@ -81,10 +81,7 @@ public class BrazierBlock extends BaseEntityBlock {
             }
         }
 
-        if (prevents(reason) && prevents(entity) && BrazierTile.inRange(pos))
-            return true;
-
-        return false;
+        return prevents(reason) && prevents(entity) && BrazierTile.inRange(pos);
     }
 
     @Override
