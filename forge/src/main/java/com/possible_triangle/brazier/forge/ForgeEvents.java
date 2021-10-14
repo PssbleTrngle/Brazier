@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.forge;
 
 import com.possible_triangle.brazier.Conditional;
-import com.possible_triangle.brazier.block.BrazierBlock;
+import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraftforge.event.LootTableLoadEvent;
 import net.minecraftforge.event.TagsUpdatedEvent;
 import net.minecraftforge.event.entity.living.LivingSpawnEvent;
@@ -15,7 +15,7 @@ public class ForgeEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onMobSpawn(LivingSpawnEvent.CheckSpawn event) {
-        if (BrazierBlock.prevents(event.getEntity(), event.getWorld(), event.getSpawnReason())) {
+        if (BrazierLogic.prevents(event.getEntity(), event.getWorld(), event.getSpawnReason())) {
             event.setResult(Event.Result.DENY);
         }
     }

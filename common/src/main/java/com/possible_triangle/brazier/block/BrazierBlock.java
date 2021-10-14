@@ -52,39 +52,6 @@ public class BrazierBlock extends BaseEntityBlock {
         builder.add(LIT);
     }
 
-    private static boolean prevents(Entity entity) {
-        EntityType<?> type = entity.getType();
-        return (
-                entity instanceof Monster
-                        && !type.is(Content.BRAZIER_WHITELIST)
-        ) || type.is(Content.BRAZIER_BLACKLIST);
-    }
-
-    private static boolean prevents(MobSpawnType reason) {
-        switch (reason) {
-            case CHUNK_GENERATION:
-            case NATURAL:
-            case PATROL:
-                return true;
-            default:
-                return false;
-        }
-    }
-
-    public static boolean prevents(Entity entity, LevelAccessor world, MobSpawnType reason) {
-        BlockPos pos = entity.blockPosition();
-
-        // Check for spawn powder
-        if (Brazier.SERVER_CONFIG.get().SPAWN_POWDER) {
-            Block block = world.getBlockState(pos).getBlock();
-            if (Content.SPAWN_POWDER.toOptional().filter(block::equals).isPresent()) {
-                return false;
-            }
-        }
-
-        return prevents(reason) && prevents(entity) && BrazierLogic.inRange(pos, entity.level.dimension());
-    }
-
     @Override
     public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
         return SHAPE;

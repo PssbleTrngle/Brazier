@@ -2,10 +2,17 @@ package com.possible_triangle.brazier.logic;
 
 import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Brazier;
+import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.DistanceHandler;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntityType;
+import net.minecraft.world.entity.MobSpawnType;
+import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.level.LevelAccessor;
+import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
@@ -49,6 +56,39 @@ public class BrazierLogic {
         synchronized (BRAZIERS) {
             if(BRAZIERS.containsKey(dimension)) BRAZIERS.get(dimension).remove(pos);
         }
+    }
+
+    private static boolean prevents(Entity entity) {
+        EntityType<?> type = entity.getType();
+        return (
+                entity instanceof Monster
+                        && !type.is(Content.BRAZIER_WHITELIST)
+        ) || type.is(Content.BRAZIER_BLACKLIST);
+    }
+
+    private static boolean prevents(MobSpawnType reason) {
+        switch (reason) {
+            case CHUNK_GENERATION:
+            case NATURAL:
+            case PATROL:
+                return true;
+            default:
+                return false;
+        }
+    }
+
+    public static boolean prevents(Entity entity, LevelAccessor world, MobSpawnType reason) {
+        BlockPos pos = entity.blockPosition();
+
+        // Check for spawn powder
+        if (Brazier.SERVER_CONFIG.get().SPAWN_POWDER) {
+            Block block = world.getBlockState(pos).getBlock();
+            if (Content.SPAWN_POWDER.toOptional().filter(block::equals).isPresent()) {
+                return false;
+            }
+        }
+
+        return prevents(reason) && prevents(entity) && BrazierLogic.inRange(pos, entity.level.dimension());
     }
 
 }
