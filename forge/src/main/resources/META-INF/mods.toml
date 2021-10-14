@@ -29,3 +29,9 @@ displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
     versionRange = "[1.1.55,)"
     ordering = "AFTER"
     side = "BOTH"
+[[dependencies.brazier]]
+    modId = "cloth-config"
+    mandatory = true
+    versionRange = "[4.10.13,)"
+    ordering = "NONE"
+    side = "BOTH"
