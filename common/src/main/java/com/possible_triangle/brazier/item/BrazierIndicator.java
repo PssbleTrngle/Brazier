@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.item;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -29,7 +29,7 @@ public interface BrazierIndicator {
                         float rad = (float) ((deg + i + player.tickCount) / 180F * Math.PI);
                         double x = player.position().x + Math.sin(rad) * r;
                         double z = player.position().z + Math.cos(rad) * r;
-                        if (BrazierTile.isBorder(new Vec3(x, y, z))) {
+                        if (BrazierLogic.isBorder(new Vec3(x, y, z), player.level.dimension())) {
                             world.sendParticles(Content.FLAME_PARTICLE.get(), x, y, z, 1, 0, 0.2, 0, 0.01);
                         }
                     }

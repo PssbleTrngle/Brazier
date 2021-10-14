@@ -1,10 +1,9 @@
 package com.possible_triangle.brazier.block.tile;
 
-import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Brazier;
+import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.config.DistanceHandler;
 import com.possible_triangle.brazier.config.ServerConfig;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -14,47 +13,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.block.entity.TickableBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraft.world.phys.Vec3;
-
-import java.util.HashMap;
 
 public class BrazierTile extends BaseTile implements TickableBlockEntity {
 
-    private static final HashMap<BlockPos, Integer> BRAZIERS = Maps.newHashMap();
-    private static final float TOLERANCE = 0.03F;
-
     private int ticksExisted = 0;
     private int height = 0;
-
-    public static boolean isBorder(Vec3 pos) {
-        synchronized (BRAZIERS) {
-            return BRAZIERS.entrySet().stream().anyMatch(e -> {
-                double dist = DistanceHandler.getDistance(pos, e.getKey());
-                double minDist = Math.pow(e.getValue() - TOLERANCE, 2);
-                double maxDist = Math.pow(e.getValue() + TOLERANCE, 2);
-                return dist <= maxDist && dist >= minDist;
-            });
-        }
-    }
-
-    public static boolean inRange(BlockPos pos) {
-        synchronized (BRAZIERS) {
-            return BRAZIERS.entrySet().stream().anyMatch(e -> {
-                if (!Brazier.SERVER_CONFIG.get().PROTECT_ABOVE && e.getKey().getY() < pos.getY()) return false;
-                double dist = DistanceHandler.getDistance(pos, e.getKey());
-                int maxDist = e.getValue() * e.getValue();
-                return dist <= maxDist;
-            });
-        }
-    }
 
     private void setHeight(int height) {
         if (this.height != height) {
             this.height = height;
             setChanged();
-            if (this.getBlockPos() != null) synchronized (BRAZIERS) {
-                BRAZIERS.put(this.getBlockPos(), getRange());
-            }
+            if (this.getBlockPos() != null && this.level != null)
+                BrazierLogic.addBrazier(getBlockPos(), level.dimension(), getRange());
         }
     }
 
@@ -136,17 +106,15 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
 
     @Override
     public void onLoad() {
-        if (this.height > 0) synchronized (BRAZIERS) {
-            BRAZIERS.put(this.getBlockPos(), getRange());
-        }
+        if (this.height > 0) BrazierLogic.addBrazier(getBlockPos(), level.dimension(), getRange());
     }
 
     @Override
     public void setRemoved() {
         super.setRemoved();
-        synchronized (BRAZIERS) {
-            BRAZIERS.remove(getBlockPos());
-        }
+        if (level != null) BrazierLogic.removeBrazier(getBlockPos(), level.dimension());
     }
+
+
 
 }

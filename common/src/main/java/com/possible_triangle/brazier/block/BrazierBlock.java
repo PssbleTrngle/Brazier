@@ -3,6 +3,7 @@ package com.possible_triangle.brazier.block;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -81,7 +82,7 @@ public class BrazierBlock extends BaseEntityBlock {
             }
         }
 
-        return prevents(reason) && prevents(entity) && BrazierTile.inRange(pos);
+        return prevents(reason) && prevents(entity) && BrazierLogic.inRange(pos, entity.level.dimension());
     }
 
     @Override
