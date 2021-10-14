@@ -158,3 +158,7 @@ Initial 1.16.3 release
 ### Fixed
 - Strays ignoring braziers due to some other mod-
 - Brazier activated sound played when only changing the height
+
+## [3.0.10] - 2021-10-14
+### Fixed
+- Braziers no longer work trans-dimensional
