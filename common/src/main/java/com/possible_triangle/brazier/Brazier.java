@@ -6,10 +6,10 @@ import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.network.BrazierNetwork;
 import com.possible_triangle.brazier.network.SyncConfigMessage;
-import me.shedaniel.architectury.event.events.LifecycleEvent;
-import me.shedaniel.architectury.event.events.PlayerEvent;
-import me.shedaniel.architectury.event.events.TextureStitchEvent;
-import me.shedaniel.architectury.event.events.TickEvent;
+import dev.architectury.event.events.client.ClientTextureStitchEvent;
+import dev.architectury.event.events.common.LifecycleEvent;
+import dev.architectury.event.events.common.PlayerEvent;
+import dev.architectury.event.events.common.TickEvent;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.ConfigHolder;
 import me.shedaniel.autoconfig.serializer.Toml4jConfigSerializer;
@@ -60,8 +60,8 @@ public class Brazier {
     }
 
     public static void clientInit() {
-        TextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
-        TextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
+        ClientTextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
+        ClientTextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
     }
 
     public static void setup() {

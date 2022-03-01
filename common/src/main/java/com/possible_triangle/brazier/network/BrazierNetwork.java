@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.network;
 
 import com.possible_triangle.brazier.Brazier;
-import me.shedaniel.architectury.networking.NetworkChannel;
+import dev.architectury.networking.NetworkChannel;
 import net.minecraft.resources.ResourceLocation;
 
 public class BrazierNetwork {

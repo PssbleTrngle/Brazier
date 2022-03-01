@@ -4,7 +4,7 @@ import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.entity.forge.EntityUtilImpl;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
-import me.shedaniel.architectury.platform.forge.EventBuses;
+import dev.architectury.platform.forge.EventBuses;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;

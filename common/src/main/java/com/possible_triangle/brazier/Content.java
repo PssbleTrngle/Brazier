@@ -17,16 +17,16 @@ import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.FlameParticle;
 import com.possible_triangle.brazier.particle.ModdedParticleType;
 import com.possible_triangle.brazier.particle.ParticleRegistry;
-import me.shedaniel.architectury.hooks.TagHooks;
-import me.shedaniel.architectury.platform.Platform;
-import me.shedaniel.architectury.registry.BlockEntityRenderers;
-import me.shedaniel.architectury.registry.DeferredRegister;
-import me.shedaniel.architectury.registry.RegistrySupplier;
-import me.shedaniel.architectury.registry.RenderTypes;
-import me.shedaniel.architectury.registry.entity.EntityRenderers;
+import dev.architectury.hooks.tags.TagHooks;
+import dev.architectury.platform.Platform;
+import dev.architectury.registry.client.rendering.RenderTypeRegistry;
+import dev.architectury.registry.registries.DeferredRegister;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
+import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -40,9 +40,12 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
-import net.minecraft.world.level.block.Lantern;
+import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
+import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
 import java.util.function.Function;
@@ -53,14 +56,14 @@ import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Content {
 
-    public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.getBlockOptional(new ResourceLocation(MOD_ID, "brazier_base_blocks"));
+    public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.optionalBlock(new ResourceLocation(MOD_ID, "brazier_base_blocks"));
 
-    public static final Tag.Named<EntityType<?>> BRAZIER_WHITELIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MOD_ID, "brazier_whitelist"));
-    public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.getEntityTypeOptional(new ResourceLocation(MOD_ID, "brazier_blacklist"));
-    public static final Tag.Named<Item> TORCHES = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "torches"));
-    public static final Tag.Named<Item> ASH_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "ash"));
-    public static final Tag.Named<Item> IRON_NUGGET_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "iron_nuggets"));
-    public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.getItemOptional(new ResourceLocation(MOD_ID, "warped_wart"));
+    public static final Tag.Named<EntityType<?>> BRAZIER_WHITELIST = TagHooks.optionalEntityType(new ResourceLocation(MOD_ID, "brazier_whitelist"));
+    public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.optionalEntityType(new ResourceLocation(MOD_ID, "brazier_blacklist"));
+    public static final Tag.Named<Item> TORCHES = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "torches"));
+    public static final Tag.Named<Item> ASH_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "ash"));
+    public static final Tag.Named<Item> IRON_NUGGET_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "iron_nuggets"));
+    public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "warped_wart"));
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);
@@ -77,7 +80,7 @@ public class Content {
 
     public static final RegistrySupplier<LazyTorchBlock> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
     public static final RegistrySupplier<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new Lantern(Block.Properties.copy(Blocks.LANTERN)), p -> p.tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.tab(CreativeModeTab.TAB_DECORATIONS));
 
 
     public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_BREWING).rarity(Rarity.UNCOMMON)));
@@ -153,8 +156,15 @@ public class Content {
                 .filter(RegistrySupplier::isPresent)
                 .map(RegistrySupplier::get)
                 .map(b -> (Block) b)
-                .forEach(block -> RenderTypes.register(RenderType.cutout(), block));
+                .forEach(block -> RenderTypeRegistry.register(RenderType.cutout(), block));
 
-        BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.registerRenderer(tile, BrazierRenderer::new));
+        BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.register(tile, BrazierRenderer::new));
     }
+
+    @Nullable
+    @SuppressWarnings("unchecked")
+    public static <E extends BlockEntity, A extends BlockEntity> BlockEntityTicker<A> createTickerHelper(BlockEntityType<A> candidate, Supplier<BlockEntityType<E>> desired, BlockEntityTicker<? super E> ticker) {
+        return desired.get() == candidate ? (BlockEntityTicker<A>) ticker : null;
+    }
+
 }

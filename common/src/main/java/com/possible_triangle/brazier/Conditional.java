@@ -2,7 +2,7 @@ package com.possible_triangle.brazier;
 
 import com.mojang.datafixers.util.Pair;
 import com.possible_triangle.brazier.config.ServerConfig;
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagContainer;
 import net.minecraft.world.level.ItemLike;

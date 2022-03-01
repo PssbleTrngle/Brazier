@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.item;
 
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -92,7 +92,7 @@ public class LazySpawnEgg extends Item {
                 if (type.spawn((ServerLevel) level, itemStack, player, blockPos, MobSpawnType.SPAWN_EGG, false, false) == null) {
                     return InteractionResultHolder.pass(itemStack);
                 } else {
-                    if (!player.abilities.instabuild) {
+                    if (!player.getAbilities().instabuild) {
                         itemStack.shrink(1);
                     }
 
@@ -106,9 +106,8 @@ public class LazySpawnEgg extends Item {
     }
 
     public static int getColor(ItemStack stack, int index) {
-        Item item = stack.getItem();
-        if (item instanceof LazySpawnEgg) {
-            LazySpawnEgg egg = (LazySpawnEgg) item;
+        var item = stack.getItem();
+        if (item instanceof LazySpawnEgg egg) {
             return index == 0 ? egg.primary : egg.secondary;
         }
         return -1;

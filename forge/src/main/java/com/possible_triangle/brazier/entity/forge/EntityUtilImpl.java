@@ -7,8 +7,7 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
-import net.minecraft.world.entity.ai.attributes.DefaultAttributes;
-import net.minecraftforge.fml.network.NetworkHooks;
+import net.minecraftforge.network.NetworkHooks;
 
 import java.util.HashMap;
 
@@ -44,7 +43,6 @@ public class EntityUtilImpl {
 
     public static void register(EntityType<? extends LivingEntity> type, AttributeSupplier.Builder attributes) {
         ATTRIBUTES.put(type, attributes.build());
-        DefaultAttributes.put(type, attributes.build());
     }
 
 }

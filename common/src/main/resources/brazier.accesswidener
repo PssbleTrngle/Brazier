@@ -1,0 +1,9 @@
+accessWidener   v2  named
+
+accessible class net/minecraft/client/renderer/RenderStateShard$TextureStateShard
+accessible class net/minecraft/client/renderer/RenderStateShard$DiffuseLightingStateShard
+accessible class net/minecraft/client/renderer/RenderStateShard$AlphaStateShard
+accessible class net/minecraft/client/renderer/RenderStateShard$LightmapStateShard
+
+accessible method net/minecraft/client/renderer/entity/EntityRenderers register (Lnet/minecraft/world/entity/EntityType;Lnet/minecraft/client/renderer/entity/EntityRendererProvider;)V
+accessible method net/minecraft/client/renderer/blockentity/BlockEntityRenderers register (Lnet/minecraft/world/level/block/entity/BlockEntityType;Lnet/minecraft/client/renderer/blockentity/BlockEntityRendererProvider;)V

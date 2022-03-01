@@ -11,6 +11,7 @@ import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.function.Consumer;
 
@@ -23,7 +24,7 @@ public class Recipes extends RecipeProvider {
     }
 
     @Override
-    protected void buildShapelessRecipes(Consumer<FinishedRecipe> consumer) {
+    protected void buildCraftingRecipes(@NotNull Consumer<FinishedRecipe> consumer) {
         Item flame = Content.LIVING_FLAME.orElse(Items.BLAZE_POWDER);
 
         Content.BRAZIER.ifPresent(brazier ->

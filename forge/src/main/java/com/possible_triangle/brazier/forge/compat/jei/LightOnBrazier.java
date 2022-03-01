@@ -9,7 +9,8 @@ import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.helpers.IGuiHelper;
 import mezz.jei.api.ingredients.IIngredients;
 import mezz.jei.api.recipe.category.IRecipeCategory;
-import net.minecraft.client.resources.language.I18n;
+import net.minecraft.network.chat.Component;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
@@ -36,12 +37,17 @@ public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
 
     private final IDrawable background;
     private final IDrawable icon;
-    private final String display;
+    private final Component title;
 
     public LightOnBrazier(IGuiHelper guiHelper) {
         this.background = guiHelper.createBlankDrawable(WIDTH, HEIGHT);
-        this.icon = guiHelper.createDrawableIngredient(new ItemStack(Content.ICON.get()));
-        this.display = I18n.get("category." + UID.getNamespace() + "." + UID.getPath());
+        this.icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM, new ItemStack(Content.ICON.get()));
+        this.title = new TranslatableComponent("category.brazier.light_on_brazier");
+    }
+
+    @Override
+    public Component getTitle() {
+        return title;
     }
 
     @Override
@@ -52,11 +58,6 @@ public class LightOnBrazier implements IRecipeCategory<LightOnBrazier.Recipe> {
     @Override
     public Class<? extends Recipe> getRecipeClass() {
         return Recipe.class;
-    }
-
-    @Override
-    public String getTitle() {
-        return display;
     }
 
     @Override

@@ -2,7 +2,7 @@ package com.possible_triangle.brazier.network;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.config.ServerConfig;
-import me.shedaniel.architectury.networking.NetworkManager;
+import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.minecraft.network.FriendlyByteBuf;
 

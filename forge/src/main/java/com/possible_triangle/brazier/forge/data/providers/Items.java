@@ -2,7 +2,7 @@ package com.possible_triangle.brazier.forge.data.providers;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.data.DataGenerator;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.client.model.generators.ItemModelProvider;

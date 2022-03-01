@@ -15,6 +15,10 @@ architectury {
     common()
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
+}
+
 java {
     withSourcesJar()
 }

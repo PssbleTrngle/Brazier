@@ -1,19 +1,19 @@
 package com.possible_triangle.brazier.mixin;
 
-import com.possible_triangle.brazier.block.tile.BaseTile;
+import com.possible_triangle.brazier.block.tile.BrazierTile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
 @Mixin(Level.class)
 public class WorldMixin {
 
-    @Inject(at = @At("RETURN"), method = "addBlockEntity(Lnet/minecraft/world/level/block/entity/BlockEntity;)Z")
-    public void addBlockEntity(BlockEntity tile, CallbackInfoReturnable<Boolean> info) {
-        if(tile instanceof BaseTile) ((BaseTile) tile).onLoad();
+    @Inject(at = @At("RETURN"), method = "setBlockEntity(Lnet/minecraft/world/level/block/entity/BlockEntity;)V")
+    public void addBlockEntity(BlockEntity tile, CallbackInfo info) {
+        if (tile instanceof BrazierTile brazier) brazier.onLoad();
     }
 
 }

@@ -3,16 +3,18 @@ package com.possible_triangle.brazier.forge.compat.jei;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Conditional;
 import com.possible_triangle.brazier.Content;
-import me.shedaniel.architectury.registry.RegistrySupplier;
+import dev.architectury.registry.registries.RegistrySupplier;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.ingredients.IIngredientType;
 import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
+import net.minecraft.network.chat.TranslatableComponent;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Collections;
 import java.util.List;
@@ -25,6 +27,7 @@ import java.util.stream.Stream;
 public class JeiPlugin implements IModPlugin {
 
     @Override
+    @NotNull
     public ResourceLocation getPluginUid() {
         return new ResourceLocation(Brazier.MOD_ID, "plugin");
     }
@@ -38,7 +41,7 @@ public class JeiPlugin implements IModPlugin {
                 .filter(Optional::isPresent)
                 .map(Optional::get)
                 .map(ItemStack::new)
-                .forEach(item -> registration.addIngredientInfo(item, items, "description.brazier.brazier-1", "description.brazier.brazier-2"));
+                .forEach(item -> registration.addIngredientInfo(item, items, new TranslatableComponent("description.brazier.brazier-1"), new TranslatableComponent("description.brazier.brazier-2")));
 
         Content.LIVING_TORCH.toOptional()
                 .map(item -> new LightOnBrazier.Recipe(Ingredient.of(Content.TORCHES), item))

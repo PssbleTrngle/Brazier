@@ -1,20 +1,21 @@
 package com.possible_triangle.brazier.block.tile;
 
 import com.possible_triangle.brazier.Brazier;
-import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.config.ServerConfig;
+import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
-import net.minecraft.world.level.block.entity.TickableBlockEntity;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 
-public class BrazierTile extends BaseTile implements TickableBlockEntity {
+public class BrazierTile extends BlockEntity {
 
     private int ticksExisted = 0;
     private int height = 0;
@@ -28,13 +29,11 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         }
     }
 
-    @Override
-    public void tick() {
-        ++this.ticksExisted;
-        if (this.ticksExisted % 40 == 0) checkStructure();
+    public static void tick(Level level, BlockPos pos, BlockState state, BrazierTile tile) {
+        ++tile.ticksExisted;
+        if (tile.ticksExisted % 40 == 0) tile.checkStructure();
 
-        if (this.height > 0 && level instanceof ServerLevel && ticksExisted % 10 == 0) {
-            BlockPos pos = this.getBlockPos();
+        if (tile.height > 0 && level instanceof ServerLevel && tile.ticksExisted % 10 == 0) {
             ((ServerLevel) level).sendParticles(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
         }
     }
@@ -76,22 +75,20 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         return max;
     }
 
-
     @Override
-    public void load(BlockState state, CompoundTag nbt) {
-        super.load(state, nbt);
+    public void load(CompoundTag nbt) {
+        super.load(nbt);
         if (nbt.contains("height")) setHeight(nbt.getInt("height"));
     }
 
     @Override
-    public CompoundTag save(CompoundTag nbt) {
-        nbt = super.save(nbt);
+    public void saveAdditional(CompoundTag nbt) {
+        super.saveAdditional(nbt);
         nbt.putInt("height", height);
-        return nbt;
     }
 
-    public BrazierTile() {
-        super(Content.BRAZIER_TILE.get());
+    public BrazierTile(BlockPos pos, BlockState state) {
+        super(Content.BRAZIER_TILE.get(), pos, state);
     }
 
     public int getRange() {
@@ -104,7 +101,7 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         return height;
     }
 
-    @Override
+
     public void onLoad() {
         if (this.height > 0) BrazierLogic.addBrazier(getBlockPos(), level.dimension(), getRange());
     }
@@ -114,7 +111,6 @@ public class BrazierTile extends BaseTile implements TickableBlockEntity {
         super.setRemoved();
         if (level != null) BrazierLogic.removeBrazier(getBlockPos(), level.dimension());
     }
-
 
 
 }

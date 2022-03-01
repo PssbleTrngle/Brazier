@@ -3,6 +3,7 @@ package com.possible_triangle.brazier.block.tile.render;
 import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
+import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Matrix4f;
 import com.mojang.math.Vector3f;
 import com.possible_triangle.brazier.Brazier;
@@ -12,43 +13,40 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.DiffuseLightingStateShard;
 import net.minecraft.client.renderer.RenderStateShard.LightmapStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderDispatcher;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
+import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import org.lwjgl.opengl.GL11;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 //@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
-public class BrazierRenderer extends BlockEntityRenderer<BrazierTile> {
+public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
+
+    public BrazierRenderer(BlockEntityRendererProvider.Context context) {
+
+    }
 
     public static TextureAtlasSprite RUNES;
     public static final RenderType RENDER_TYPE;
     private static final int TEXTURE_HEIGHT = 9;
     public static String TEXTURE_KEY = "block/brazier_runes";
 
-    public BrazierRenderer(BlockEntityRenderDispatcher dispatcher) {
-        super(dispatcher);
-    }
-
     static {
         RenderType.CompositeState glState;
         glState = RenderType.CompositeState.builder().setTextureState(new TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, true))
                 // .setTransparencyState(.getPrivateValue(RenderState.class, null, "field_228515_g_"))
-                .setDiffuseLightingState(new DiffuseLightingStateShard(true))
-                .setAlphaState(new RenderStateShard.AlphaStateShard(0.004F))
+                // .setDiffuseLightingState(new DiffuseLightingStateShard(true))
+                // .setAlphaState(new RenderStateShard.AlphaStateShard(0.004F))
                 .setLightmapState(new LightmapStateShard(true))
                 .createCompositeState(false);
-        RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, GL11.GL_QUADS, 128, glState);
+        RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 128, false, false, glState);
     }
 
     public static void atlasStitch(TextureAtlas atlas, Consumer<ResourceLocation> sprites) {

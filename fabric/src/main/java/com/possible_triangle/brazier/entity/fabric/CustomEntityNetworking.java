@@ -26,7 +26,7 @@ public class CustomEntityNetworking {
                     EntityData data = new EntityData(buffer);
                     ctx.getTaskQueue().execute(() -> {
                         Entity entity = creator.apply(ctx.getPlayer().level);
-                        entity.setPosAndOldPos(data.x, data.y, data.z);
+                        entity.setPos(data.x, data.y, data.z);
                         entity.setId(data.id);
                         entity.setUUID(data.uuid);
                         ((ClientLevel) ctx.getPlayer().level).putNonPlayerEntity(data.id, entity);

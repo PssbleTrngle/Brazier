@@ -13,6 +13,7 @@ import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.block.BlockRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
 import net.minecraft.client.renderer.entity.EntityRenderer;
+import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.client.renderer.texture.OverlayTexture;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.resources.model.ModelManager;
@@ -24,8 +25,8 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
     public static final ModelResourceLocation MODEL = new ModelResourceLocation(new ResourceLocation(Brazier.MOD_ID, "living_flame"), "inventory");
 
-    public CrazedFlameRenderer(EntityRenderDispatcher entityRendererManager) {
-        super(entityRendererManager);
+    public CrazedFlameRenderer(EntityRendererProvider.Context context) {
+        super(context);
     }
 
     @Override
@@ -50,7 +51,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
     }
 
     private static void vertex(VertexConsumer vertexConsumer, Matrix4f matrix4f, Matrix3f matrix3f, int i, float f, int j, int k, int l) {
-        vertexConsumer.vertex(matrix4f, f - 0.5F, (float)j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float)k, (float)l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
+        vertexConsumer.vertex(matrix4f, f - 0.5F, (float) j - 0.25F, 0.0F).color(255, 255, 255, 255).uv((float) k, (float) l).overlayCoords(OverlayTexture.NO_OVERLAY).uv2(i).normal(matrix3f, 0.0F, 1.0F, 0.0F).endVertex();
     }
 
     public static void renderFlame(PoseStack matrizes, EntityRenderDispatcher rendererManager, MultiBufferSource buffer, int packedLightIn) {
@@ -59,7 +60,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
         ModelManager modelManager = mc.getModelManager();
         float scale = 0.6F;
 
-        rendererManager.textureManager.bind(TextureAtlas.LOCATION_BLOCKS);
+        rendererManager.textureManager.bindForSetup(TextureAtlas.LOCATION_BLOCKS);
 
         matrizes.pushPose();
         matrizes.scale(scale, scale, scale);

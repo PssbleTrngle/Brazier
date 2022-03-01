@@ -46,7 +46,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
                 }
             }
         } else {
-            if (this.life <= 0) remove();
+            if (this.life <= 0) remove(RemovalReason.KILLED);
 
             if (INITIAL_LIFE - 20 > life && life % 5 == 0) {
                 level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.2D, 0.2D, 0.2D)).forEach(this::damage);
