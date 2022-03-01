@@ -85,3 +85,9 @@ sourcesJar {
     dependsOn commonSources
     from zipTree(commonSources.output)
 }
+
+components.java {
+    withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
+        skip()
+    }
+}
