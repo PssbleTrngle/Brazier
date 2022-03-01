@@ -1,6 +1,7 @@
 plugins {
     id "architectury-plugin" version "3.0-SNAPSHOT"
     id "forgified-fabric-loom" version "0.6-SNAPSHOT" apply false
+    id "org.sonarqube" version "3.3"
 }
 
 architectury {
@@ -54,5 +55,20 @@ allprojects {
 
     java {
         withSourcesJar()
+    }
+}
+
+sonarqube {
+    properties {
+        property 'sonar.projectVersion', mod_version
+        property 'sonar.projectKey', archives_base_name
+    }
+}
+
+subprojects { project ->
+    sonarqube {
+        properties {
+            property 'sonar.branch', project.name
+        }
     }
 }
