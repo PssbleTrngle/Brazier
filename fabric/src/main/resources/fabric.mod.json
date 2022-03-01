@@ -25,7 +25,6 @@
     "brazier-common.mixins.json",
     "brazier-fabric.mixins.json"
   ],
-  "accessWidener": "brazier.accesswidener",
   "depends": {
     "fabricloader": ">=0.7.4",
     "fabric": "*",
