@@ -1,7 +1,7 @@
 name: Build & Analyze
 on:
   push:
-    branches: [ 1.16.3 ]
+    branches: [ 1.18.x ]
 
 jobs:
   build:
