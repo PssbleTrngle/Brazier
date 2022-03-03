@@ -52,7 +52,7 @@ allprojects {
 sonarqube {
     properties {
         property 'sonar.projectVersion', mod_version
-        property 'sonar.projectKey', archives_base_name
+        property 'sonar.projectKey', mod_id
     }
 }
 
