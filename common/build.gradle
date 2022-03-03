@@ -15,10 +15,7 @@ architectury {
     common()
 }
 
+def mod_id = rootProject.mod_id
 loom {
     accessWidenerPath = file("src/main/resources/${mod_id}.accesswidener")
-}
-
-java {
-    withSourcesJar()
 }
