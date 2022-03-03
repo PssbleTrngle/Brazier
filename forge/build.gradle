@@ -1,5 +1,5 @@
 plugins {
-    id "com.github.johnrengelman.shadow" version "7.0.0"
+    id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
 architectury {
@@ -63,6 +63,7 @@ processResources {
         expand "version": project.version
     }
 }
+
 
 shadowJar {
     exclude "fabric.mod.json"

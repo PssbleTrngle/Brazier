@@ -26,11 +26,11 @@
     "brazier-fabric.mixins.json"
   ],
   "depends": {
-    "fabricloader": ">=0.7.4",
+    "fabricloader": ">=0.13.3",
     "fabric": "*",
-    "minecraft": ">=1.16.4",
-    "architectury": ">=1.1.55",
-    "cloth-config2": ">=4.10.13"
+    "minecraft": ">=1.18.1",
+    "architectury": ">=3.7.26",
+    "cloth-config2": ">=6.2.57"
   },
   "suggests": {
   }

@@ -20,6 +20,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v2
 
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
       - if: ${{ matrix.dist == 'server' }}
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt

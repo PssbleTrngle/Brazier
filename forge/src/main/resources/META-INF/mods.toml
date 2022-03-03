@@ -1,5 +1,5 @@
 modLoader = "javafml"
-loaderVersion = "[35,)"
+loaderVersion = "[38,)"
 issueTrackerURL = "https://github.com/PssbleTrngle/Brazier/issues"
 license = "https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
 displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
@@ -14,24 +14,24 @@ displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
 [[dependencies.brazier]]
     modId = "forge"
     mandatory = true
-    versionRange = "[32.0.108,)"
+    versionRange = "[39.1.0,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.brazier]]
     modId = "minecraft"
     mandatory = true
-    versionRange = "[1.16.3,)"
+    versionRange = "[1.18.1,)"
     ordering = "NONE"
     side = "BOTH"
 [[dependencies.brazier]]
     modId = "architectury"
     mandatory = true
-    versionRange = "[1.1.55,)"
+    versionRange = "[3.7.26,)"
     ordering = "AFTER"
     side = "BOTH"
 [[dependencies.brazier]]
     modId = "cloth-config"
     mandatory = true
-    versionRange = "[4.10.13,)"
+    versionRange = "[6.2.57,)"
     ordering = "NONE"
     side = "BOTH"
