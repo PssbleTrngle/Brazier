@@ -12,15 +12,19 @@ import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderStateShard.LightmapStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
+import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
 import net.minecraft.client.renderer.texture.TextureAtlas;
 import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.InventoryMenu;
 
 import java.util.function.Consumer;
 import java.util.stream.Stream;
@@ -33,32 +37,22 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
     }
 
-    public static TextureAtlasSprite RUNES;
     public static final RenderType RENDER_TYPE;
     private static final int TEXTURE_HEIGHT = 9;
-    public static String TEXTURE_KEY = "block/brazier_runes";
+    public static final ResourceLocation TEXTURE_KEY = new ResourceLocation(Brazier.MOD_ID, "textures/block/brazier_runes.png");
 
     static {
         RenderType.CompositeState glState;
-        glState = RenderType.CompositeState.builder().setTextureState(new TextureStateShard(TextureAtlas.LOCATION_BLOCKS, false, true))
+        glState = RenderType.CompositeState.builder()
+                .setTextureState(new TextureStateShard(TEXTURE_KEY, false, false))
                 // .setTransparencyState(.getPrivateValue(RenderState.class, null, "field_228515_g_"))
                 // .setDiffuseLightingState(new DiffuseLightingStateShard(true))
                 // .setAlphaState(new RenderStateShard.AlphaStateShard(0.004F))
-                .setLightmapState(new LightmapStateShard(true))
+                .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEntityCutoutShader))
+                //.setLightmapState(new LightmapStateShard(true))
                 .createCompositeState(false);
-        RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION_COLOR_TEX_LIGHTMAP, VertexFormat.Mode.QUADS, 128, false, false, glState);
-    }
 
-    public static void atlasStitch(TextureAtlas atlas, Consumer<ResourceLocation> sprites) {
-        if (atlas.location().equals(TextureAtlas.LOCATION_BLOCKS)) {
-            sprites.accept(new ResourceLocation(Brazier.MOD_ID, TEXTURE_KEY));
-        }
-    }
-
-    public static void atlasStitch(TextureAtlas atlas) {
-        if (atlas.location().equals(TextureAtlas.LOCATION_BLOCKS)) {
-            RUNES = atlas.getSprite(new ResourceLocation(Brazier.MOD_ID, TEXTURE_KEY));
-        }
+        RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 128, false, false, glState);
     }
 
     private void renderTop(PoseStack matrizes, float alpha, MultiBufferSource buffer) {
@@ -67,18 +61,12 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         Matrix4f matrix = matrizes.last().pose();
         VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
         for (int i = 0; i < 4; i++) {
-            float v = RUNES.getU1() - RUNES.getU0();
-            float start = v / 9F * i * 2;
-            float minU = RUNES.getU0() + start;
-            float maxU = minU + v / 9F * 1.5F;
-
             matrizes.mulPose(Vector3f.YN.rotationDegrees(90F));
 
-            vertex.vertex(matrix, 1.0F, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV0()).uv2(0xF000F0).endVertex();
-            vertex.vertex(matrix, 1.0F, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV1()).uv2(0xF000F0).endVertex();
-            vertex.vertex(matrix, 2.5F, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(minU, RUNES.getV1()).uv2(0xF000F0).endVertex();
-            vertex.vertex(matrix, 2.5F, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(minU, RUNES.getV0()).uv2(0xF000F0).endVertex();
-
+            vertex.vertex(matrix, 1.0F, 0, -0.25F).endVertex();
+            vertex.vertex(matrix, 1.0F, 0, +0.25F).endVertex();
+            vertex.vertex(matrix, 2.5F, 0, +0.25F).endVertex();
+            vertex.vertex(matrix, 2.5F, 0, -0.25F).endVertex();
         }
         matrizes.popPose();
     }
@@ -86,6 +74,9 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
     private void renderSide(PoseStack matrizes, float alpha, MultiBufferSource buffer, int height) {
         matrizes.pushPose();
         int times = height / TEXTURE_HEIGHT;
+
+        Matrix4f matrix = matrizes.last().pose();
+        VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
 
         for (int quarter = 0; quarter < 4; quarter++) {
             matrizes.mulPose(Vector3f.YN.rotationDegrees(90F));
@@ -98,14 +89,10 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
                 matrizes.mulPose(Vector3f.ZN.rotationDegrees(90F));
                 matrizes.translate(0, 2.55F, 0);
 
-                Matrix4f matrix = matrizes.last().pose();
-                VertexConsumer vertex = buffer.getBuffer(RENDER_TYPE);
-                float maxU = RUNES.getU0() + segment * ((RUNES.getU1() - RUNES.getU0()) / ((float) TEXTURE_HEIGHT));
-
-                vertex.vertex(matrix, offset, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU0(), RUNES.getV0()).uv2(0xF000F0).endVertex();
-                vertex.vertex(matrix, offset, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(RUNES.getU0(), RUNES.getV1()).uv2(0xF000F0).endVertex();
-                vertex.vertex(matrix, offset + segment, 0, +0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV1()).uv2(0xF000F0).endVertex();
-                vertex.vertex(matrix, offset + segment, 0, -0.25F).color(1F, 1F, 1F, alpha).uv(maxU, RUNES.getV0()).uv2(0xF000F0).endVertex();
+                vertex.vertex(matrix, offset, 0.01F, -0.25F).endVertex();
+                vertex.vertex(matrix, offset, 0.01F, +0.25F).endVertex();
+                vertex.vertex(matrix, offset + segment, 0.01F, +0.25F).endVertex();
+                vertex.vertex(matrix, offset + segment, 0.01F, -0.25F).endVertex();
 
                 matrizes.popPose();
             }

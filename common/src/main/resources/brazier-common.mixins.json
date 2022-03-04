@@ -2,6 +2,7 @@
   "required": true,
   "package": "com.possible_triangle.brazier.mixin",
   "compatibilityLevel": "JAVA_16",
+  "minVersion": "0.7.10",
   "mixins": [
     "WorldMixin",
     "WoodlandMansionPiecesMixin"

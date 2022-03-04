@@ -60,8 +60,6 @@ public class Brazier {
     }
 
     public static void clientInit() {
-        ClientTextureStitchEvent.PRE.register(BrazierRenderer::atlasStitch);
-        ClientTextureStitchEvent.POST.register(BrazierRenderer::atlasStitch);
     }
 
     public static void setup() {

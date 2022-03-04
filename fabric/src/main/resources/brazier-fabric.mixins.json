@@ -3,6 +3,7 @@
   "required": true,
   "package": "com.possible_triangle.brazier.fabric.mixin",
   "compatibilityLevel": "JAVA_16",
+  "minVersion": "0.7.10",
   "mixins": [
     "MobMixin",
     "PathfinderMobMixin"

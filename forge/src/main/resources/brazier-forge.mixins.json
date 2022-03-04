@@ -2,6 +2,7 @@
   "required": true,
   "package": "com.possible_triangle.brazier.forge.mixin",
   "compatibilityLevel": "JAVA_16",
+  "minVersion": "0.7.10",
   "mixins": [],
   "injectors": {
     "defaultRequire": 1

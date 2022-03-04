@@ -10,7 +10,7 @@ architectury {
 loom {
     forge {
         mixinConfig "${mod_id}-common.mixins.json"
-        mixinConfig "${mod_id}.mixins.json"
+        mixinConfig "${mod_id}-forge.mixins.json"
     }
 
     accessWidenerPath = project(":common").loom.accessWidenerPath
@@ -49,7 +49,7 @@ dependencies {
     shadowCommon(project(path: ":common", configuration: "transformProductionForge")) { transitive = false }
 
     //Cloth Config
-    modCompileOnly("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
+    modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
     // JEI
     modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}:${rootProject.jei_version}:api")

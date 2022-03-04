@@ -94,6 +94,7 @@ public class Content {
             () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new)
                     .size(2F, 0.5F)
                     .fireImmune()
+                    .clientHandler(Crazed::new)
                     .build("crazed")
     );
 
