@@ -19,7 +19,7 @@ public class Blocks extends BlockStateProvider {
         super(generator, Brazier.MOD_ID, fileHelper);
     }
 
-    private ResourceLocation extend(ResourceLocation in, String with) {
+    private static ResourceLocation extend(ResourceLocation in, String with) {
         return new ResourceLocation(in.getNamespace(), in.getPath() + with);
     }
 
