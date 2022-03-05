@@ -2,11 +2,11 @@ name: Test
 
 on:
   workflow_dispatch:
-  push:
-    paths:
-      - fabric/**
-      - forge/**
-      - common/**
+#  push:
+#    paths:
+#      - fabric/**
+#      - forge/**
+#      - common/**
 
 jobs:
 

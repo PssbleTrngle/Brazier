@@ -88,7 +88,7 @@ if (ENV.CURSEFORGE_TOKEN) curseforge {
 
         relations {
             requiredDependency 'architectury-fabric'
-            requiredDependency 'cloth-config-fabric'
+            requiredDependency 'cloth-config'
         }
     }
 }
