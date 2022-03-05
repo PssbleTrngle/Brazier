@@ -19,7 +19,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
     private int life = INITIAL_LIFE;
 
     public CrazedFlame(Level world, double x, double y, double z, LivingEntity caster) {
-        super(Content.CRAZED_FLAME.get(), caster, x, y, z, world);
+        super(Content.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
     }
 
     public CrazedFlame(Level world) {

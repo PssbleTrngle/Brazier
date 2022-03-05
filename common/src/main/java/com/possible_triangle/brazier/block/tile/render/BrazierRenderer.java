@@ -48,7 +48,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
                 // .setTransparencyState(.getPrivateValue(RenderState.class, null, "field_228515_g_"))
                 // .setDiffuseLightingState(new DiffuseLightingStateShard(true))
                 // .setAlphaState(new RenderStateShard.AlphaStateShard(0.004F))
-                .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeEntityCutoutShader))
+                .setShaderState(new RenderStateShard.ShaderStateShard(GameRenderer::getRendertypeCutoutShader))
                 //.setLightmapState(new LightmapStateShard(true))
                 .createCompositeState(false);
 

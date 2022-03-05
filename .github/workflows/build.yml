@@ -1,0 +1,63 @@
+name: Build & Release
+on:
+  release:
+    types: [created]
+
+jobs:
+  build:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 17
+
+      - run: chmod +x ./gradlew
+
+      - name: Cache Gradle packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.gradle/caches
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
+          restore-keys: ${{ runner.os }}-gradle
+
+      - name: Update mod version
+        uses: christian-draeger/write-properties@1.0.1
+        with:
+          path: 'gradle.properties'
+          property: 'version'
+          value: ${{ github.event.release.tag_name }}
+
+      - name: Build
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
+          CHANGELOG: ${{ github.event.release.body }}
+        run: ./gradlew build curseforge
+
+      - name: Upload forge jar to release
+        if: ${{ github.event_name == 'release' }}
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: forge/build/libs/brazier-${{ github.event.release.tag_name }}.jar
+          asset_name: brazier-forge-${{ github.event.release.tag_name }}.jar
+          asset_content_type: application/java-archive
+
+      - name: Upload fabric jar to release
+        if: ${{ github.event_name == 'release' }}
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ github.event.release.upload_url }}
+          asset_path: fabric/build/libs/brazier-${{ github.event.release.tag_name }}.jar
+          asset_name: brazier-fabric-${{ github.event.release.tag_name }}.jar
+          asset_content_type: application/java-archive

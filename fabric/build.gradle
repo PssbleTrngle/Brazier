@@ -2,6 +2,8 @@ plugins {
     id "com.github.johnrengelman.shadow" version "7.1.2"
 }
 
+apply plugin: 'com.matthewprenger.cursegradle'
+
 architectury {
     platformSetupLoomIde()
     fabric()
@@ -67,5 +69,26 @@ sourcesJar {
 components.java {
     withVariantsFromConfiguration(project.configurations.shadowRuntimeElements) {
         skip()
+    }
+}
+
+def ENV = System.getenv()
+if (ENV.CURSEFORGE_TOKEN) curseforge {
+    apiKey = ENV.CURSEFORGE_TOKEN
+    project {
+        id = '460994'
+        addGameVersion rootProject.minecraft_version
+        addGameVersion 'Fabric'
+
+        mainArtifact remapJar.archiveFile
+
+        releaseType = release_type
+        changelog = ENV.CHANGELOG
+        changelogType = 'markdown'
+
+        relations {
+            requiredDependency 'architectury-fabric'
+            requiredDependency 'cloth-config-fabric'
+        }
     }
 }

@@ -18,7 +18,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Optional;
 
-@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD)
+@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class LootInjectModifier extends LootModifier {
 
     @SubscribeEvent
@@ -26,7 +26,7 @@ public class LootInjectModifier extends LootModifier {
         event.getRegistry().register(new LootInjectModifier.Serializer().setRegistryName(new ResourceLocation(Brazier.MOD_ID, "loot_inject")));
     }
 
-    private boolean enabled;
+    private final boolean enabled;
 
     private LootInjectModifier(boolean enabled, LootItemCondition[] conditions) {
         super(Optional.ofNullable(conditions).orElse(new LootItemCondition[0]));

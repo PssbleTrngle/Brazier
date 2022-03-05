@@ -30,11 +30,13 @@ public class BrazierTile extends BlockEntity {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BrazierTile tile) {
-        ++tile.ticksExisted;
-        if (tile.ticksExisted % 40 == 0) tile.checkStructure();
+        if(!level.isLoaded(pos)) return;
 
-        if (tile.height > 0 && level instanceof ServerLevel && tile.ticksExisted % 10 == 0) {
-            ((ServerLevel) level).sendParticles(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
+        ++tile.ticksExisted;
+        if (tile.ticksExisted % 40 == 0) tile.checkStructure(pos, state);
+
+        if (tile.height > 0 && level instanceof ServerLevel serverLevel && tile.ticksExisted % 10 == 0) {
+            serverLevel.sendParticles(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2.0, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
         }
     }
 
@@ -42,17 +44,16 @@ public class BrazierTile extends BlockEntity {
         if (level != null) level.playSound(null, this.getBlockPos(), sound, SoundSource.BLOCKS, 1.0F, 1.0F);
     }
 
-    private void checkStructure() {
+    private void checkStructure(BlockPos pos, BlockState state) {
         if (level != null) {
-            int height = findHeight();
-            if (height != this.height) {
+            int newHeight = findHeight();
+            if (newHeight != this.height) {
 
-                if (height > 0 && this.height == 0) playSound(SoundEvents.FIRECHARGE_USE);
-                else if (height == 0) playSound(SoundEvents.FIRE_EXTINGUISH);
+                if (newHeight > 0 && this.height == 0) playSound(SoundEvents.FIRECHARGE_USE);
+                else if (newHeight == 0) playSound(SoundEvents.FIRE_EXTINGUISH);
 
-                setHeight(height);
-                BlockState s = level.getBlockState(getBlockPos());
-                level.setBlockAndUpdate(getBlockPos(), s.setValue(BrazierBlock.LIT, height > 0));
+                setHeight(newHeight);
+                level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
             }
         }
     }
@@ -62,15 +63,15 @@ public class BrazierTile extends BlockEntity {
         int max = Brazier.SERVER_CONFIG.get().MAX_HEIGHT;
         BlockPos pos = getBlockPos();
         if (!level.getBlockState(pos.above()).isAir()) return 0;
-        for (int height = 1; height <= max; height++) {
+        for (int y = 1; y <= max; y++) {
             boolean b = true;
             for (int x = -2; x <= 2; x++)
                 for (int z = -2; z <= 2; z++)
                     if (Math.abs(x * z) < 4) {
-                        BlockState state = level.getBlockState(pos.offset(x, -height, z));
+                        BlockState state = level.getBlockState(pos.offset(x, -y, z));
                         b = b && state.is(Content.BRAZIER_BASE_BLOCKS);
                     }
-            if (!b) return height - 1;
+            if (!b) return y - 1;
         }
         return max;
     }

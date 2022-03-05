@@ -18,8 +18,8 @@ public class EntityUtilImpl {
 
         CustomEntityNetworking.notifyClients(entity, name);
 
-        if (entity instanceof AbstractHurtingProjectile) {
-            Entity owner = ((AbstractHurtingProjectile) entity).getOwner();
+        if (entity instanceof AbstractHurtingProjectile projectile) {
+            Entity owner = projectile.getOwner();
             return new ClientboundAddEntityPacket(entity, owner == null ? entity.getId() : owner.getId());
         } else {
             return new ClientboundAddEntityPacket(entity, entity.getId());

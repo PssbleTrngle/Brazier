@@ -5,9 +5,11 @@ import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.entity.forge.EntityUtilImpl;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import dev.architectury.platform.forge.EventBuses;
+import net.minecraft.world.entity.EntityType;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.ColorHandlerEvent;
+import net.minecraftforge.event.RegistryEvent;
 import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -42,7 +44,7 @@ public class BrazierForge {
     }
 
     @SubscribeEvent
-    public static void setup(final FMLCommonSetupEvent event) {
+    public static void setup(final RegistryEvent<EntityType<?>> event) {
         Brazier.setup();
     }
 

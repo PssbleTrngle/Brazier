@@ -112,8 +112,11 @@ public class Crazed extends SpellcasterIllager {
 
         private void spawnFlame(double x, double y, double z) {
             BlockPos blockpos = new BlockPos(x, y, z);
-            if (!Crazed.this.level.isWaterAt(blockpos))
-                Crazed.this.level.addFreshEntity(new CrazedFlame(Crazed.this.level, x, y + 0.4, z, Crazed.this));
+            if (!Crazed.this.level.isWaterAt(blockpos)) {
+                var flame = new CrazedFlame(Crazed.this.level, x, y + 0.4, z, Crazed.this);
+                flame.moveTo(x, y, z);
+                Crazed.this.level.addFreshEntity(flame);
+            }
         }
 
         protected SoundEvent getSpellPrepareSound() {

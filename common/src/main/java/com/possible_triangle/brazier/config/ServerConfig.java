@@ -15,7 +15,7 @@ public class ServerConfig implements ConfigData {
    public boolean SPAWN_CRAZED = true;
 
    @ConfigEntry.Category("acquisition")
-   public double CRAZED_CHANCE = 0.4;
+   public double CRAZED_CHANCE = 0.6;
 
    @ConfigEntry.Category("brazier")
    @ConfigEntry.BoundedDiscrete(min = 1, max = Integer.MAX_VALUE)

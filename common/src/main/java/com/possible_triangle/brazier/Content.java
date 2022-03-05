@@ -126,11 +126,11 @@ public class Content {
         BLOCKS.register();
         ITEMS.register();
         TILES.register();
+
     }
 
     public static void setup() {
         Content.CRAZED.ifPresent(Crazed::init);
-        //EntitySpawnPlacementRegistry.register(type, EntitySpawnPlacementRegistry.PlacementType.NO_RESTRICTIONS, Heightmap.Type.MOTION_BLOCKING_NO_LEAVES, Crazed::canSpawnHere);
 
         Conditional.when(config -> config.DECORATION, LIVING_LANTERN, LIVING_TORCH);
         Conditional.when(config -> config.SPAWN_POWDER, SPAWN_POWDER);
