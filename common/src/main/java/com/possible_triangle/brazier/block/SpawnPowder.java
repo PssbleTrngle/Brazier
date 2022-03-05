@@ -12,6 +12,7 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
+import org.jetbrains.annotations.NotNull;
 
 public class SpawnPowder extends Block {
 
@@ -27,7 +28,7 @@ public class SpawnPowder extends Block {
     }
 
     @Override
-    public VoxelShape getShape(BlockState blockState, BlockGetter blockGetter, BlockPos blockPos, CollisionContext collisionContext) {
+    public VoxelShape getShape(@NotNull BlockState blockState, @NotNull BlockGetter level, @NotNull BlockPos pos, @NotNull CollisionContext ctx) {
         return SHAPE;
     }
 
@@ -37,13 +38,11 @@ public class SpawnPowder extends Block {
         return below.isFaceSturdy(world, pos.below(), Direction.UP);
     }
 
-
-    public void neighborChanged(BlockState blockState, Level level, BlockPos blockPos, Block block, BlockPos blockPos2, boolean bl) {
-        if (!level.isClientSide) {
-            if (!blockState.canSurvive(level, blockPos)) {
-                dropResources(blockState, level, blockPos);
-                level.removeBlock(blockPos, false);
-            }
+    @Override
+    public void neighborChanged(BlockState state, Level level, BlockPos pos, Block block, BlockPos neighborPos, boolean bl) {
+        if (!level.isClientSide && !state.canSurvive(level, pos)) {
+            dropResources(state, level, pos);
+            level.removeBlock(pos, false);
         }
     }
 

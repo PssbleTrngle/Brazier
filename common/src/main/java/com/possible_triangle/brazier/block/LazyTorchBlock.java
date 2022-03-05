@@ -1,13 +1,13 @@
 package com.possible_triangle.brazier.block;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
+import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Random;
 import java.util.function.Supplier;
@@ -21,14 +21,13 @@ public class LazyTorchBlock extends TorchBlock {
         this.particle = particle;
     }
 
-    @Environment(EnvType.CLIENT)
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, Random random) {
-        double d0 = (double) pos.getX() + 0.5D;
-        double d1 = (double) pos.getY() + 0.7D;
-        double d2 = (double) pos.getZ() + 0.5D;
-        //world.addParticle(ParticleTypes.SMOKE, d0, d1, d2, 0.0D, 0.0D, 0.0D);
-        world.addParticle(this.particle.get(), d0, d1, d2, 0.0D, 0.0D, 0.0D);
+    public void animateTick(@NotNull BlockState state, Level world, BlockPos pos, @NotNull Random random) {
+        var x = pos.getX() + 0.5D;
+        var y = pos.getY() + 0.7D;
+        var z = pos.getZ() + 0.5D;
+        world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
+        world.addParticle(this.particle.get(), x, y, z, 0.0D, 0.0D, 0.0D);
     }
 
 }

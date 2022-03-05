@@ -31,7 +31,7 @@ public class Conditional {
     }
 
     public static Stream<ItemLike> disabled() {
-        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        ServerConfig config = Brazier.serverConfig();
         return CONDITIONALS.stream()
                 .filter(e -> !e.condition.test(config))
                 .map(c -> c.items)
@@ -41,7 +41,7 @@ public class Conditional {
     }
 
     public static void injectLoot(ResourceLocation target, Consumer<LootPool.Builder> table) {
-        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        ServerConfig config = Brazier.serverConfig();
 
         CONDITIONALS.stream()
                 .filter(e -> e.condition.test(config))

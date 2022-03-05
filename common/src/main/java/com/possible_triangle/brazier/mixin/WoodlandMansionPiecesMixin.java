@@ -22,7 +22,7 @@ public class WoodlandMansionPiecesMixin {
 
     @Inject(at = @At("HEAD"), cancellable = true, method = "handleDataMarker(Ljava/lang/String;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/ServerLevelAccessor;Ljava/util/Random;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)V")
     public void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor world, Random rand, BoundingBox ssb, CallbackInfo callback) {
-        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        ServerConfig config = Brazier.serverConfig();
         if (config.SPAWN_CRAZED) Content.CRAZED.ifPresent(type -> {
             if (function.equals("Mage") && config.CRAZED_CHANCE > 0 && rand.nextDouble() <= config.CRAZED_CHANCE) {
                 Crazed crazed = type.create(world.getLevel());

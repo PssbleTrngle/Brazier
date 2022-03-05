@@ -28,7 +28,6 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
     @Override
     public void onInitializeClient() {
         Brazier.clientSetup();
-        Brazier.clientInit();
         ParticleRegistryImpl.register();
         CustomEntityNetworking.register();
 

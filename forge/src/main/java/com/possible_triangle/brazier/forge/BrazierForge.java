@@ -27,7 +27,6 @@ public class BrazierForge {
         IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
         EventBuses.registerModEventBus(Brazier.MOD_ID, bus);
         Brazier.init();
-        DistExecutor.safeRunWhenOn(Dist.CLIENT, () -> Brazier::clientInit);
     }
 
     @OnlyIn(Dist.CLIENT)

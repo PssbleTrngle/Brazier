@@ -2,7 +2,6 @@ package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
 import net.minecraft.core.BlockPos;
-import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -11,7 +10,6 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
-import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -26,15 +24,14 @@ import net.minecraft.world.entity.npc.Villager;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
-import java.util.Random;
 
 public class Crazed extends SpellcasterIllager {
 
     public static final double BUFF_RADIUS = 7;
 
-    @SuppressWarnings("unused")
     public Crazed(Level world) {
         this(Content.CRAZED.get(), world);
     }
@@ -74,17 +71,21 @@ public class Crazed extends SpellcasterIllager {
 
     @Override
     public void applyRaidBuffs(int wave, boolean something) {
+        // No raid buffs
     }
 
+    @Override
     protected SoundEvent getAmbientSound() {
         return SoundEvents.EVOKER_AMBIENT;
     }
 
+    @Override
     protected SoundEvent getDeathSound() {
         return SoundEvents.EVOKER_DEATH;
     }
 
-    protected SoundEvent getHurtSound(DamageSource source) {
+    @Override
+    protected SoundEvent getHurtSound(@NotNull DamageSource source) {
         return SoundEvents.EVOKER_HURT;
     }
 
@@ -113,8 +114,8 @@ public class Crazed extends SpellcasterIllager {
         private void spawnFlame(double x, double y, double z) {
             BlockPos blockpos = new BlockPos(x, y, z);
             if (!Crazed.this.level.isWaterAt(blockpos)) {
-                var flame = new CrazedFlame(Crazed.this.level, x, y + 0.4, z, Crazed.this);
-                flame.moveTo(x, y, z);
+                var flame = new CrazedFlame(Crazed.this.level, Crazed.this);
+                flame.moveTo(x, y + 0.4F, z);
                 Crazed.this.level.addFreshEntity(flame);
             }
         }
@@ -166,10 +167,6 @@ public class Crazed extends SpellcasterIllager {
         protected IllagerSpell getSpell() {
             return IllagerSpell.FANGS;
         }
-    }
-
-    public static boolean canSpawnHere(EntityType<? extends Monster> type, ServerLevel world, MobSpawnType reason, BlockPos pos, Random random) {
-        return checkAnyLightMonsterSpawnRules(type, world, reason, pos, random) && reason != MobSpawnType.NATURAL;
     }
 
 }

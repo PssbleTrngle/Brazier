@@ -11,6 +11,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
+import org.jetbrains.annotations.NotNull;
 
 public class CrazedFlame extends AbstractHurtingProjectile {
 
@@ -18,7 +19,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
 
     private int life = INITIAL_LIFE;
 
-    public CrazedFlame(Level world, double x, double y, double z, LivingEntity caster) {
+    public CrazedFlame(Level world, LivingEntity caster) {
         super(Content.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
     }
 
@@ -33,17 +34,15 @@ public class CrazedFlame extends AbstractHurtingProjectile {
     @Override
     public void tick() {
         --this.life;
-        if (this.level.isClientSide) {
-            if (this.life % 4 == 0) {
-                for (int i = 0; i < 2; ++i) {
-                    double x = this.getX() + (this.random.nextDouble() * 2.0D - 1.0D) * (double) this.getBbWidth() * 0.5D;
-                    double y = this.getY() - 0.4;
-                    double z = this.getZ() + (this.random.nextDouble() * 2.0D - 1.0D) * (double) this.getBbWidth() * 0.5D;
-                    double dx = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
-                    double dy = 0.02D + this.random.nextDouble() * 0.05D;
-                    double dz = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
-                    level.addParticle(Content.FLAME_PARTICLE.get(), x, y + 1.0D, z, dx, dy, dz);
-                }
+        if (this.level.isClientSide && this.life % 4 == 0) {
+            for (int i = 0; i < 2; ++i) {
+                double x = this.getX() + (this.random.nextDouble() * 2.0D - 1.0D) * this.getBbWidth() * 0.5D;
+                double y = this.getY() - 0.4;
+                double z = this.getZ() + (this.random.nextDouble() * 2.0D - 1.0D) * this.getBbWidth() * 0.5D;
+                double dx = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
+                double dy = 0.02D + this.random.nextDouble() * 0.05D;
+                double dz = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
+                level.addParticle(Content.FLAME_PARTICLE.get(), x, y + 1.0D, z, dx, dy, dz);
             }
         } else {
             if (this.life <= 0) remove(RemovalReason.KILLED);
@@ -73,12 +72,14 @@ public class CrazedFlame extends AbstractHurtingProjectile {
         return EntityUtil.createSpawnPacket(this, "crazed_flame");
     }
 
-    public void readAdditionalSaveData(CompoundTag compound) {
+    @Override
+    public void readAdditionalSaveData(@NotNull CompoundTag compound) {
         super.readAdditionalSaveData(compound);
         if (compound.contains("life")) this.life = compound.getInt("life");
     }
 
-    public void addAdditionalSaveData(CompoundTag compound) {
+    @Override
+    public void addAdditionalSaveData(@NotNull CompoundTag compound) {
         super.addAdditionalSaveData(compound);
         compound.putInt("life", life);
     }

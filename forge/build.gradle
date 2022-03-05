@@ -82,7 +82,7 @@ remapJar {
 }
 
 jar {
-    classifier "dev"
+    classifier 'dev'
 }
 
 sourcesJar {
@@ -105,7 +105,7 @@ if (ENV.CURSEFORGE_TOKEN) curseforge {
         addGameVersion rootProject.minecraft_version
         addGameVersion 'Forge'
 
-        mainArtifact jar.archiveFile
+        mainArtifact remapJar.archiveFile
 
         releaseType = release_type
         changelog = ENV.CHANGELOG

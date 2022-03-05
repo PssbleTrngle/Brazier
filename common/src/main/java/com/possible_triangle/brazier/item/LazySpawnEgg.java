@@ -8,6 +8,7 @@ import net.minecraft.stats.Stats;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.InteractionResultHolder;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
@@ -25,27 +26,29 @@ import net.minecraft.world.level.block.entity.SpawnerBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.Objects;
 
-public class LazySpawnEgg extends Item {
+public class LazySpawnEgg<T extends Entity> extends Item {
 
     private final int primary;
     private final int secondary;
-    private final RegistrySupplier<EntityType<?>> type;
+    private final RegistrySupplier<EntityType<T>> typeSupplier;
 
-    public LazySpawnEgg(RegistrySupplier<EntityType<?>> type, int primary, int secondary) {
+    public LazySpawnEgg(RegistrySupplier<EntityType<T>> type, int primary, int secondary) {
         super(new Properties().tab(CreativeModeTab.TAB_MISC));
         this.primary = primary;
         this.secondary = secondary;
-        this.type = type;
+        this.typeSupplier = type;
     }
 
+    @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
         Level world = useOnContext.getLevel();
-        EntityType<?> type = this.type.get();
+        EntityType<?> type = this.typeSupplier.get();
 
-        if (!(world instanceof ServerLevel)) {
+        if (world.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
             ItemStack stack = useOnContext.getItemInHand();
@@ -54,8 +57,8 @@ public class LazySpawnEgg extends Item {
             BlockState state = world.getBlockState(pos);
             if (state.is(Blocks.SPAWNER)) {
                 BlockEntity tile = world.getBlockEntity(pos);
-                if (tile instanceof SpawnerBlockEntity) {
-                    BaseSpawner baseSpawner = ((SpawnerBlockEntity) tile).getSpawner();
+                if (tile instanceof SpawnerBlockEntity spawner) {
+                    BaseSpawner baseSpawner = spawner.getSpawner();
                     baseSpawner.setEntityId(type);
                     tile.setChanged();
                     world.sendBlockUpdated(pos, state, state, 3);
@@ -74,14 +77,15 @@ public class LazySpawnEgg extends Item {
         }
     }
 
-    public InteractionResultHolder<ItemStack> use(Level level, Player player, InteractionHand interactionHand) {
-        EntityType<?> type = this.type.get();
-        ItemStack itemStack = player.getItemInHand(interactionHand);
+    @Override
+    public InteractionResultHolder<ItemStack> use(@NotNull Level level, Player player, @NotNull InteractionHand hand) {
+        EntityType<?> type = this.typeSupplier.get();
+        ItemStack itemStack = player.getItemInHand(hand);
         BlockHitResult hitResult = getPlayerPOVHitResult(level, player, ClipContext.Fluid.SOURCE_ONLY);
 
         if (hitResult.getType() != HitResult.Type.BLOCK) {
             return InteractionResultHolder.pass(itemStack);
-        } else if (!(level instanceof ServerLevel)) {
+        } else if (level.isClientSide) {
             return InteractionResultHolder.success(itemStack);
         } else {
             BlockPos blockPos = hitResult.getBlockPos();
@@ -107,7 +111,7 @@ public class LazySpawnEgg extends Item {
 
     public static int getColor(ItemStack stack, int index) {
         var item = stack.getItem();
-        if (item instanceof LazySpawnEgg egg) {
+        if (item instanceof LazySpawnEgg<?> egg) {
             return index == 0 ? egg.primary : egg.secondary;
         }
         return -1;

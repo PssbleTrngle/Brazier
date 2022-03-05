@@ -48,8 +48,8 @@ import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.jetbrains.annotations.Nullable;
 
 import java.awt.*;
-import java.util.function.Function;
 import java.util.function.Supplier;
+import java.util.function.UnaryOperator;
 import java.util.stream.Stream;
 
 import static com.possible_triangle.brazier.Brazier.MOD_ID;
@@ -98,8 +98,8 @@ public class Content {
                     .build("crazed")
     );
 
-    public static final RegistrySupplier<LazySpawnEgg> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg(
-            (RegistrySupplier) CRAZED,
+    public static final RegistrySupplier<LazySpawnEgg<Crazed>> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg<>(
+            CRAZED,
             new Color(9804699).getRGB(),
             new Color(0x89CB07).getRGB())
     );
@@ -114,7 +114,7 @@ public class Content {
 
     public static final RegistrySupplier<HiddenItem> ICON = ITEMS.register("icon", HiddenItem::new);
 
-    public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, Function<Item.Properties, Item.Properties> props) {
+    public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, UnaryOperator<Item.Properties> props) {
         RegistrySupplier<T> block = BLOCKS.register(name, supplier);
         ITEMS.register(name, () -> new BlockItem(block.get(), props.apply(new Item.Properties())));
         return block;
@@ -159,7 +159,7 @@ public class Content {
                 .map(b -> (Block) b)
                 .forEach(block -> RenderTypeRegistry.register(RenderType.cutout(), block));
 
-        BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.register(tile, BrazierRenderer::new));
+        BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.register(tile, $ -> new BrazierRenderer()));
     }
 
     @Nullable

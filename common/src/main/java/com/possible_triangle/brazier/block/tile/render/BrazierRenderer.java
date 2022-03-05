@@ -15,27 +15,19 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
-import net.minecraft.client.renderer.RenderStateShard.LightmapStateShard;
 import net.minecraft.client.renderer.RenderStateShard.TextureStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
-import net.minecraft.client.renderer.blockentity.BlockEntityRendererProvider;
-import net.minecraft.client.renderer.blockentity.TheEndPortalRenderer;
-import net.minecraft.client.renderer.texture.TextureAtlas;
-import net.minecraft.client.renderer.texture.TextureAtlasSprite;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.world.inventory.InventoryMenu;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 @Environment(EnvType.CLIENT)
 //@Mod.EventBusSubscriber(bus = Mod.EventBusSubscriber.Bus.MOD, value = Dist.CLIENT)
 public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
-    public BrazierRenderer(BlockEntityRendererProvider.Context context) {
-
-    }
+    public BrazierRenderer() {}
 
     public static final RenderType RENDER_TYPE;
     private static final int TEXTURE_HEIGHT = 9;
@@ -55,7 +47,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         RENDER_TYPE = RenderType.create(Brazier.MOD_ID + ":runes", DefaultVertexFormat.POSITION, VertexFormat.Mode.QUADS, 128, false, false, glState);
     }
 
-    private void renderTop(PoseStack matrizes, float alpha, MultiBufferSource buffer) {
+    private void renderTop(PoseStack matrizes, MultiBufferSource buffer) {
         matrizes.pushPose();
         matrizes.translate(0, 0.05F, 0);
         Matrix4f matrix = matrizes.last().pose();
@@ -71,7 +63,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         matrizes.popPose();
     }
 
-    private void renderSide(PoseStack matrizes, float alpha, MultiBufferSource buffer, int height) {
+    private void renderSide(PoseStack matrizes, MultiBufferSource buffer, int height) {
         matrizes.pushPose();
         int times = height / TEXTURE_HEIGHT;
 
@@ -83,7 +75,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
             for (int i = 0; i <= times; i++) {
                 float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
-                float offset = i * TEXTURE_HEIGHT;
+                float offset = i * TEXTURE_HEIGHT * 1F;
 
                 matrizes.pushPose();
                 matrizes.mulPose(Vector3f.ZN.rotationDegrees(90F));
@@ -107,19 +99,18 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
     }
 
     @Override
-    public void render(BrazierTile tile, float partialTicks, PoseStack matrizes, MultiBufferSource buffer, int light, int overlay) {
+    public void render(BrazierTile tile, float partialTicks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light, int overlay) {
         int height = tile.getHeight();
-        float alpha = 1.0F;
 
         if (height > 0) {
 
             matrizes.pushPose();
             matrizes.translate(0.5, 0, 0.5);
 
-            if (Brazier.CLIENT_CONFIG.get().RENDER_RUNES) {
+            if (Brazier.clientConfig().RENDER_RUNES) {
                 Stream.of(Vector3f.XP, Vector3f.XN, Vector3f.ZN, Vector3f.ZP).forEach(v -> {
-                    renderSide(matrizes, alpha, buffer, height);
-                    renderTop(matrizes, alpha, buffer);
+                    renderSide(matrizes,  buffer, height);
+                    renderTop(matrizes, buffer);
                 });
             }
 

@@ -60,7 +60,7 @@ public class BrazierTile extends BlockEntity {
 
     private int findHeight() {
         assert level != null;
-        int max = Brazier.SERVER_CONFIG.get().MAX_HEIGHT;
+        int max = Brazier.serverConfig().MAX_HEIGHT;
         BlockPos pos = getBlockPos();
         if (!level.getBlockState(pos.above()).isAir()) return 0;
         for (int y = 1; y <= max; y++) {
@@ -94,7 +94,7 @@ public class BrazierTile extends BlockEntity {
 
     public int getRange() {
         if (height <= 0) return 0;
-        ServerConfig config = Brazier.SERVER_CONFIG.get();
+        ServerConfig config = Brazier.serverConfig();
         return config.BASE_RANGE + config.RANGE_PER_LEVEL * (height - 1);
     }
 
