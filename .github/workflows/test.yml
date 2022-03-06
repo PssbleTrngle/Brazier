@@ -7,11 +7,11 @@ on:
         type: boolean
         default: true
         description: 'Should gradle packages be cached'
-#  push:
-#    paths:
-#      - fabric/**
-#      - forge/**
-#      - common/**
+  push:
+    paths:
+      - fabric/**
+      - forge/**
+      - common/**
 
 jobs:
   test:

@@ -5,28 +5,17 @@ import com.possible_triangle.brazier.block.LazyTorchBlock;
 import com.possible_triangle.brazier.block.LazyWallTorchBlock;
 import com.possible_triangle.brazier.block.SpawnPowder;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
-import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.EntityUtil;
-import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
-import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.HiddenItem;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
-import com.possible_triangle.brazier.particle.FlameParticle;
 import com.possible_triangle.brazier.particle.ModdedParticleType;
-import com.possible_triangle.brazier.particle.ParticleRegistry;
 import dev.architectury.hooks.tags.TagHooks;
 import dev.architectury.platform.Platform;
-import dev.architectury.registry.client.rendering.RenderTypeRegistry;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
-import net.minecraft.client.renderer.RenderType;
-import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
-import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
@@ -50,11 +39,12 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.*;
 import java.util.function.Supplier;
 import java.util.function.UnaryOperator;
-import java.util.stream.Stream;
 
 import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Content {
+
+    private Content() {}
 
     public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.optionalBlock(new ResourceLocation(MOD_ID, "brazier_base_blocks"));
 
@@ -126,7 +116,6 @@ public class Content {
         BLOCKS.register();
         ITEMS.register();
         TILES.register();
-
     }
 
     public static void setup() {
@@ -141,25 +130,6 @@ public class Content {
                 .add(Content.ASH, Content.WARPED_NETHERWART)
                 .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
                 .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static void registerParticles() {
-        FLAME_PARTICLE.ifPresent(type -> ParticleRegistry.registerFactory(type, FlameParticle::new));
-    }
-
-    @Environment(EnvType.CLIENT)
-    public static void clientSetup() {
-        CRAZED.ifPresent(type -> EntityRenderers.register(type, CrazedRender::new));
-        CRAZED_FLAME.ifPresent(type -> EntityRenderers.register(type, CrazedFlameRenderer::new));
-
-        Stream.of(BRAZIER, LIVING_TORCH_BLOCK, LIVING_TORCH_BLOCK_WALL, SPAWN_POWDER, LIVING_LANTERN)
-                .filter(RegistrySupplier::isPresent)
-                .map(RegistrySupplier::get)
-                .map(b -> (Block) b)
-                .forEach(block -> RenderTypeRegistry.register(RenderType.cutout(), block));
-
-        BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.register(tile, $ -> new BrazierRenderer()));
     }
 
     @Nullable

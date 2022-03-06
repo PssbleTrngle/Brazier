@@ -67,7 +67,7 @@ public class Brazier {
     }
 
     public static void clientSetup() {
-        Content.clientSetup();
+        ClientContent.setup();
     }
 
 }

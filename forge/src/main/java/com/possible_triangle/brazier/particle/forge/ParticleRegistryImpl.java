@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.particle.forge;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.ClientContent;
 import com.possible_triangle.brazier.particle.ParticleRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.TextureSheetParticle;
@@ -16,7 +16,7 @@ public class ParticleRegistryImpl {
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
     public static void register(ParticleFactoryRegisterEvent event) {
-        Content.registerParticles();
+        ClientContent.registerParticles();
         ParticleRegistry.register((type, factory) -> Minecraft.getInstance().particleEngine.register(type, sprites ->
                         (arg, arg2, d, e, f, g, h, i) -> {
                             TextureSheetParticle particle = factory.create(arg2, d, e, f, g, h, i);
