@@ -28,7 +28,7 @@ jobs:
       - run: chmod +x ./gradlew
 
       - name: Cache SonarQube packages
-        uses: actions/cache@v12
+        uses: actions/cache@v2
         with:
           path: ~/.sonar/cache
           key: ${{ runner.os }}-sonar
