@@ -4,19 +4,17 @@ on:
     types: [created]
 
 jobs:
-  setup:
-    uses: PssbleTrngle/Brazier/.github/workflows/setup.yml@1.18.x
-    with:
-      cache: false
-
   build:
     name: Release
-    needs: setup
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/download-artifact@v2
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up JDK
+        uses: actions/setup-java@v1
         with:
-          name: setup
+          java-version: 17
 
       - run: chmod +x ./gradlew
 
