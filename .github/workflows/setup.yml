@@ -1,3 +1,4 @@
+name: Setup
 on:
   workflow_call:
     inputs:
@@ -28,8 +29,6 @@ jobs:
           path: ~/.gradle/caches
           key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
           restore-keys: ${{ runner.os }}-gradle
-
-      - run: chmod +x ./gradlew
 
       - uses: actions/upload-artifact@v2
         with:

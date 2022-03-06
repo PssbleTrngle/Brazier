@@ -18,6 +18,8 @@ jobs:
         with:
           name: setup
 
+      - run: chmod +x ./gradlew
+
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
         with:

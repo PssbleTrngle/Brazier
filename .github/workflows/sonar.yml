@@ -19,6 +19,8 @@ jobs:
         with:
           name: setup
 
+      - run: chmod +x ./gradlew
+
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:

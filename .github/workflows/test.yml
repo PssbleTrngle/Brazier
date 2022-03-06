@@ -1,5 +1,4 @@
 name: Test
-
 on:
   workflow_dispatch:
     inputs:
@@ -33,11 +32,14 @@ jobs:
         with:
           name: setup
 
+      - run: chmod +x ./gradlew
+
       - if: ${{ matrix.dist == 'server' }}
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt
 
       - name: Run ${{ matrix.loader }} ${{ matrix.dist }}
         run: ./gradlew ${{ matrix.loader }}:run${{ matrix.dist }}
+        timeout-minutes: 8
         env:
           MC_TESTING: true
