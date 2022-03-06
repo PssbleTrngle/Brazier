@@ -2,6 +2,12 @@ name: Test
 
 on:
   workflow_dispatch:
+    inputs:
+      cache:
+        required: true
+        type: boolean
+        default: true
+        description: 'Should gradle packages be cached'
 #  push:
 #    paths:
 #      - fabric/**
@@ -17,26 +23,15 @@ jobs:
         loader: [ 'fabric', 'forge' ]
         dist: [ 'server' ]
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - uses: ./.github/workflows/setup
         with:
-          java-version: 17
-
-      - name: Cache Gradle packages
-        uses: actions/cache@v1
-        with:
-          path: ~/.gradle/caches
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle') }}
-          restore-keys: ${{ runner.os }}-gradle
+          cache: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.cache }}
 
       - if: ${{ matrix.dist == 'server' }}
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt
 
       - name: Run ${{ matrix.loader }} ${{ matrix.dist }}
-        run: chmod +x ./gradlew && ./gradlew ${{ matrix.loader }}:run${{ matrix.dist }}
+        run: ./gradlew ${{ matrix.loader }}:run${{ matrix.dist }}
         env:
           MC_TESTING: true
