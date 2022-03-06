@@ -8,7 +8,7 @@ jobs:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/setup
+      - uses: ./.github/workflows/setup.yml
         with:
           cache: false
 
