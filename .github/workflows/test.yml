@@ -23,7 +23,7 @@ jobs:
         loader: [ 'fabric', 'forge' ]
         dist: [ 'server' ]
     steps:
-      - uses: ${{ github.action_repository }}/.github/workflows/setup.yml
+      - uses: ${{ github.action_repository }}/.github/workflows/setup.yml@${{ github.action_ref }}
         with:
           cache: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.cache }}
 
