@@ -1,4 +1,4 @@
-name: Build & Analyze
+name: Analyze
 on:
   push:
     branches: [ 1.18.x ]
@@ -28,11 +28,20 @@ jobs:
 
       - run: chmod +x ./gradlew
 
+      - uses: actions/upload-artifact@v2
+        with:
+          name: setup
+          path: .
+
   build:
     name: Analyze
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: setup
+
       - name: Cache SonarQube packages
         uses: actions/cache@v1
         with:
