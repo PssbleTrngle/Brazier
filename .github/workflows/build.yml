@@ -4,8 +4,14 @@ on:
     types: [created]
 
 jobs:
+  setup:
+    uses: PssbleTrngle/Brazier/.github/workflows/setup.yml@1.18.x
+    with:
+      cache: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.cache }}
+
   build:
     name: Release
+    needs: setup
     runs-on: ubuntu-latest
     steps:
       - uses: PssbleTrngle/Brazier/.github/workflows/setup.yml@1.18.x

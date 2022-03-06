@@ -16,17 +16,19 @@ on:
 
 jobs:
 
+  setup:
+    uses: PssbleTrngle/Brazier/.github/workflows/setup.yml@1.18.x
+    with:
+      cache: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.cache }}
+
   test:
     runs-on: ubuntu-latest
+    needs: setup
     strategy:
       matrix:
         loader: [ 'fabric', 'forge' ]
         dist: [ 'server' ]
     steps:
-      - uses: PssbleTrngle/Brazier/.github/workflows/setup.yml@1.18.x
-        with:
-          cache: ${{ github.event_name != 'workflow_dispatch' || github.event.inputs.cache }}
-
       - if: ${{ matrix.dist == 'server' }}
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt
