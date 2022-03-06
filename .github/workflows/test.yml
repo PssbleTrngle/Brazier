@@ -29,6 +29,10 @@ jobs:
         loader: [ 'fabric', 'forge' ]
         dist: [ 'server' ]
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: setup
+
       - if: ${{ matrix.dist == 'server' }}
         name: Accept Eula
         run: mkdir run && echo "eula=true" > run/eula.txt

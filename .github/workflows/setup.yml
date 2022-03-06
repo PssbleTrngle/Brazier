@@ -30,3 +30,8 @@ jobs:
           restore-keys: ${{ runner.os }}-gradle
 
       - run: chmod +x ./gradlew
+
+      - uses: actions/upload-artifact@v2
+        with:
+          name: setup
+          path: .

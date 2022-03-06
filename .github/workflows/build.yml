@@ -14,6 +14,9 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/download-artifact@v2
+        with:
+          name: setup
 
       - name: Update mod version
         uses: christian-draeger/write-properties@1.0.1
