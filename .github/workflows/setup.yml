@@ -2,7 +2,7 @@ on:
   workflow_call:
     inputs:
       cache:
-        required: true
+        required: false
         default: true
         type: boolean
         description: 'Should gradle packages be cached'
