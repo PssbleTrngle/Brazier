@@ -8,7 +8,7 @@ jobs:
     name: Analyze
     runs-on: ubuntu-latest
     steps:
-      - uses: ./.github/workflows/setup.yml
+      - uses: ${{ github.action_repository }}/.github/workflows/setup.yml
 
       - name: Cache SonarQube packages
         uses: actions/cache@v1
