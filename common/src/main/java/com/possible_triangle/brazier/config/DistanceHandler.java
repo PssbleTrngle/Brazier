@@ -10,8 +10,8 @@ public class DistanceHandler {
 
     public enum Type {
 
-        SPHERE((a, b) -> b.distSqr(a.x, a.y, a.z, true)),
-        CYLINDER((a, b) -> b.distSqr(a.x, b.getY(), a.z, true));
+        SPHERE((a, b) -> b.distToCenterSqr(a.x, a.y, a.z)),
+        CYLINDER((a, b) -> b.distToCenterSqr(a.x, b.getY(), a.z));
 
         private final BiFunction<Vec3, BlockPos, Double> calc;
 

@@ -12,7 +12,6 @@ import com.possible_triangle.brazier.item.HiddenItem;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.particle.ModdedParticleType;
-import dev.architectury.hooks.tags.TagHooks;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
@@ -20,7 +19,7 @@ import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.Tag;
+import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
@@ -44,16 +43,21 @@ import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Content {
 
-    private Content() {}
+    private Content() {
+    }
+    
+    private static ResourceLocation id(String key) {
+        return new ResourceLocation(MOD_ID, key);
+    }
 
-    public static final Tag.Named<Block> BRAZIER_BASE_BLOCKS = TagHooks.optionalBlock(new ResourceLocation(MOD_ID, "brazier_base_blocks"));
+    public static final TagKey<Block> BRAZIER_BASE_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY, id("brazier_base_blocks"));
 
-    public static final Tag.Named<EntityType<?>> BRAZIER_WHITELIST = TagHooks.optionalEntityType(new ResourceLocation(MOD_ID, "brazier_whitelist"));
-    public static final Tag.Named<EntityType<?>> BRAZIER_BLACKLIST = TagHooks.optionalEntityType(new ResourceLocation(MOD_ID, "brazier_blacklist"));
-    public static final Tag.Named<Item> TORCHES = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "torches"));
-    public static final Tag.Named<Item> ASH_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "ash"));
-    public static final Tag.Named<Item> IRON_NUGGET_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "iron_nuggets"));
-    public static final Tag.Named<Item> WARPED_WART_TAG = TagHooks.optionalItem(new ResourceLocation(MOD_ID, "warped_wart"));
+    public static final TagKey<EntityType<?>> BRAZIER_WHITELIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_whitelist"));
+    public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_blacklist"));
+    public static final TagKey<Item> TORCHES = TagKey.create(Registry.ITEM_REGISTRY, id("torches"));
+    public static final TagKey<Item> ASH_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("ash"));
+    public static final TagKey<Item> IRON_NUGGET_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("iron_nuggets"));
+    public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("warped_wart"));
 
     public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
     public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);

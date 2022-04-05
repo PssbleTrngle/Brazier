@@ -3,8 +3,8 @@ package com.possible_triangle.brazier;
 import com.mojang.datafixers.util.Pair;
 import com.possible_triangle.brazier.config.ServerConfig;
 import dev.architectury.registry.registries.RegistrySupplier;
+import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.TagContainer;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
@@ -52,12 +52,16 @@ public class Conditional {
                 .forEach(table);
     }
 
-    public static void removeTags(TagContainer tags) {
-        /* TODO remove tags from disabled items
-        TagCollection<Item> itemTags = tags.getItems();
+    public static void removeTags(RegistryAccess registries) {
+        // TODO remove tags from disabled items
+        /*var items = registries.registryOrThrow(Registry.ITEM_REGISTRY);
         disabled().map(ItemLike::asItem).forEach(item -> {
-            tags.getItems().getMatchingTags(item).stream()
-                    .map(itemTags::getTag);
+            var key = items.getResourceKey(item);
+            key.map(items::getHolder).flatMap(Function.identity()).ifPresent(holder -> {
+                holder.tags().forEach(tag -> {
+                    items.getOrCreateTag(tag).
+                });
+            });
         });
         */
     }

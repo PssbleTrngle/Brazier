@@ -148,7 +148,7 @@ public class Crazed extends SpellcasterIllager {
 
         private List<LivingEntity> getTargets() {
             return level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(BUFF_RADIUS), e ->
-                    e.isAlive() && (EntityTypeTags.RAIDERS.contains(e.getType()) || e.isAlliedTo(Crazed.this))
+                    e.isAlive() && (e.getType().is(EntityTypeTags.RAIDERS) || e.isAlliedTo(Crazed.this))
             );
         }
 
