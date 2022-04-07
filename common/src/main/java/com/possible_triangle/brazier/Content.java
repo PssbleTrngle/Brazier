@@ -56,6 +56,7 @@ public class Content {
     public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_blacklist"));
     public static final TagKey<Item> TORCHES = TagKey.create(Registry.ITEM_REGISTRY, id("torches"));
     public static final TagKey<Item> ASH_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("ash"));
+    public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registry.ITEM_REGISTRY, id("range_indicator"));
     public static final TagKey<Item> IRON_NUGGET_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("iron_nuggets"));
     public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("warped_wart"));
 

@@ -9,14 +9,17 @@ import net.minecraft.world.phys.Vec3;
 
 import java.util.stream.Stream;
 
-public interface BrazierIndicator {
+public class BrazierIndicator {
 
-    static void playerTick(Player player) {
+    private BrazierIndicator() {
+    }
+
+    public static void playerTick(Player player) {
         if (player.level.isClientSide || player.tickCount % 2 != 0) return;
         ServerLevel world = (ServerLevel) player.level;
 
         Stream<ItemStack> items = Stream.of(player.getOffhandItem(), player.getMainHandItem());
-        if (items.map(ItemStack::getItem).anyMatch(BrazierIndicator.class::isInstance)) {
+        if (items.anyMatch(it -> it.is(Content.RANGE_INDICATOR))) {
 
             int step = 3;
             float radius = 5F;
