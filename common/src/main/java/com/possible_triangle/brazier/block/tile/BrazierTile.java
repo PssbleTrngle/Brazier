@@ -113,5 +113,4 @@ public class BrazierTile extends BlockEntity {
         if (level != null) BrazierLogic.removeBrazier(getBlockPos(), level.dimension());
     }
 
-
 }
