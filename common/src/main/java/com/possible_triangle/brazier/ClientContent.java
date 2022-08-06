@@ -12,6 +12,7 @@ import net.fabricmc.api.Environment;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.entity.EntityRenderers;
 import net.minecraft.world.level.block.Block;
+import net.minecraft.client.renderer.blockentity.BlockEntityRenderers;
 
 import java.util.stream.Stream;
 
@@ -36,7 +37,7 @@ public class ClientContent {
                 .map(Block.class::cast)
                 .forEach(block -> RenderTypeRegistry.register(RenderType.cutout(), block));
 
-        Content.BRAZIER_TILE.ifPresent(tile -> net.minecraft.client.renderer.blockentity.BlockEntityRenderers.register(tile, $ -> new BrazierRenderer()));
+        Content.BRAZIER_TILE.ifPresent(tile -> BlockEntityRenderers.register(tile, $ -> new BrazierRenderer()));
     }
 
 }
