@@ -18,7 +18,7 @@ dependencies {
 }
 
 architectury {
-    common()
+    common(rootProject.enabled_platforms.split(","))
 }
 
 def mod_id = rootProject.mod_id
