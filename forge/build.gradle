@@ -116,8 +116,8 @@ if (ENV.CURSEFORGE_TOKEN) curseforge {
         changelogType = 'markdown'
 
         relations {
-            requiredDependency 'architectury-forge'
-            requiredDependency 'cloth-config-forge'
+            requiredDependency 'architectury-api'
+            requiredDependency 'cloth-config'
             optionalDependency 'jei'
         }
     }
