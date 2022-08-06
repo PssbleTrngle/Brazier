@@ -5,6 +5,7 @@
 
 ![](https://cloud.somethingcatchy.net/s/PAAcwsoT8FrkPRf/preview)
 
+<!-- modrinth_exclude.start -->
 # Brazier
 [![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
 [![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][FORGE]
@@ -13,6 +14,7 @@
 
 [![Forge Download](https://img.shields.io/badge/Download%20for-Forge-red?style=for-the-badge&logo=curseforge)][FORGE]
 [![Fabric Download](https://img.shields.io/badge/Download%20for-Fabric-blue?style=for-the-badge&logo=curseforge)][FABRIC]
+<!-- modrinth_exclude.end -->
 
 *This mod is still work in progress, and [feedback][ISSUES] regarding the balancing of the range or the structures base blocks is highly requested*
 

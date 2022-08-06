@@ -1,20 +1,28 @@
 name: Build & Release
 on:
   release:
-    types: [created]
+    types: [ created ]
 
 jobs:
   build:
     name: Release
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
-      - name: Set up JDK
-        uses: actions/setup-java@v1
+      - uses: actions/setup-java@v3
         with:
           java-version: 17
+          distribution: corretto
+
+      - uses: actions/cache@v3
+        with:
+          path: |
+            ~/.gradle/caches
+            ~/.gradle/wrapper
+          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          restore-keys: |
+            ${{ runner.os }}-gradle-
 
       - run: chmod +x ./gradlew
 
@@ -25,29 +33,46 @@ jobs:
           property: 'mod_version'
           value: ${{ github.event.release.tag_name }}
 
-      - name: Build
+      - name: build
+        run: ./gradlew build
+
+      - name: publish to github packages
+        run: ./gradlew publish
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: upload to curseforge
+        run: ./gradlew curseforge
+        continue-on-error: true
+        env:
           CURSEFORGE_TOKEN: ${{ secrets.CURSEFORGE_TOKEN }}
           CHANGELOG: ${{ github.event.release.body }}
-        run: ./gradlew build curseforge
+
+      - name: upload to modrinth
+        run: ./gradlew modrinth
+        continue-on-error: true
+        env:
+          MODRINTH_TOKEN: ${{ secrets.MODRINTH_TOKEN }}
+          CHANGELOG: ${{ github.event.release.body }}
 
       - name: Upload forge jar to release
+        if: ${{ github.event_name == 'release' }}
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: forge/build/libs/brazier-${{ github.event.release.tag_name }}.jar
+          asset_path: forge/build/libs/brazier-forge-${{ github.event.release.tag_name }}.jar
           asset_name: brazier-forge-${{ github.event.release.tag_name }}.jar
           asset_content_type: application/java-archive
 
       - name: Upload fabric jar to release
+        if: ${{ github.event_name == 'release' }}
         uses: actions/upload-release-asset@v1.0.1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ github.event.release.upload_url }}
-          asset_path: fabric/build/libs/brazier-${{ github.event.release.tag_name }}.jar
+          asset_path: fabric/build/libs/brazier-fabric-${{ github.event.release.tag_name }}.jar
           asset_name: brazier-fabric-${{ github.event.release.tag_name }}.jar
           asset_content_type: application/java-archive
