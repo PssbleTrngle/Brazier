@@ -20,30 +20,21 @@ import org.jetbrains.annotations.NotNull;
 public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
     public static final ResourceLocation TEXTURE_KEY = new ResourceLocation(Brazier.MOD_ID, "textures/block/brazier_runes.png");
-    //public static final ResourceLocation TEXTURE_KEY = new ResourceLocation("textures/block/stone.png");
 
     public static final float SIZE = 0.25F;
     public static final float OFFSET = 0.02F;
 
-    private RenderType createRenderType() {
-        var glState = RenderType.CompositeState.builder()
-                .setShaderState(RenderType.POSITION_TEX_SHADER)
-                .setTextureState(new RenderStateShard.TextureStateShard(TEXTURE_KEY, false, false))
-                //.setTextureState(new RenderStateShard.TextureStateShard(new ResourceLocation("textures/block/diamond_block.png"), false, false))
-                //.setTextureState(RenderStateShard.BLOCK_SHEET_MIPPED)
-                //.setTransparencyState(RenderStateShard.TRANSLUCENT_TRANSPARENCY)
-                //.setCullState(RenderStateShard.NO_CULL)
-                .setLightmapState(RenderStateShard.LIGHTMAP)
-                //.setOverlayState(RenderStateShard.OVERLAY)
-                .createCompositeState(false);
-
-        return RenderType.create(
-                Brazier.MOD_ID + ":runes",
-                DefaultVertexFormat.POSITION_TEX,
-                VertexFormat.Mode.QUADS,
-                256, false, false, glState
-        );
-    }
+    private static final RenderType RENDER_TYPE = RenderType.create(
+            Brazier.MOD_ID + ":runes",
+            DefaultVertexFormat.POSITION_TEX,
+            VertexFormat.Mode.QUADS,
+            256, false, false,
+            RenderType.CompositeState.builder()
+                    .setShaderState(RenderType.POSITION_TEX_SHADER)
+                    .setTextureState(new RenderStateShard.TextureStateShard(TEXTURE_KEY, false, false))
+                    .setLightmapState(RenderStateShard.LIGHTMAP)
+                    .createCompositeState(false)
+    );
 
     private static final int TEXTURE_HEIGHT = 9;
     private static final int FRAMES = 10;
@@ -85,7 +76,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         matrizes.translate(0.5, 0, 0.5);
 
         var matrix = matrizes.last().pose();
-        var vertex = buffer.getBuffer(renderType());
+        var vertex = buffer.getBuffer(RENDER_TYPE);
 
         if (Brazier.clientConfig().RENDER_RUNES) {
             float frame = (float) ((System.currentTimeMillis() / 100) % FRAMES);
@@ -105,9 +96,9 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         matrizes.popPose();
     }
 
-    public RenderType renderType() {
-        //return RenderType.endPortal();
-        return createRenderType();
+    @Override
+    public boolean shouldRenderOffScreen(BrazierTile tile) {
+        return Brazier.clientConfig().RENDER_RUNES;
     }
 
 }

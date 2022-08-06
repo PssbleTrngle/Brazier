@@ -14,6 +14,7 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.phys.AABB;
 
 public class BrazierTile extends BlockEntity {
 
@@ -111,6 +112,14 @@ public class BrazierTile extends BlockEntity {
     public void setRemoved() {
         super.setRemoved();
         if (level != null) BrazierLogic.removeBrazier(getBlockPos(), level.dimension());
+    }
+
+    /**
+     * This overrides the method `BlockEntity$getRenderBoundingBox`, which for some reason is not found in the mappings,
+     * therefore the @Override is missing.
+     */
+    public AABB getRenderBoundingBox() {
+        return new AABB(getBlockPos()).inflate(height + 2);
     }
 
 }
