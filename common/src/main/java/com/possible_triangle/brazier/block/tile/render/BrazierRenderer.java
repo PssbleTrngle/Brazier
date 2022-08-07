@@ -52,7 +52,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
         for (int i = 0; i <= times; i++) {
             float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
-            float offset = i * TEXTURE_HEIGHT * 1F;
+            float offset = i * TEXTURE_HEIGHT * -1F;
 
             float maxU = segment / TEXTURE_HEIGHT;
 
