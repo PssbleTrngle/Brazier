@@ -10,7 +10,7 @@ import mezz.jei.api.registration.IRecipeCategoryRegistration;
 import mezz.jei.api.registration.IRecipeRegistration;
 import mezz.jei.api.runtime.IIngredientManager;
 import mezz.jei.api.runtime.IJeiRuntime;
-import net.minecraft.network.chat.TranslatableComponent;
+import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.Ingredient;
@@ -37,16 +37,16 @@ public class JeiPlugin implements IModPlugin {
         IIngredientManager ingredientManager = registration.getIngredientManager();
         IIngredientType<ItemStack> items = ingredientManager.getIngredientType(ItemStack.class);
 
-        Stream.of(Content.BRAZIER, Content.LIVING_TORCH).map(RegistrySupplier::toOptional)
+        Stream.of(Content.BRAZIER, Content.LIVING_TORCH)
+                .map(RegistrySupplier::toOptional)
                 .filter(Optional::isPresent)
-                .map(Optional::get)
-                .map(ItemStack::new)
-                .forEach(item -> registration.addIngredientInfo(item, items, new TranslatableComponent("description.brazier.brazier-1"), new TranslatableComponent("description.brazier.brazier-2")));
+                .map(Optional::get).map(ItemStack::new)
+                .forEach(item -> registration.addIngredientInfo(item, items, Component.translatable("description.brazier.brazier-1"), Component.translatable("description.brazier.brazier-2")));
 
         Content.LIVING_TORCH.toOptional()
                 .map(item -> new LightOnBrazier.Recipe(Ingredient.of(Content.TORCHES), item))
-                .map(Collections::singleton)
-                .ifPresent(recipes -> registration.addRecipes(recipes, LightOnBrazier.UID));
+                .map(Collections::singletonList)
+                .ifPresent(recipes -> registration.addRecipes(LightOnBrazier.TYPE, recipes));
 
     }
 
@@ -57,13 +57,9 @@ public class JeiPlugin implements IModPlugin {
 
         List<ItemStack> hidden = Stream.of(
 
-                Conditional.disabled()
-                        .map(ItemStack::new),
+                Conditional.disabled().map(ItemStack::new),
 
-                Stream.of(Content.ICON)
-                        .filter(RegistrySupplier::isPresent)
-                        .map(RegistrySupplier::get)
-                        .map(ItemStack::new)
+                Stream.of(Content.ICON).filter(RegistrySupplier::isPresent).map(RegistrySupplier::get).map(ItemStack::new)
 
         ).flatMap(Function.identity()).collect(Collectors.toList());
 

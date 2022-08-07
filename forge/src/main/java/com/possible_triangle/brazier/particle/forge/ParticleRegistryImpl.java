@@ -6,7 +6,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.particle.TextureSheetParticle;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
-import net.minecraftforge.client.event.ParticleFactoryRegisterEvent;
+import net.minecraftforge.client.event.RegisterParticleProvidersEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 
@@ -15,7 +15,7 @@ public class ParticleRegistryImpl {
 
     @SubscribeEvent
     @OnlyIn(Dist.CLIENT)
-    public static void register(ParticleFactoryRegisterEvent event) {
+    public static void register(RegisterParticleProvidersEvent event) {
         ClientContent.registerParticles();
         ParticleRegistry.register((type, factory) -> Minecraft.getInstance().particleEngine.register(type, sprites ->
                         (arg, arg2, d, e, f, g, h, i) -> {

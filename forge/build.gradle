@@ -58,9 +58,9 @@ dependencies {
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${rootProject.cloth_config_version}")
 
     // JEI
-    //modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-common-api:${rootProject.jei_version}")
-    //modCompileOnly("mezz.jei:jei-${rootProject.minecraft_version}-forge-api:${rootProject.jei_version}")
-    //modLocalRuntime("mezz.jei:jei-${rootProject.minecraft_version}-forge:${rootProject.jei_version}")
+    modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-common-api:${rootProject.jei_version}")
+    modCompileOnly("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge-api:${rootProject.jei_version}")
+    //modLocalRuntime("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge:${rootProject.jei_version}")
 }
 
 processResources {

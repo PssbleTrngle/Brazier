@@ -36,17 +36,17 @@ public class Blocks extends BlockStateProvider {
         }));
 
         Content.LIVING_TORCH_BLOCK.ifPresent(b -> simpleBlock(b,
-                models().singleTexture(
-                        b.getRegistryName().getPath(),
-                        mcLoc("block/template_torch"),
-                        "torch",
-                        blockTexture(b))
+                        models().singleTexture(
+                                b.builtInRegistryHolder().key().location().getPath(),
+                                mcLoc("block/template_torch"),
+                                "torch",
+                                blockTexture(b))
                 )
         );
 
         Content.LIVING_TORCH_BLOCK_WALL.ifPresent(b -> {
                     ModelFile model = models().singleTexture(
-                            b.getRegistryName().getPath(),
+                            b.builtInRegistryHolder().key().location().getPath(),
                             mcLoc("block/template_torch_wall"),
                             "torch",
                             blockTexture(Content.LIVING_TORCH_BLOCK.get())
@@ -66,7 +66,7 @@ public class Blocks extends BlockStateProvider {
             String postfix = s.getValue(LanternBlock.HANGING) ? "_hanging" : "";
             return ConfiguredModel.builder()
                     .modelFile(models().singleTexture(
-                            lantern.getRegistryName().getPath() + postfix,
+                            lantern.builtInRegistryHolder().key().location().getPath() + postfix,
                             mcLoc("block/template" + postfix + "_lantern"),
                             "lantern",
                             blockTexture(lantern)
@@ -74,7 +74,7 @@ public class Blocks extends BlockStateProvider {
         }));
 
         Content.SPAWN_POWDER.ifPresent(b -> simpleBlock(b,
-                models().getBuilder(b.getRegistryName().getPath())
+                models().getBuilder(b.builtInRegistryHolder().key().location().getPath())
                         .texture("particle", blockTexture(b))
                         .texture("texture", blockTexture(b))
                         .element().from(0, 0.25F, 0).to(16, 0.25F, 16)

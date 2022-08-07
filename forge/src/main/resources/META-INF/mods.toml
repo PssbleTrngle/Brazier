@@ -27,7 +27,7 @@ showAsResourcePack = false
 [[dependencies.brazier]]
     modId = "architectury"
     mandatory = true
-    versionRange = "[5.7.28,)"
+    versionRange = "[6.0.37,)"
     ordering = "AFTER"
     side = "BOTH"
 [[dependencies.brazier]]

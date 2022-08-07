@@ -4,13 +4,13 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.Random;
 import java.util.function.Supplier;
 
 public class LazyWallTorchBlock extends WallTorchBlock {
@@ -23,7 +23,7 @@ public class LazyWallTorchBlock extends WallTorchBlock {
     }
 
     @Override
-    public void animateTick(BlockState state, Level world, BlockPos pos, @NotNull Random rand) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, @NotNull RandomSource rand) {
         Direction direction = state.getValue(FACING);
         Direction opposite = direction.getOpposite();
         var x = pos.getX() + 0.77D * opposite.getStepX();

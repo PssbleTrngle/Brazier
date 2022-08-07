@@ -9,7 +9,7 @@ import com.possible_triangle.brazier.particle.fabric.ParticleRegistryImpl;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
-import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
+import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 
 @SuppressWarnings("unused")
 public class BrazierFabric implements ModInitializer, ClientModInitializer {
@@ -19,7 +19,7 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
         Brazier.init();
         Brazier.setup();
 
-        LootTableLoadingCallback.EVENT.register((resourceManager, manager, id, supplier, setter) ->
+        LootTableEvents.MODIFY.register((resourceManager, manager, id, supplier, setter) ->
                 Conditional.injectLoot(id, supplier::withPool)
         );
 

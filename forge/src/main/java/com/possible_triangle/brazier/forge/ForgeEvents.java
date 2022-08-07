@@ -15,7 +15,7 @@ public class ForgeEvents {
 
     @SubscribeEvent(priority = EventPriority.HIGHEST)
     public static void onMobSpawn(LivingSpawnEvent.CheckSpawn event) {
-        if (BrazierLogic.prevents(event.getEntity(), event.getWorld(), event.getSpawnReason())) {
+        if (BrazierLogic.prevents(event.getEntity(), event.getLevel(), event.getSpawnReason())) {
             event.setResult(Event.Result.DENY);
         }
     }
@@ -27,7 +27,7 @@ public class ForgeEvents {
 
     @SubscribeEvent
     public static void onTagLoaded(TagsUpdatedEvent event) {
-        Conditional.removeTags(event.getTagManager());
+        Conditional.removeTags(event.getRegistryAccess());
     }
 
 }
