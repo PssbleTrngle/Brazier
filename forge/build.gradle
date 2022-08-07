@@ -25,6 +25,16 @@ loom {
         convertAccessWideners = true
         extraAccessWideners.add loom.accessWidenerPath.get().asFile.name
     }
+
+    //launches {
+    //    data {
+    //        arg "--existing", file("src/main/resources").absolutePath
+    //    }
+    //}
+
+    //dataGen {
+    //    mod rootProject.mod_id
+    //}
 }
 
 configurations {
