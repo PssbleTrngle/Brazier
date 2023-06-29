@@ -51,6 +51,7 @@ public class Content {
     }
 
     public static final TagKey<Block> BRAZIER_BASE_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY, id("brazier_base_blocks"));
+    public static final TagKey<Block> BRAZIER_STRIPE_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY, id("brazier_stripe_blocks"));
 
     public static final TagKey<EntityType<?>> BRAZIER_WHITELIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_whitelist"));
     public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_blacklist"));
@@ -131,7 +132,7 @@ public class Content {
 
         Conditional.when(config -> config.JUNGLE_LOOT).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
 
-        Conditional.when($ -> !Platform.isModLoaded("nether_extension"))
+        Conditional.when($ -> !Platform.isModLoaded("nether_extension") && !Platform.isModLoaded("supplementaries"))
                 .add(Content.ASH, Content.WARPED_NETHERWART)
                 .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
                 .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");

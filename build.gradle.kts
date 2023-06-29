@@ -98,6 +98,12 @@ allprojects {
                 includeGroup("mezz.jei")
             }
         }
+        maven {
+            url = uri("https://api.modrinth.com/maven")
+            content {
+                includeGroup("maven.modrinth")
+            }
+        }
     }
 
     java {

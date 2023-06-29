@@ -16,6 +16,8 @@ val modrinth_project_id: String by extra
 val repository: String by extra
 val jei_minecraft_version: String by extra
 val jei_version: String by extra
+val create_version: String by extra
+val supplementaries_version: String by extra
 
 val env = loadEnv()
 
@@ -65,7 +67,12 @@ dependencies {
     // JEI
     modCompileOnly("mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}")
     modCompileOnly("mezz.jei:jei-${jei_minecraft_version}-forge-api:${jei_version}")
-    //modLocalRuntime("mezz.jei:jei-${rootProject.jei_minecraft_version}-forge:${rootProject.jei_version}")
+
+    if(!env.isCI) {
+        modLocalRuntime("mezz.jei:jei-${jei_minecraft_version}-forge:${jei_version}")
+        modLocalRuntime("maven.modrinth:create:${create_version}")
+        modLocalRuntime("maven.modrinth:supplementaries:${supplementaries_version}")
+    }
 }
 
 tasks.withType<ShadowJar> {

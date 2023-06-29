@@ -31,7 +31,7 @@ public class BrazierTile extends BlockEntity {
     }
 
     public static void tick(Level level, BlockPos pos, BlockState state, BrazierTile tile) {
-        if(!level.isLoaded(pos)) return;
+        if (!level.isLoaded(pos)) return;
 
         ++tile.ticksExisted;
         if (tile.ticksExisted % 40 == 0) tile.checkStructure(pos, state);
@@ -62,17 +62,19 @@ public class BrazierTile extends BlockEntity {
     private int findHeight() {
         assert level != null;
         int max = Brazier.serverConfig().MAX_HEIGHT;
-        BlockPos pos = getBlockPos();
+        var pos = getBlockPos();
         if (!level.getBlockState(pos.above()).isAir()) return 0;
         for (int y = 1; y <= max; y++) {
-            boolean b = true;
+            var blocksMatch = true;
             for (int x = -2; x <= 2; x++)
                 for (int z = -2; z <= 2; z++)
                     if (Math.abs(x * z) < 4) {
-                        BlockState state = level.getBlockState(pos.offset(x, -y, z));
-                        b = b && state.is(Content.BRAZIER_BASE_BLOCKS);
+                        var isStripe = (x == 0 && Math.abs(z) == 2) || (z == 0 && Math.abs(x) == 2);
+                        var tag = isStripe ? Content.BRAZIER_STRIPE_BLOCKS : Content.BRAZIER_BASE_BLOCKS;
+                        var state = level.getBlockState(pos.offset(x, -y, z));
+                        blocksMatch = blocksMatch && state.is(tag);
                     }
-            if (!b) return y - 1;
+            if (!blocksMatch) return y - 1;
         }
         return max;
     }
