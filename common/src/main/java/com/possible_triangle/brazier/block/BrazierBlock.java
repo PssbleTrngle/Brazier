@@ -5,7 +5,6 @@ import com.possible_triangle.brazier.block.tile.BrazierTile;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.player.Player;
@@ -23,7 +22,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
 import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.level.block.state.properties.BooleanProperty;
-import net.minecraft.world.level.material.Material;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -35,7 +33,7 @@ public class BrazierBlock extends BaseEntityBlock {
     private static final VoxelShape SHAPE = box(0, 0, 0, 16, 4, 16);
 
     public BrazierBlock() {
-        super(Properties.of(Material.METAL)
+        super(Properties.of()
                 .strength(3.0F)
                 .requiresCorrectToolForDrops()
                 .noOcclusion()
@@ -87,7 +85,7 @@ public class BrazierBlock extends BaseEntityBlock {
     @Override
     public void entityInside(BlockState state, Level world, BlockPos pos, Entity entity) {
         if (!entity.fireImmune() && state.getValue(LIT) && entity instanceof LivingEntity && !EnchantmentHelper.hasFrostWalker((LivingEntity) entity)) {
-            entity.hurt(DamageSource.IN_FIRE, 2F);
+            entity.hurt(world.damageSources().inFire(), 2F);
         }
         super.entityInside(state, world, pos, entity);
     }

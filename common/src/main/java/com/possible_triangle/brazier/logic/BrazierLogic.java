@@ -67,14 +67,10 @@ public class BrazierLogic {
     }
 
     private static boolean prevents(MobSpawnType reason) {
-        switch (reason) {
-            case CHUNK_GENERATION:
-            case NATURAL:
-            case PATROL:
-                return true;
-            default:
-                return false;
-        }
+        return switch (reason) {
+            case CHUNK_GENERATION, NATURAL, PATROL -> true;
+            default -> false;
+        };
     }
 
     public static boolean prevents(Entity entity, LevelAccessor world, MobSpawnType reason) {
@@ -88,7 +84,7 @@ public class BrazierLogic {
             }
         }
 
-        return prevents(reason) && prevents(entity) && BrazierLogic.inRange(pos, entity.level.dimension());
+        return prevents(reason) && prevents(entity) && BrazierLogic.inRange(pos, entity.level().dimension());
     }
 
 }

@@ -4,8 +4,7 @@ import com.mojang.blaze3d.vertex.DefaultVertexFormat;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
-import com.mojang.math.Matrix4f;
-import com.mojang.math.Vector3f;
+import com.mojang.math.Axis;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
@@ -15,7 +14,10 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.client.renderer.blockentity.BlockEntityRenderer;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.joml.Matrix4f;
 
 public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
 
@@ -63,8 +65,8 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         }
     }
 
-    private void renderFlame(PoseStack matrizes, MultiBufferSource buffer, int light) {
-        CrazedFlameRenderer.renderFlame(matrizes, Minecraft.getInstance().getEntityRenderDispatcher(), buffer, light);
+    private void renderFlame(PoseStack matrizes, MultiBufferSource buffer, int light, @Nullable Level level) {
+        CrazedFlameRenderer.renderFlame(matrizes, Minecraft.getInstance().getEntityRenderDispatcher(), buffer, light, level);
     }
 
     @Override
@@ -84,14 +86,14 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
             float maxV = (frame + 1) / FRAMES;
 
             for (int quarter = 0; quarter < 4; quarter++) {
-                matrizes.mulPose(Vector3f.YN.rotationDegrees(90F));
+                matrizes.mulPose(Axis.YN.rotationDegrees(90F));
                 renderSide(matrix, vertex, height, minV, maxV);
                 renderTop(matrix, vertex, minV, maxV);
             }
         }
 
         matrizes.translate(0, 1.4F, 0);
-        renderFlame(matrizes, buffer, light);
+        renderFlame(matrizes, buffer, light, tile.getLevel());
 
         matrizes.popPose();
     }

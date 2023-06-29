@@ -12,7 +12,7 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
@@ -37,7 +37,7 @@ public class LazySpawnEgg<T extends Entity> extends Item {
     private final RegistrySupplier<EntityType<T>> typeSupplier;
 
     public LazySpawnEgg(RegistrySupplier<EntityType<T>> type, int primary, int secondary) {
-        super(new Properties().tab(CreativeModeTab.TAB_MISC));
+        super(new Properties().arch$tab(CreativeModeTabs.SPAWN_EGGS));
         this.primary = primary;
         this.secondary = secondary;
         this.typeSupplier = type;
@@ -45,31 +45,30 @@ public class LazySpawnEgg<T extends Entity> extends Item {
 
     @Override
     public InteractionResult useOn(UseOnContext useOnContext) {
-        Level world = useOnContext.getLevel();
+        Level level = useOnContext.getLevel();
         EntityType<?> type = this.typeSupplier.get();
 
-        if (world.isClientSide) {
+        if (level.isClientSide) {
             return InteractionResult.SUCCESS;
         } else {
             ItemStack stack = useOnContext.getItemInHand();
             BlockPos pos = useOnContext.getClickedPos();
             Direction direction = useOnContext.getClickedFace();
-            BlockState state = world.getBlockState(pos);
+            BlockState state = level.getBlockState(pos);
             if (state.is(Blocks.SPAWNER)) {
-                BlockEntity tile = world.getBlockEntity(pos);
+                BlockEntity tile = level.getBlockEntity(pos);
                 if (tile instanceof SpawnerBlockEntity spawner) {
-                    BaseSpawner baseSpawner = spawner.getSpawner();
-                    baseSpawner.setEntityId(type);
+                    spawner.setEntityId(type, level.random);
                     tile.setChanged();
-                    world.sendBlockUpdated(pos, state, state, 3);
+                    level.sendBlockUpdated(pos, state, state, 3);
                     stack.shrink(1);
                     return InteractionResult.CONSUME;
                 }
             }
 
-            BlockPos spawnAt = state.getCollisionShape(world, pos).isEmpty() ? pos : pos.relative(direction);
+            BlockPos spawnAt = state.getCollisionShape(level, pos).isEmpty() ? pos : pos.relative(direction);
 
-            if (type.spawn((ServerLevel) world, stack, useOnContext.getPlayer(), spawnAt, MobSpawnType.SPAWN_EGG, true, !Objects.equals(pos, spawnAt) && direction == Direction.UP) != null) {
+            if (type.spawn((ServerLevel) level, stack, useOnContext.getPlayer(), spawnAt, MobSpawnType.SPAWN_EGG, true, !Objects.equals(pos, spawnAt) && direction == Direction.UP) != null) {
                 stack.shrink(1);
             }
 

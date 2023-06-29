@@ -25,6 +25,9 @@ dependencies {
     modCompileOnly("me.shedaniel.cloth:cloth-config:${cloth_config_version}") {
         exclude(group = "net.fabricmc.fabric-api")
     }
+
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rei_version}")
 }
 
 loom {

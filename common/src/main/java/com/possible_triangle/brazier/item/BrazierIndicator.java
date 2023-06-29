@@ -15,8 +15,8 @@ public class BrazierIndicator {
     }
 
     public static void playerTick(Player player) {
-        if (player.level.isClientSide || player.tickCount % 2 != 0) return;
-        ServerLevel world = (ServerLevel) player.level;
+        if (player.tickCount % 2 != 0) return;
+        if(!(player.level() instanceof ServerLevel level)) return;
 
         Stream<ItemStack> items = Stream.of(player.getOffhandItem(), player.getMainHandItem());
         if (items.anyMatch(it -> it.is(Content.RANGE_INDICATOR))) {
@@ -32,8 +32,8 @@ public class BrazierIndicator {
                         float rad = (float) ((deg + i + player.tickCount) / 180F * Math.PI);
                         double x = player.position().x + Math.sin(rad) * r;
                         double z = player.position().z + Math.cos(rad) * r;
-                        if (BrazierLogic.isBorder(new Vec3(x, y, z), player.level.dimension())) {
-                            world.sendParticles(Content.FLAME_PARTICLE.get(), x, y, z, 1, 0, 0.2, 0, 0.01);
+                        if (BrazierLogic.isBorder(new Vec3(x, y, z), level.dimension())) {
+                            level.sendParticles(Content.FLAME_PARTICLE.get(), x, y, z, 1, 0, 0.2, 0, 0.01);
                         }
                     }
                 }

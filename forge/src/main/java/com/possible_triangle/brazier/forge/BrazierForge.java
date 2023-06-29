@@ -5,7 +5,7 @@ import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.entity.forge.EntityUtilImpl;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import dev.architectury.platform.forge.EventBuses;
-import net.minecraft.core.Registry;
+import net.minecraft.core.registries.Registries;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
@@ -42,7 +42,7 @@ public class BrazierForge {
 
     @SubscribeEvent
     public static void setup(final RegisterEvent event) {
-        if (event.getRegistryKey() == Registry.ITEM_REGISTRY) {
+        if (event.getRegistryKey() == Registries.ITEM) {
             Brazier.setup();
         }
     }

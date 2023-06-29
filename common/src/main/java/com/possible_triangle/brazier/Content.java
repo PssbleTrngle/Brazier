@@ -15,15 +15,15 @@ import com.possible_triangle.brazier.particle.ModdedParticleType;
 import dev.architectury.platform.Platform;
 import dev.architectury.registry.registries.DeferredRegister;
 import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.core.Registry;
 import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
 import net.minecraft.world.item.BlockItem;
-import net.minecraft.world.item.CreativeModeTab;
+import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.level.block.Block;
@@ -50,46 +50,45 @@ public class Content {
         return new ResourceLocation(MOD_ID, key);
     }
 
-    public static final TagKey<Block> BRAZIER_BASE_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY, id("brazier_base_blocks"));
-    public static final TagKey<Block> BRAZIER_STRIPE_BLOCKS = TagKey.create(Registry.BLOCK_REGISTRY, id("brazier_stripe_blocks"));
+    public static final TagKey<Block> BRAZIER_BASE_BLOCKS = TagKey.create(Registries.BLOCK, id("brazier_base_blocks"));
+    public static final TagKey<Block> BRAZIER_STRIPE_BLOCKS = TagKey.create(Registries.BLOCK, id("brazier_stripe_blocks"));
 
-    public static final TagKey<EntityType<?>> BRAZIER_WHITELIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_whitelist"));
-    public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registry.ENTITY_TYPE_REGISTRY, id("brazier_blacklist"));
-    public static final TagKey<Item> TORCHES = TagKey.create(Registry.ITEM_REGISTRY, id("torches"));
-    public static final TagKey<Item> ASH_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("ash"));
-    public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registry.ITEM_REGISTRY, id("range_indicator"));
-    public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registry.ITEM_REGISTRY, id("warped_wart"));
+    public static final TagKey<EntityType<?>> BRAZIER_WHITELIST = TagKey.create(Registries.ENTITY_TYPE, id("brazier_whitelist"));
+    public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, id("brazier_blacklist"));
+    public static final TagKey<Item> TORCHES = TagKey.create(Registries.ITEM, id("torches"));
+    public static final TagKey<Item> ASH_TAG = TagKey.create(Registries.ITEM, id("ash"));
+    public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registries.ITEM, id("range_indicator"));
+    public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registries.ITEM, id("warped_wart"));
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registry.ITEM_REGISTRY);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registry.BLOCK_REGISTRY);
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(MOD_ID, Registry.BLOCK_ENTITY_TYPE_REGISTRY);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registry.ENTITY_TYPE_REGISTRY);
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registry.PARTICLE_TYPE_REGISTRY);
+    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
+    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
+    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
+    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
+    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registries.PARTICLE_TYPE);
 
     public static final RegistrySupplier<SimpleParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new ModdedParticleType(false));
 
-    public static final RegistrySupplier<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.tab(CreativeModeTab.TAB_MISC));
+    public static final RegistrySupplier<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.arch$tab(CreativeModeTabs.FUNCTIONAL_BLOCKS));
     public static final RegistrySupplier<BlockEntityType<BrazierTile>> BRAZIER_TILE = TILES.register("brazier", () ->
             BlockEntityType.Builder.of(BrazierTile::new, BRAZIER.get()).build(null)
     );
 
     public static final RegistrySupplier<LazyTorchBlock> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
     public static final RegistrySupplier<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.tab(CreativeModeTab.TAB_DECORATIONS));
+    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.arch$tab(CreativeModeTabs.BUILDING_BLOCKS));
 
 
-    public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_BREWING).rarity(Rarity.UNCOMMON)));
+    public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.FOOD_AND_DRINKS).rarity(Rarity.UNCOMMON)));
     public static final RegistrySupplier<LivingTorch> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
 
-    public static final RegistrySupplier<Item> ASH = ITEMS.register("ash", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
-    public static final RegistrySupplier<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().tab(CreativeModeTab.TAB_MATERIALS)));
-    public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.tab(CreativeModeTab.TAB_MATERIALS));
+    public static final RegistrySupplier<Item> ASH = ITEMS.register("ash", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.INGREDIENTS)));
+    public static final RegistrySupplier<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.INGREDIENTS)));
+    public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.arch$tab(CreativeModeTabs.INGREDIENTS));
 
     public static final RegistrySupplier<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed",
             () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new)
                     .size(2F, 0.5F)
                     .fireImmune()
-                    .clientHandler(Crazed::new)
                     .attributes(Crazed.createAttributes())
                     .build("crazed")
     );
@@ -104,7 +103,6 @@ public class Content {
             EntityUtil.<CrazedFlame>buildType(MobCategory.MISC, CrazedFlame::new)
                     .size(0.6F, 0.6F)
                     .fireImmune()
-                    .clientHandler(CrazedFlame::new)
                     .build("crazed_flame")
     );
 

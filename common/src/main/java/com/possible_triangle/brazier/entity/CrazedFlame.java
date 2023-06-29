@@ -3,8 +3,6 @@ package com.possible_triangle.brazier.entity;
 import com.possible_triangle.brazier.Content;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
-import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
@@ -33,8 +31,10 @@ public class CrazedFlame extends AbstractHurtingProjectile {
 
     @Override
     public void tick() {
+        var level = level();
+
         --this.life;
-        if (this.level.isClientSide && this.life % 4 == 0) {
+        if (level.isClientSide && this.life % 4 == 0) {
             for (int i = 0; i < 2; ++i) {
                 double x = this.getX() + (this.random.nextDouble() * 2.0D - 1.0D) * this.getBbWidth() * 0.5D;
                 double y = this.getY() - 0.4;
@@ -50,8 +50,9 @@ public class CrazedFlame extends AbstractHurtingProjectile {
             if (INITIAL_LIFE - 20 > life && life % 5 == 0) {
                 level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(0.2D, 0.2D, 0.2D)).forEach(this::damage);
                 BlockPos pos = this.blockPosition();
-                if (level.getBlockState(pos).isAir() && level.getBlockState(pos.below()).getMaterial().isFlammable())
+                if (level.getBlockState(pos).isAir()) {
                     level.setBlockAndUpdate(pos, BaseFireBlock.getState(level, pos));
+                }
             }
         }
     }
@@ -60,17 +61,20 @@ public class CrazedFlame extends AbstractHurtingProjectile {
         Entity caster = this.getOwner();
         if (target.isAlive() && !target.isInvulnerable() && target != caster) {
             if (caster == null) {
-                target.hurt(DamageSource.IN_FIRE, 6.0F);
+                target.hurt(level().damageSources().inFire(), 6.0F);
             } else if (!caster.isAlliedTo(target)) {
-                target.hurt(new CrazedFlameDamageSource(this, caster).setMagic(), 6.0F);
+                target.hurt(level().damageSources().inFire(), 6.0F);
+                // TODO target.hurt(new CrazedFlameDamageSource(this, caster).setMagic(), 6.0F);
             }
         }
     }
 
+    /*
     @Override
     public Packet<?> getAddEntityPacket() {
         return EntityUtil.createSpawnPacket(this, "crazed_flame");
     }
+    */
 
     @Override
     public void readAdditionalSaveData(@NotNull CompoundTag compound) {

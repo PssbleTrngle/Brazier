@@ -50,8 +50,4 @@ public class EntityUtilImpl {
         };
     }
 
-    public static Packet<?> createSpawnPacket(Entity entity, String name) {
-        return NetworkHooks.getEntitySpawningPacket(entity);
-    }
-
 }

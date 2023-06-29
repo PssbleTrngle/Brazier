@@ -62,7 +62,6 @@ dependencies {
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionForge")) { isTransitive = false }
 
-    //Cloth Config
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
 
     modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")

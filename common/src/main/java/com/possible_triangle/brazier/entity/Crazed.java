@@ -1,13 +1,13 @@
 package com.possible_triangle.brazier.entity;
 
 import com.possible_triangle.brazier.Content;
-import net.minecraft.core.BlockPos;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
 import net.minecraft.world.damagesource.DamageSource;
 import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
@@ -108,15 +108,15 @@ public class Crazed extends SpellcasterIllager {
 
         protected void performSpellCasting() {
             LivingEntity target = Crazed.this.getTarget();
-            if (target != null) spawnFlame(target.position().x, target.position().y, target.position().z);
+            if (target != null) spawnFlame(target);
         }
 
-        private void spawnFlame(double x, double y, double z) {
-            BlockPos blockpos = new BlockPos(x, y, z);
-            if (!Crazed.this.level.isWaterAt(blockpos)) {
-                var flame = new CrazedFlame(Crazed.this.level, Crazed.this);
-                flame.moveTo(x, y + 0.4F, z);
-                Crazed.this.level.addFreshEntity(flame);
+        private void spawnFlame(Entity at) {
+            var level = level();
+            if (!level.isWaterAt(at.blockPosition())) {
+                var flame = new CrazedFlame(level, Crazed.this);
+                flame.moveTo(at.getX(), at.getY() + 0.4F, at.getZ());
+                level.addFreshEntity(flame);
             }
         }
 
@@ -147,7 +147,7 @@ public class Crazed extends SpellcasterIllager {
         }
 
         private List<LivingEntity> getTargets() {
-            return level.getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(BUFF_RADIUS), e ->
+            return level().getEntitiesOfClass(LivingEntity.class, getBoundingBox().inflate(BUFF_RADIUS), e ->
                     e.isAlive() && (e.getType().is(EntityTypeTags.RAIDERS) || e.isAlliedTo(Crazed.this))
             );
         }
