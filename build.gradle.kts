@@ -93,7 +93,7 @@ allprojects {
 
     repositories {
         maven {
-            url = uri("https://dvs1.progwml6.com/files/maven/")
+            url = uri("https://maven.blamejared.com/")
             content {
                 includeGroup("mezz.jei")
             }
@@ -102,6 +102,12 @@ allprojects {
             url = uri("https://api.modrinth.com/maven")
             content {
                 includeGroup("maven.modrinth")
+            }
+        }
+        maven {
+            url = uri("https://maven.shedaniel.me/")
+            content {
+                includeGroup("me.shedaniel")
             }
         }
     }

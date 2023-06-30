@@ -29,6 +29,9 @@ body:
         - 1.16
         - 1.18
         - 1.19
+        - 1.20
+    validations:
+      required: true
 
   - type: dropdown
     id: loader
@@ -38,6 +41,8 @@ body:
       options:
         - Fabric
         - Forge
+    validations:
+      required: true
 
   - type: input
     id: loader-version

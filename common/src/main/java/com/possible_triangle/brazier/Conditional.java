@@ -5,6 +5,7 @@ import com.possible_triangle.brazier.config.ServerConfig;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
@@ -14,8 +15,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Conditional {
@@ -64,6 +67,17 @@ public class Conditional {
             });
         });
         */
+    }
+
+    public static void removeHidden(Consumer<Collection<ItemStack>> consumer) {
+        List<ItemStack> hidden = Stream.of(
+                Conditional.disabled().map(ItemStack::new),
+                Stream.of(Content.ICON).filter(RegistrySupplier::isPresent).map(RegistrySupplier::get).map(ItemStack::new)
+        ).flatMap(Function.identity()).collect(Collectors.toList());
+
+        if (hidden.isEmpty()) return;
+
+        consumer.accept(hidden);
     }
 
     public final Predicate<ServerConfig> condition;

@@ -14,10 +14,11 @@ val cloth_config_version: String by extra
 val curseforge_project_id: String by extra
 val modrinth_project_id: String by extra
 val repository: String by extra
-val jei_minecraft_version: String by extra
 val jei_version: String by extra
+val rei_version: String by extra
 val create_version: String by extra
 val supplementaries_version: String by extra
+val moonlight_version: String by extra
 
 val env = loadEnv()
 
@@ -64,14 +65,15 @@ dependencies {
     //Cloth Config
     modImplementation("me.shedaniel.cloth:cloth-config-forge:${cloth_config_version}")
 
-    // JEI
-    modCompileOnly("mezz.jei:jei-${jei_minecraft_version}-common-api:${jei_version}")
-    modCompileOnly("mezz.jei:jei-${jei_minecraft_version}-forge-api:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-forge-api:${jei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}")
+    modImplementation("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
 
     if(!env.isCI) {
-        modLocalRuntime("mezz.jei:jei-${jei_minecraft_version}-forge:${jei_version}")
-        modLocalRuntime("maven.modrinth:create:${create_version}")
-        modLocalRuntime("maven.modrinth:supplementaries:${supplementaries_version}")
+        //modRuntimeOnly("mezz.jei:jei-${minecraft_version}-forge:${jei_version}")
+        //modRuntimeOnly("maven.modrinth:create:${create_version}")
+        modRuntimeOnly("maven.modrinth:supplementaries:${supplementaries_version}")
+        modRuntimeOnly("maven.modrinth:moonlight:${moonlight_version}")
     }
 }
 

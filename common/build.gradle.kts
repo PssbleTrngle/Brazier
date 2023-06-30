@@ -4,6 +4,9 @@ val mod_version: String by extra
 val fabric_loader_version: String by extra
 val architectury_version: String by extra
 val cloth_config_version: String by extra
+val minecraft_version: String by extra
+val jei_version: String by extra
+val rei_version: String by extra
 
 architectury {
     common(enabled_platforms.split(","))
@@ -16,7 +19,9 @@ dependencies {
     // Remove the next line if you don't want to depend on the API
     modApi("dev.architectury:architectury:${architectury_version}")
 
-    // Cloth Config
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rei_version}")
+
     modCompileOnly("me.shedaniel.cloth:cloth-config:${cloth_config_version}") {
         exclude(group = "net.fabricmc.fabric-api")
     }

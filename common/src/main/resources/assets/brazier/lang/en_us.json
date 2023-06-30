@@ -4,6 +4,7 @@
   "block.brazier.living_lantern": "Living Lantern",
   "block.brazier.spawn_powder": "Cursed Ash",
   "item.brazier.living_flame": "Living Flame",
+  "item.brazier.icon": "Right-Click Brazier",
   "entity.brazier.crazed_flame": "Crazed Flame",
   "item.brazier.crazed_spawn_egg": "Crazed Spawn Egg",
   "item.brazier.ash": "Ash",
@@ -13,5 +14,9 @@
   "advancements.brazier.place_brazier.description": "Place a brazier down and drive away the monsters of the night",
   "description.brazier.brazier-1": "The brazier is a beacon-like multiblock which prevents hostile mob spawns in a certain radius.",
   "description.brazier.brazier-2": "\nYou can ignite a normal torch on it, creating a living torch.\nWhen holding a living torch, you are able to see the outline of the protected are when getting close to it",
-  "category.brazier.light_on_brazier": "Light on a brazier"
+  "category.brazier.light_on_brazier": "Light on a Brazier",
+  "tag.item.brazier.ash": "Ash",
+  "tag.item.brazier.torches": "Torches",
+  "tag.block.brazier.brazier_base_blocks": "Brazier Base Blocks",
+  "tag.block.brazier.brazier_stripe_blocks": "Brazier Stripe Blocks"
 }

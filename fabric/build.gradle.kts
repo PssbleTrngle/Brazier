@@ -15,6 +15,8 @@ val cloth_config_version: String by extra
 val curseforge_project_id: String by extra
 val modrinth_project_id: String by extra
 val repository: String by extra
+val jei_version: String by extra
+val rei_version: String by extra
 
 val env = loadEnv()
 
@@ -49,9 +51,16 @@ dependencies {
     common(project(path = ":common", configuration = "namedElements")) { isTransitive = false }
     shadowCommon(project(path = ":common", configuration = "transformProductionFabric")) { isTransitive = false }
 
-    // Cloth Config
+    modCompileOnly("mezz.jei:jei-${minecraft_version}-fabric-api:${jei_version}")
+    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-fabric:${rei_version}")
+
     modImplementation("me.shedaniel.cloth:cloth-config-fabric:${cloth_config_version}") {
         exclude(group = "net.fabricmc.fabric-api")
+    }
+
+    if(!env.isCI) {
+        modRuntimeOnly("mezz.jei:jei-${minecraft_version}-fabric:${jei_version}")
+        //modRuntimeOnly("me.shedaniel:RoughlyEnoughItems-fabric:${rei_version}")
     }
 }
 
