@@ -11,7 +11,7 @@
 [![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][CURSEFORGE]
 [![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
 [![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
-[![Modrinth](https://modrinth-utils.vercel.app/api/badge/downloads?id=5okEW6TG&logo=true)][MODRINTH]
+[![Modrinth](https://img.shields.io/modrinth/dt/5okEW6TG?color=green&logo=modrinth&logoColor=green)][MODRINTH]
 <!-- modrinth_exclude.end -->
 
 *This mod is still work in progress, and [feedback][ISSUES] regarding the balancing of the range or the structures base blocks is highly requested*
