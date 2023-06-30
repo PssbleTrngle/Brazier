@@ -1,6 +1,5 @@
 package com.possible_triangle.brazier.compat.jei;
 
-import com.mojang.blaze3d.vertex.PoseStack;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.LightOnBrazierRecipe;
@@ -14,6 +13,7 @@ import mezz.jei.api.recipe.IFocusGroup;
 import mezz.jei.api.recipe.RecipeIngredientRole;
 import mezz.jei.api.recipe.RecipeType;
 import mezz.jei.api.recipe.category.IRecipeCategory;
+import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
@@ -73,10 +73,10 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
     }
 
     @Override
-    public void draw(LightOnBrazierRecipe recipe, IRecipeSlotsView recipeSlotsView, PoseStack stack, double mouseX, double mouseY) {
-        icon.draw(stack, iconX, iconY);
-        slot.draw(stack, 10, HEIGHT / 2 - 9);
-        slot.draw(stack, WIDTH - 25, HEIGHT / 2 - 9);
+    public void draw(LightOnBrazierRecipe recipe, IRecipeSlotsView recipeSlotsView, GuiGraphics graphics, double mouseX, double mouseY) {
+        icon.draw(graphics, iconX, iconY);
+        slot.draw(graphics, 10, HEIGHT / 2 - 9);
+        slot.draw(graphics, WIDTH - 25, HEIGHT / 2 - 9);
     }
 
     private boolean isOverIcon(double mouseX, double mouseY) {
