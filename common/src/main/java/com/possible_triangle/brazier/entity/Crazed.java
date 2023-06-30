@@ -10,6 +10,7 @@ import net.minecraft.world.effect.MobEffectInstance;
 import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.ai.attributes.Attributes;
 import net.minecraft.world.entity.ai.goal.AvoidEntityGoal;
 import net.minecraft.world.entity.ai.goal.LookAtPlayerGoal;
@@ -36,12 +37,11 @@ public class Crazed extends SpellcasterIllager {
         this(Content.CRAZED.get(), world);
     }
 
-    public static void init(EntityType<Crazed> type) {
-        EntityUtil.register(type, Monster.createMonsterAttributes()
+    public static AttributeSupplier.Builder createAttributes() {
+       return Monster.createMonsterAttributes()
                 .add(Attributes.MOVEMENT_SPEED, 0.6D)
                 .add(Attributes.FOLLOW_RANGE, 12.0D)
-                .add(Attributes.MAX_HEALTH, 24.0D)
-        );
+                .add(Attributes.MAX_HEALTH, 24.0D);
     }
 
     public Crazed(EntityType<? extends Crazed> type, Level world) {

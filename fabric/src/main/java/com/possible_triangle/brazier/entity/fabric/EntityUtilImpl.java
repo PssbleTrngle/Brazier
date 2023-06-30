@@ -9,6 +9,7 @@ import net.minecraft.world.entity.*;
 import net.minecraft.world.entity.ai.attributes.AttributeSupplier;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.function.Function;
 
@@ -32,6 +33,9 @@ public class EntityUtilImpl {
         return new EntityUtil.Builder<E>() {
             private Function<Level, E> creator;
 
+            @Nullable
+            private AttributeSupplier.Builder attributes;
+
             @Override
             public EntityUtil.Builder<E> size(float height, float width) {
                 builder.dimensions(EntityDimensions.fixed(width, height));
@@ -51,15 +55,21 @@ public class EntityUtilImpl {
             }
 
             @Override
+            public EntityUtil.Builder<E> attributes(AttributeSupplier.Builder attributes) {
+                this.attributes = attributes;
+                return this;
+            }
+
+            @Override
             public EntityType<E> build(String name) {
-                if(creator != null) CustomEntityNetworking.registerHandler(name, creator);
-                return builder.build();
+                if (creator != null) CustomEntityNetworking.registerHandler(name, creator);
+                var type = builder.build();
+                if (attributes != null) {
+                    FabricDefaultAttributeRegistry.register((EntityType<? extends LivingEntity>) type, attributes);
+                }
+                return type;
             }
         };
-    }
-
-    public static void register(EntityType<? extends LivingEntity> type, AttributeSupplier.Builder attributes) {
-        FabricDefaultAttributeRegistry.register(type, attributes);
     }
 
 }

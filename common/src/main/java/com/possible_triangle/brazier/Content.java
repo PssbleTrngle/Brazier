@@ -90,6 +90,7 @@ public class Content {
                     .size(2F, 0.5F)
                     .fireImmune()
                     .clientHandler(Crazed::new)
+                    .attributes(Crazed.createAttributes())
                     .build("crazed")
     );
 
@@ -124,8 +125,6 @@ public class Content {
     }
 
     public static void setup() {
-        Content.CRAZED.ifPresent(Crazed::init);
-
         Conditional.when(config -> config.DECORATION, LIVING_LANTERN, LIVING_TORCH);
         Conditional.when(config -> config.SPAWN_POWDER, SPAWN_POWDER);
 

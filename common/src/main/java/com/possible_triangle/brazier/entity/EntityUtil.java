@@ -23,22 +23,20 @@ public class EntityUtil {
         throw new AssertionError();
     }
 
-    @ExpectPlatform
-    public static void register(EntityType<? extends LivingEntity> type, AttributeSupplier.Builder attributes) {
-        throw new AssertionError();
-    }
-
     public interface Builder<E extends Entity> {
 
         Builder<E> size(float height, float width);
 
         Builder<E> fireImmune();
 
+        Builder<E> attributes(AttributeSupplier.Builder attributes);
+
         default Builder<E> clientHandler(Function<Level, E> creator) {
             return this;
         }
 
         EntityType<E> build(String name);
+
 
     }
 
