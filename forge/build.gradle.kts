@@ -123,7 +123,7 @@ env["CURSEFORGE_TOKEN"]?.let { token ->
             displayName = "Forge $mod_version"
 
             addRelation("architectury-api", "requiredDependency")
-            addRelation("cloth-config'", "requiredDependency")
+            addRelation("cloth-config", "requiredDependency")
         }
     }
 }

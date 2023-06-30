@@ -110,7 +110,7 @@ env["CURSEFORGE_TOKEN"]?.let { token ->
             displayName = "Fabric $mod_version"
 
             addRelation("architectury-api", "requiredDependency")
-            addRelation("cloth-config'", "requiredDependency")
+            addRelation("cloth-config", "requiredDependency")
         }
     }
 }
