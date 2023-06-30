@@ -1,6 +1,6 @@
 {
   "replace": false,
   "values": [
-    "minecraft:diamond_block"
+    "#brazier:brazier_base_blocks"
   ]
 }

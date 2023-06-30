@@ -8,7 +8,7 @@ import net.minecraft.world.item.StandingAndWallBlockItem;
 public class LivingTorch extends StandingAndWallBlockItem {
 
     public LivingTorch() {
-        super(Content.LIVING_TORCH_BLOCK.get(), Content.LIVING_TORCH_BLOCK_WALL.get(), new Properties().arch$tab(CreativeModeTabs.BUILDING_BLOCKS), Direction.DOWN);
+        super(Content.LIVING_TORCH_BLOCK.get(), Content.LIVING_TORCH_BLOCK_WALL.get(), new Properties().arch$tab(CreativeModeTabs.FUNCTIONAL_BLOCKS), Direction.DOWN);
     }
 
 }

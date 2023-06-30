@@ -75,7 +75,7 @@ public class Content {
 
     public static final RegistrySupplier<LazyTorchBlock> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
     public static final RegistrySupplier<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.arch$tab(CreativeModeTabs.BUILDING_BLOCKS));
+    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.arch$tab(CreativeModeTabs.FUNCTIONAL_BLOCKS));
 
 
     public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.FOOD_AND_DRINKS).rarity(Rarity.UNCOMMON)));
