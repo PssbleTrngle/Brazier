@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:empty",
+  "pools": [
+    {
+      "bonus_rolls": 0.0,
+      "entries": [
+        {
+          "type": "minecraft:item",
+          "conditions": [
+            {
+              "chance": 0.02,
+              "condition": "minecraft:random_chance"
+            },
+            {
+              "block": "minecraft:nether_wart",
+              "condition": "minecraft:block_state_property",
+              "properties": {
+                "age": "3"
+              }
+            }
+          ],
+          "name": "brazier:warped_nether_wart"
+        }
+      ],
+      "rolls": 1.0
+    }
+  ]
+}

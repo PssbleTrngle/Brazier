@@ -1,0 +1,28 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "category": "misc",
+  "ingredients": [
+    {
+      "tag": "brazier:ash"
+    },
+    {
+      "tag": "brazier:ash"
+    },
+    {
+      "tag": "brazier:ash"
+    },
+    {
+      "tag": "brazier:ash"
+    },
+    {
+      "item": "minecraft:charcoal"
+    },
+    {
+      "tag": "brazier:warped_wart"
+    }
+  ],
+  "result": {
+    "count": 6,
+    "item": "brazier:spawn_powder"
+  }
+}

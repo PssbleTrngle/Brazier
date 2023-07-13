@@ -33,3 +33,7 @@ dependencies {
 loom {
     accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
 }
+
+sourceSets["main"].resources {
+    srcDirs("src/generated/resources")
+}

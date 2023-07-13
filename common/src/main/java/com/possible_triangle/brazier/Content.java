@@ -7,7 +7,8 @@ import com.possible_triangle.brazier.block.SpawnPowder;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
-import com.possible_triangle.brazier.entity.EntityUtil;
+import com.possible_triangle.brazier.logic.ConstructBrazierTrigger;
+import com.possible_triangle.brazier.platform.PlatformRegistries;
 import com.possible_triangle.brazier.item.HiddenItem;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import com.possible_triangle.brazier.item.LivingTorch;
@@ -85,8 +86,10 @@ public class Content {
     public static final RegistrySupplier<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.INGREDIENTS)));
     public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.arch$tab(CreativeModeTabs.INGREDIENTS));
 
+    public static final Supplier<ConstructBrazierTrigger> CONSTRUCT_BRAZIER = PlatformRegistries.createCriteria(new ConstructBrazierTrigger());
+
     public static final RegistrySupplier<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed",
-            () -> EntityUtil.<Crazed>buildType(MobCategory.MONSTER, Crazed::new)
+            () -> PlatformRegistries.<Crazed>createMob(MobCategory.MONSTER, Crazed::new)
                     .size(2F, 0.5F)
                     .fireImmune()
                     .attributes(Crazed.createAttributes())
@@ -100,7 +103,7 @@ public class Content {
     );
 
     public static final RegistrySupplier<EntityType<CrazedFlame>> CRAZED_FLAME = ENTITIES.register("crazed_flame", () ->
-            EntityUtil.<CrazedFlame>buildType(MobCategory.MISC, CrazedFlame::new)
+            PlatformRegistries.<CrazedFlame>createMob(MobCategory.MISC, CrazedFlame::new)
                     .size(0.6F, 0.6F)
                     .fireImmune()
                     .build("crazed_flame")

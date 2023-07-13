@@ -34,7 +34,7 @@ public class BrazierBlock extends BaseEntityBlock {
 
     public BrazierBlock() {
         super(Properties.of()
-                .strength(3.0F)
+                .strength(1.5F, 6.0F)
                 .requiresCorrectToolForDrops()
                 .noOcclusion()
                 .lightLevel(s -> s.getValue(LIT) ? 15 : 0));

@@ -1,0 +1,11 @@
+// 1.20.1	2023-07-13T15:09:50.9321804	Brazier/Recipes
+1693b7d87839dd072266418075b9259179ac497c data\brazier\recipes\brazier.json
+2a060fa47b443941433fdeb1a812ea8d6c4ca711 data\brazier\recipes\living_torch.json
+98c673852283ab3ccd728399b85c1b67e7d9dd4f data\brazier\recipes\living_lantern.json
+466d98998d4477658487e7e230131df8860956cb data\brazier\advancements\recipes\decorations\living_lantern.json
+0dfc6a69fe85d90fe5d44db01d70069b22c0cee5 data\brazier\advancements\recipes\decorations\living_torch.json
+fc3369f0e648e383c8b8b7d85d4e10ee933c6526 data\brazier\advancements\recipes\misc\spawn_powder.json
+7ce3e04a307f84063d9a084129425c25ba903fd5 data\brazier\advancements\recipes\decorations\brazier.json
+d2a5da2471a19eb7b1fc4c17ac267184ae2b6c73 data\brazier\recipes\spawn_powder.json
+765ffd55d9c003b059abf639694893180829e26a data\brazier\recipes\warped_warp_block.json
+711a333daf1115765ddd1c27057319950703d33d data\brazier\advancements\recipes\building_blocks\warped_warp_block.json

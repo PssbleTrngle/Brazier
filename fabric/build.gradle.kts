@@ -33,6 +33,17 @@ architectury {
 
 loom {
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)
+    runs {
+        create("data") {
+            client()
+            name("Data Generation")
+            vmArg("-Dfabric-api.datagen")
+            vmArg("-Dfabric-api.datagen.output-dir=${project(":common").file("src/generated/resources")}")
+            vmArg("-Dfabric-api.datagen.modid=${mod_id}")
+
+            runDir("build/datagen")
+        }
+    }
 }
 
 val common by configurations.creating

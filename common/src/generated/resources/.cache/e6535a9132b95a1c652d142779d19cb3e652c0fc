@@ -1,0 +1,5 @@
+// 1.20.1	2023-07-13T15:09:50.9331781	Brazier/Block Loot Tables
+762f3ca9467845210442a9e4eddcaad17cdbcb00 data\brazier\loot_tables\blocks\brazier.json
+aa023fd79aad07a023eea517ccb5dde97534dd7a data\brazier\loot_tables\blocks\spawn_powder.json
+022b45eae2b78ad247a44573bb1b9c1a4528c0c0 data\brazier\loot_tables\blocks\living_wall_torch.json
+022b45eae2b78ad247a44573bb1b9c1a4528c0c0 data\brazier\loot_tables\blocks\living_torch.json

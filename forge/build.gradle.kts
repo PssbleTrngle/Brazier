@@ -36,7 +36,6 @@ architectury {
 loom {
     forge {
         mixinConfig("${mod_id}-common.mixins.json")
-        mixinConfig("${mod_id}-forge.mixins.json")
     }
 
     accessWidenerPath.set(project(":common").loom.accessWidenerPath)

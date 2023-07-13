@@ -8,6 +8,7 @@ import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
@@ -55,6 +56,10 @@ public class BrazierTile extends BlockEntity {
 
                 setHeight(newHeight);
                 level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
+
+                level.getEntitiesOfClass(ServerPlayer.class, new AABB(pos).inflate(10.0, 10.0, 10.0)).forEach(it ->
+                        Content.CONSTRUCT_BRAZIER.get().trigger(it, newHeight)
+                );
             }
         }
     }

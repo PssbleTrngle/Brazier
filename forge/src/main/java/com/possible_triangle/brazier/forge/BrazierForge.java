@@ -2,7 +2,7 @@ package com.possible_triangle.brazier.forge;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.entity.forge.EntityUtilImpl;
+import com.possible_triangle.brazier.platform.forge.PlatformRegistriesImpl;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
 import dev.architectury.platform.forge.EventBuses;
 import net.minecraft.core.registries.Registries;
@@ -37,7 +37,7 @@ public class BrazierForge {
 
     @SubscribeEvent
     public static void addEntityAttributes(EntityAttributeCreationEvent event) {
-        EntityUtilImpl.ATTRIBUTES.forEach(event::put);
+        PlatformRegistriesImpl.ATTRIBUTES.forEach(event::put);
     }
 
     @SubscribeEvent
