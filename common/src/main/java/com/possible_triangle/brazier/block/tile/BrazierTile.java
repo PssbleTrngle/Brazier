@@ -3,7 +3,6 @@ package com.possible_triangle.brazier.block.tile;
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.config.ServerConfig;
 import com.possible_triangle.brazier.logic.BrazierLogic;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
@@ -66,7 +65,7 @@ public class BrazierTile extends BlockEntity {
 
     private int findHeight() {
         assert level != null;
-        int max = Brazier.serverConfig().MAX_HEIGHT;
+        int max = Brazier.serverConfig().maxHeight();
         var pos = getBlockPos();
         if (!level.getBlockState(pos.above()).isAir()) return 0;
         for (int y = 1; y <= max; y++) {
@@ -102,8 +101,8 @@ public class BrazierTile extends BlockEntity {
 
     public int getRange() {
         if (height <= 0) return 0;
-        ServerConfig config = Brazier.serverConfig();
-        return config.BASE_RANGE + config.RANGE_PER_LEVEL * (height - 1);
+        var config = Brazier.serverConfig();
+        return config.baseRange() + config.rangePerLevel() * (height - 1);
     }
 
     public int getHeight() {

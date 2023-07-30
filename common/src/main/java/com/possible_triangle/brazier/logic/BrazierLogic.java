@@ -36,7 +36,7 @@ public class BrazierLogic {
     public static boolean inRange(BlockPos pos, ResourceKey<Level> dimension) {
         synchronized (BRAZIERS) {
             return BRAZIERS.containsKey(dimension) && BRAZIERS.get(dimension).entrySet().stream().anyMatch(e -> {
-                if (!Brazier.serverConfig().PROTECT_ABOVE && e.getKey().getY() < pos.getY()) return false;
+                if (!Brazier.serverConfig().protectAbove() && e.getKey().getY() < pos.getY()) return false;
                 double dist = DistanceHandler.getDistance(pos, e.getKey());
                 int maxDist = e.getValue() * e.getValue();
                 return dist <= maxDist;
@@ -77,7 +77,7 @@ public class BrazierLogic {
         BlockPos pos = entity.blockPosition();
 
         // Check for spawn powder
-        if (Brazier.serverConfig().SPAWN_POWDER) {
+        if (Brazier.serverConfig().enableSpawnPowder()) {
             Block block = world.getBlockState(pos).getBlock();
             if (Content.SPAWN_POWDER.toOptional().filter(block::equals).isPresent()) {
                 return false;
