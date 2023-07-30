@@ -22,7 +22,7 @@ public class DistanceHandler {
     }
 
     public static double getDistance(Vec3 from, BlockPos to) {
-        return Brazier.serverConfig().DISTANCE_CALC.calc.apply(from, to);
+        return Brazier.serverConfig().distanceCalculator().calc.apply(from, to);
     }
 
     public static double getDistance(BlockPos from, BlockPos to) {
