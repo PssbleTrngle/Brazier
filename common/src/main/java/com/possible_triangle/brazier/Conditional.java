@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier;
 
 import com.mojang.datafixers.util.Pair;
-import com.possible_triangle.brazier.config.ServerConfig;
+import com.possible_triangle.brazier.config.IServerConfig;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
@@ -26,7 +26,7 @@ public class Conditional {
     private static final List<Conditional> CONDITIONALS = new ArrayList<>();
 
     @SafeVarargs
-    public static Conditional when(Predicate<ServerConfig> condition, RegistrySupplier<? extends ItemLike>... items) {
+    public static Conditional when(Predicate<IServerConfig> condition, RegistrySupplier<? extends ItemLike>... items) {
         Conditional conditional = new Conditional(condition);
         CONDITIONALS.add(conditional);
         if (items.length > 0) conditional.add(items);
@@ -34,7 +34,7 @@ public class Conditional {
     }
 
     public static Stream<ItemLike> disabled() {
-        ServerConfig config = Brazier.serverConfig();
+        var config = Brazier.serverConfig();
         return CONDITIONALS.stream()
                 .filter(e -> !e.condition.test(config))
                 .map(c -> c.items)
@@ -44,7 +44,7 @@ public class Conditional {
     }
 
     public static void injectLoot(ResourceLocation target, Consumer<LootPool.Builder> table) {
-        ServerConfig config = Brazier.serverConfig();
+        var config = Brazier.serverConfig();
 
         CONDITIONALS.stream()
                 .filter(e -> e.condition.test(config))
@@ -80,11 +80,11 @@ public class Conditional {
         consumer.accept(hidden);
     }
 
-    public final Predicate<ServerConfig> condition;
+    public final Predicate<IServerConfig> condition;
     public final List<RegistrySupplier<? extends ItemLike>> items = new ArrayList<>();
     public final List<Pair<ResourceLocation, ResourceLocation>> loot = new ArrayList<>();
 
-    private Conditional(Predicate<ServerConfig> condition) {
+    private Conditional(Predicate<IServerConfig> condition) {
         this.condition = condition;
     }
 
