@@ -80,18 +80,18 @@ tasks.withType<ShadowJar> {
     exclude("architectury.common.json")
 
     configurations = listOf(shadowCommon)
-    classifier = "dev-shadow"
+    archiveClassifier.set("dev-shadow")
 }
 
 tasks.withType<RemapJarTask> {
     val shadowTask = tasks.shadowJar.get()
     input.set(shadowTask.archiveFile)
     dependsOn(shadowTask)
-    classifier = null
+    archiveClassifier.set("")
 }
 
 tasks.jar {
-    classifier = "dev"
+    archiveClassifier.set("dev")
 }
 
 tasks.sourcesJar {
