@@ -16,7 +16,7 @@ plugins {
     java
     id("maven-publish")
     id("architectury-plugin") version ("3.4-SNAPSHOT")
-    id("dev.architectury.loom") version ("1.1-SNAPSHOT") apply (false)
+    id("dev.architectury.loom") version ("1.3-SNAPSHOT") apply (false)
     id("org.sonarqube") version ("3.3")
     id("net.darkhax.curseforgegradle") version ("1.0.8") apply (false)
     id("com.modrinth.minotaur") version ("2.+") apply (false)
