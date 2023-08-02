@@ -122,7 +122,7 @@ allprojects {
 
 sonarqube {
     properties {
-        property("sonar.projectVersion", mod_version)
+        property("sonar.projectVersion", "${minecraft_version}-${mod_version}")
         property("sonar.projectKey", mod_id)
     }
 }
