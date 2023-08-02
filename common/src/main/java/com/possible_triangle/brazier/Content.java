@@ -5,6 +5,7 @@ import com.possible_triangle.brazier.block.LazyTorchBlock;
 import com.possible_triangle.brazier.block.LazyWallTorchBlock;
 import com.possible_triangle.brazier.block.SpawnPowder;
 import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.config.IServerConfig;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
 import com.possible_triangle.brazier.entity.EntityUtil;
@@ -126,10 +127,10 @@ public class Content {
     public static void setup() {
         Content.CRAZED.ifPresent(Crazed::init);
 
-        Conditional.when(config -> config.DECORATION, LIVING_LANTERN, LIVING_TORCH);
-        Conditional.when(config -> config.SPAWN_POWDER, SPAWN_POWDER);
+        Conditional.when(IServerConfig::enableDecoration, LIVING_LANTERN, LIVING_TORCH);
+        Conditional.when(IServerConfig::enableSpawnPowder, SPAWN_POWDER);
 
-        Conditional.when(config -> config.JUNGLE_LOOT).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
+        Conditional.when(IServerConfig::injectJungleLoot).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
 
         Conditional.when($ -> !Platform.isModLoaded("nether_extension"))
                 .add(Content.ASH, Content.WARPED_NETHERWART)

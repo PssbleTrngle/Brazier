@@ -19,6 +19,9 @@
     ],
     "client": [
       "com.possible_triangle.brazier.fabric.BrazierFabric"
+    ],
+    "rei_common": [
+      "com.possible_triangle.brazier.compat.rei.ReiPlugin"
     ]
   },
   "mixins": [

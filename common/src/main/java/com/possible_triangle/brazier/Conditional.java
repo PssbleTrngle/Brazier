@@ -1,10 +1,11 @@
 package com.possible_triangle.brazier;
 
 import com.mojang.datafixers.util.Pair;
-import com.possible_triangle.brazier.config.ServerConfig;
+import com.possible_triangle.brazier.config.IServerConfig;
 import dev.architectury.registry.registries.RegistrySupplier;
 import net.minecraft.core.RegistryAccess;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.ItemLike;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.entries.LootTableReference;
@@ -14,8 +15,10 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.function.Consumer;
+import java.util.function.Function;
 import java.util.function.Predicate;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Conditional {
@@ -23,7 +26,7 @@ public class Conditional {
     private static final List<Conditional> CONDITIONALS = new ArrayList<>();
 
     @SafeVarargs
-    public static Conditional when(Predicate<ServerConfig> condition, RegistrySupplier<? extends ItemLike>... items) {
+    public static Conditional when(Predicate<IServerConfig> condition, RegistrySupplier<? extends ItemLike>... items) {
         Conditional conditional = new Conditional(condition);
         CONDITIONALS.add(conditional);
         if (items.length > 0) conditional.add(items);
@@ -31,7 +34,7 @@ public class Conditional {
     }
 
     public static Stream<ItemLike> disabled() {
-        ServerConfig config = Brazier.serverConfig();
+        var config = Brazier.serverConfig();
         return CONDITIONALS.stream()
                 .filter(e -> !e.condition.test(config))
                 .map(c -> c.items)
@@ -41,7 +44,7 @@ public class Conditional {
     }
 
     public static void injectLoot(ResourceLocation target, Consumer<LootPool.Builder> table) {
-        ServerConfig config = Brazier.serverConfig();
+        var config = Brazier.serverConfig();
 
         CONDITIONALS.stream()
                 .filter(e -> e.condition.test(config))
@@ -66,11 +69,22 @@ public class Conditional {
         */
     }
 
-    public final Predicate<ServerConfig> condition;
+    public static void removeHidden(Consumer<Collection<ItemStack>> consumer) {
+        List<ItemStack> hidden = Stream.of(
+                Conditional.disabled().map(ItemStack::new),
+                Stream.of(Content.ICON).filter(RegistrySupplier::isPresent).map(RegistrySupplier::get).map(ItemStack::new)
+        ).flatMap(Function.identity()).collect(Collectors.toList());
+
+        if (hidden.isEmpty()) return;
+
+        consumer.accept(hidden);
+    }
+
+    public final Predicate<IServerConfig> condition;
     public final List<RegistrySupplier<? extends ItemLike>> items = new ArrayList<>();
     public final List<Pair<ResourceLocation, ResourceLocation>> loot = new ArrayList<>();
 
-    private Conditional(Predicate<ServerConfig> condition) {
+    private Conditional(Predicate<IServerConfig> condition) {
         this.condition = condition;
     }
 

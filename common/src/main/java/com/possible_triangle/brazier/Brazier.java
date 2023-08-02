@@ -2,6 +2,7 @@ package com.possible_triangle.brazier;
 
 import com.possible_triangle.brazier.config.ClientConfig;
 import com.possible_triangle.brazier.config.ServerConfig;
+import com.possible_triangle.brazier.config.IServerConfig;
 import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.network.BrazierNetwork;
 import com.possible_triangle.brazier.network.SyncConfigMessage;
@@ -23,7 +24,7 @@ public class Brazier {
     public static final String MOD_ID = "brazier";
 
     private static ConfigHolder<ServerConfig> localServerConfig;
-    private static ServerConfig syncedServerConfig;
+    private static IServerConfig syncedServerConfig;
     private static ConfigHolder<ClientConfig> clientConfig;
 
     public static final Logger LOGGER = LogManager.getLogger();
@@ -32,11 +33,11 @@ public class Brazier {
         return clientConfig.get();
     }
 
-    public static ServerConfig serverConfig() {
+    public static IServerConfig serverConfig() {
         return Optional.ofNullable(syncedServerConfig).orElseGet(localServerConfig);
     }
 
-    public static void setSyncedConfig(ServerConfig config) {
+    public static void setSyncedConfig(IServerConfig config) {
         syncedServerConfig = config;
     }
 
