@@ -130,7 +130,7 @@ sonarqube {
 subprojects {
     sonarqube {
         properties {
-            property("sonar.branch", this@subprojects.name)
+            property("sonar.sources", this@subprojects.file("src/main"))
         }
     }
 }
