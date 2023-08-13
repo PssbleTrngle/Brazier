@@ -64,6 +64,10 @@ subprojects {
         }
     }
 
+    tasks.withType<Jar>  {
+        exclude("**/*.cubik")
+    }
+
     publishing {
         repositories {
             maven {
