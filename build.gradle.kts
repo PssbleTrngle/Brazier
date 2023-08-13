@@ -17,7 +17,7 @@ plugins {
     id("maven-publish")
     id("architectury-plugin") version ("3.4-SNAPSHOT")
     id("dev.architectury.loom") version ("1.3-SNAPSHOT") apply (false)
-    id("org.sonarqube") version ("3.3")
+    id("org.sonarqube") version ("4.3.0.3225")
     id("net.darkhax.curseforgegradle") version ("1.0.8") apply (false)
     id("com.modrinth.minotaur") version ("2.+") apply (false)
     id("com.github.johnrengelman.shadow") version ("7.1.2") apply (false)
@@ -122,7 +122,7 @@ allprojects {
 
 sonarqube {
     properties {
-        property("sonar.projectVersion", mod_version)
+        property("sonar.projectVersion", "${minecraft_version}-${mod_version}")
         property("sonar.projectKey", mod_id)
     }
 }
@@ -130,7 +130,7 @@ sonarqube {
 subprojects {
     sonarqube {
         properties {
-            property("sonar.branch", this@subprojects.name)
+            property("sonar.sources", this@subprojects.file("src/main"))
         }
     }
 }
