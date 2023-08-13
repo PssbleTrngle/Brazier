@@ -23,7 +23,7 @@
     "jei_mod_plugin": [
       "com.possible_triangle.brazier.compat.jei.JeiPlugin"
     ],
-    "rei_common": [
+    "rei_client": [
       "com.possible_triangle.brazier.compat.rei.ReiPlugin"
     ],
     "fabric-datagen": [
