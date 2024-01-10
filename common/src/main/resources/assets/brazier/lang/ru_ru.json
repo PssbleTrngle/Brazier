@@ -1,0 +1,22 @@
+{
+  "block.brazier.brazier": "Жаровня",
+  "block.brazier.living_torch": "Живой факел",
+  "block.brazier.living_lantern": "Живой фонарь",
+  "block.brazier.spawn_powder": "Проклятый пепел",
+  "item.brazier.living_flame": "Живое пламя",
+  "item.brazier.icon": "ПКМ по жаровне",
+  "entity.brazier.crazed_flame": "Изумливое пламя",
+  "item.brazier.crazed_spawn_egg": "Яйцо призыва изумливого",
+  "item.brazier.ash": "Пепел",
+  "item.brazier.warped_nether_wart": "Искажённый незерский нарост",
+  "entity.brazier.crazed": "Изумливый",
+  "advancements.brazier.place_brazier.title": "Сгинь, нечистая сила!",
+  "advancements.brazier.place_brazier.description": "Постройте жаровню и прогоните ночных чудовищ",
+  "description.brazier.brazier-1": "Жаровня представляет собой мультиблок, похожий на маяк, который предотвращает появление враждебных мобов в определенном радиусе.",
+  "description.brazier.brazier-2": "Вы можете зажечь на нем факел, создав живой факел. Держа живой факел, вы можете увидеть контур защищенной территории, соответствующий ему.",
+  "category.brazier.light_on_brazier": "Жаровня",
+  "tag.item.brazier.ash": "Пепел",
+  "tag.item.brazier.torches": "Факела",
+  "tag.block.brazier.brazier_base_blocks": "Блоки для основы жаровни",
+  "tag.block.brazier.brazier_stripe_blocks": "Блоки для полос жаровни"
+}
