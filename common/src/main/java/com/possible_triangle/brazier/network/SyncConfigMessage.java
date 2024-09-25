@@ -4,6 +4,7 @@ import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.config.DistanceHandler;
 import com.possible_triangle.brazier.config.IServerConfig;
 import com.possible_triangle.brazier.config.SyncedServerConfig;
+import com.possible_triangle.brazier.platform.Services;
 import dev.architectury.networking.NetworkManager;
 import net.fabricmc.api.EnvType;
 import net.minecraft.network.FriendlyByteBuf;
@@ -52,7 +53,7 @@ public class SyncConfigMessage {
         NetworkManager.PacketContext context = contextSupplier.get();
         context.queue(() -> {
             if (context.getEnv() == EnvType.CLIENT) {
-                Brazier.setSyncedConfig(message.config);
+                Services.CONFIGS.syncServerConfig(message.config);
             }
         });
     }

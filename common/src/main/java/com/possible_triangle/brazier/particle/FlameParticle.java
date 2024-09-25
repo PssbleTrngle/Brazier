@@ -1,13 +1,10 @@
 package com.possible_triangle.brazier.particle;
 
-import net.fabricmc.api.EnvType;
-import net.fabricmc.api.Environment;
 import net.minecraft.client.multiplayer.ClientLevel;
 import net.minecraft.client.particle.ParticleRenderType;
 import net.minecraft.client.particle.RisingParticle;
 import net.minecraft.util.Mth;
 
-@Environment(EnvType.CLIENT)
 public class FlameParticle extends RisingParticle {
 
     public FlameParticle(ClientLevel clientLevel, double d, double e, double f, double g, double h, double i) {

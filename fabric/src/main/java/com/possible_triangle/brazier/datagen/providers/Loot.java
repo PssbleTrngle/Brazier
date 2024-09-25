@@ -59,7 +59,7 @@ public class Loot {
 
         @Override
         public void generate() {
-            Stream.of(Content.BRAZIER, Content.LIVING_TORCH_BLOCK, Content.LIVING_TORCH_BLOCK_WALL, Content.SPAWN_POWDER)
+            Stream.of(Content.BRAZIER, Content.LIVING_TORCH, Content.LIVING_TORCH_BLOCK_WALL, Content.SPAWN_POWDER)
                     .filter(RegistrySupplier::isPresent).map(RegistrySupplier::get)
                     .forEach(block -> add(block, LootTable.lootTable()
                             .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))

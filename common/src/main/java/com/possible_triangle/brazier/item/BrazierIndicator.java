@@ -11,9 +11,6 @@ import java.util.stream.Stream;
 
 public class BrazierIndicator {
 
-    private BrazierIndicator() {
-    }
-
     public static void playerTick(Player player) {
         if (player.tickCount % 2 != 0) return;
         if(!(player.level() instanceof ServerLevel level)) return;

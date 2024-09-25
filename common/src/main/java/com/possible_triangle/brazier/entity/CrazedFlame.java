@@ -21,11 +21,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
         super(Content.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
     }
 
-    public CrazedFlame(Level world) {
-        this(Content.CRAZED_FLAME.get(), world);
-    }
-
-    public CrazedFlame(EntityType<? extends AbstractHurtingProjectile> type, Level world) {
+    public CrazedFlame(EntityType<? extends CrazedFlame> type, Level world) {
         super(type, world);
     }
 

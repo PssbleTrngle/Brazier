@@ -5,7 +5,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -16,8 +15,8 @@ public class LazyTorchBlock extends TorchBlock {
 
     private final Supplier<? extends ParticleOptions> particle;
 
-    public LazyTorchBlock(Supplier<? extends ParticleOptions> particle) {
-        super(Properties.copy(Blocks.TORCH), null);
+    public LazyTorchBlock(Properties properties, Supplier<? extends ParticleOptions> particle) {
+        super(properties, null);
         this.particle = particle;
     }
 

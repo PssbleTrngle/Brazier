@@ -1,13 +1,22 @@
 package com.possible_triangle.brazier.config;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
+import net.minecraftforge.common.ForgeConfigSpec;
 
-@Config(name = "brazier-client")
-@Config.Gui.Background("minecraft:textures/block/blackstone.png")
-public class ClientConfig implements ConfigData {
+public class ClientConfig implements IClientConfig {
 
-   public boolean RENDER_RUNES = true;
+    private final ForgeConfigSpec.BooleanValue renderRunes;
 
+    public ClientConfig(ForgeConfigSpec.Builder builder) {
+        builder.push("client");
+
+        renderRunes = builder.define("renderRunes", true);
+
+        builder.pop();
+    }
+
+    @Override
+    public boolean renderRunes() {
+        return renderRunes.get();
+    }
 
 }

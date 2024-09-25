@@ -79,7 +79,7 @@ public class BrazierLogic {
         // Check for spawn powder
         if (Brazier.serverConfig().enableSpawnPowder()) {
             Block block = world.getBlockState(pos).getBlock();
-            if (Content.SPAWN_POWDER.toOptional().filter(block::equals).isPresent()) {
+            if (Content.SPAWN_POWDER.filter(block::equals).isPresent()) {
                 return false;
             }
         }

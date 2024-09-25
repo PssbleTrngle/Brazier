@@ -8,7 +8,7 @@ import java.util.stream.Stream;
 public record LightOnBrazierRecipe(Ingredient input, ItemStack output) {
 
     public static Stream<LightOnBrazierRecipe> all() {
-        return Content.LIVING_TORCH.toOptional()
+        return Content.LIVING_TORCH
                 .map(item -> new LightOnBrazierRecipe(Ingredient.of(Content.TORCHES), new ItemStack(item)))
                 .stream();
     }

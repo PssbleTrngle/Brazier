@@ -4,50 +4,61 @@ import com.possible_triangle.brazier.block.BrazierBlock;
 import com.possible_triangle.brazier.block.LazyTorchBlock;
 import com.possible_triangle.brazier.block.LazyWallTorchBlock;
 import com.possible_triangle.brazier.block.SpawnPowder;
-import com.possible_triangle.brazier.block.tile.BrazierTile;
-import com.possible_triangle.brazier.config.IServerConfig;
+import com.possible_triangle.brazier.block.tile.BrazierBlockEntity;
+import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
 import com.possible_triangle.brazier.entity.Crazed;
 import com.possible_triangle.brazier.entity.CrazedFlame;
-import com.possible_triangle.brazier.item.HiddenItem;
+import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
+import com.possible_triangle.brazier.entity.render.CrazedRender;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
-import com.possible_triangle.brazier.item.LivingTorch;
 import com.possible_triangle.brazier.logic.ConstructBrazierTrigger;
 import com.possible_triangle.brazier.particle.ModdedParticleType;
-import com.possible_triangle.brazier.platform.PlatformRegistries;
+import com.possible_triangle.brazier.platform.Services;
+import com.tterrag.registrate.AbstractRegistrate;
+import com.tterrag.registrate.builders.ItemBuilder;
+import com.tterrag.registrate.util.entry.BlockEntityEntry;
+import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.entry.EntityEntry;
+import com.tterrag.registrate.util.entry.ItemEntry;
+import com.tterrag.registrate.util.entry.RegistryEntry;
+import com.tterrag.registrate.util.nullness.NonNullFunction;
 import dev.architectury.platform.Platform;
-import dev.architectury.registry.registries.DeferredRegister;
-import dev.architectury.registry.registries.RegistrySupplier;
-import net.minecraft.core.particles.ParticleType;
-import net.minecraft.core.particles.SimpleParticleType;
+import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.renderer.RenderType;
+import net.minecraft.core.Direction;
 import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.TagKey;
+import net.minecraft.world.entity.EntityDimensions;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobCategory;
-import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Rarity;
+import net.minecraft.world.item.StandingAndWallBlockItem;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.LanternBlock;
+import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
-import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import org.jetbrains.annotations.Nullable;
 
-import java.awt.*;
+import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
-import java.util.function.UnaryOperator;
 
 import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Content {
 
+    private static final AbstractRegistrate<?> REGISTRATE = Services.PLATFORM.getRegistrate();
+
     private Content() {
     }
-    
+
     private static ResourceLocation id(String key) {
         return new ResourceLocation(MOD_ID, key);
     }
@@ -62,80 +73,118 @@ public class Content {
     public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registries.ITEM, id("range_indicator"));
     public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registries.ITEM, id("warped_wart"));
 
-    public static final DeferredRegister<Item> ITEMS = DeferredRegister.create(MOD_ID, Registries.ITEM);
-    public static final DeferredRegister<Block> BLOCKS = DeferredRegister.create(MOD_ID, Registries.BLOCK);
-    public static final DeferredRegister<BlockEntityType<?>> TILES = DeferredRegister.create(MOD_ID, Registries.BLOCK_ENTITY_TYPE);
-    public static final DeferredRegister<EntityType<?>> ENTITIES = DeferredRegister.create(MOD_ID, Registries.ENTITY_TYPE);
-    public static final DeferredRegister<ParticleType<?>> PARTICLES = DeferredRegister.create(MOD_ID, Registries.PARTICLE_TYPE);
+    public static final RegistryEntry<ModdedParticleType> FLAME_PARTICLE = REGISTRATE.object("flame")
+            .generic(Registries.PARTICLE_TYPE, () -> new ModdedParticleType(false))
+            .register();
 
-    public static final RegistrySupplier<SimpleParticleType> FLAME_PARTICLE = PARTICLES.register("flame", () -> new ModdedParticleType(false));
+    public static final BlockEntry<BrazierBlock> BRAZIER = REGISTRATE.object("brazier")
+            .block(BrazierBlock::new)
+            .properties(it -> it
+                    .strength(1.5F, 6.0F)
+                    .requiresCorrectToolForDrops()
+                    .noOcclusion()
+                    .lightLevel(s -> s.getValue(BrazierBlock.LIT) ? 15 : 0)
+            )
+            .addLayer(() -> RenderType::cutout)
+            .item()
+            .tab(CreativeModeTabs.FUNCTIONAL_BLOCKS)
+            .build()
+            .register();
 
-    public static final RegistrySupplier<BrazierBlock> BRAZIER = registerBlock("brazier", BrazierBlock::new, p -> p.arch$tab(CreativeModeTabs.FUNCTIONAL_BLOCKS));
-    public static final RegistrySupplier<BlockEntityType<BrazierTile>> BRAZIER_TILE = TILES.register("brazier", () ->
-            BlockEntityType.Builder.of(BrazierTile::new, BRAZIER.get()).build(null)
-    );
+    public static final BlockEntityEntry<BrazierBlockEntity> BRAZIER_TILE = REGISTRATE.object("brazier")
+            .blockEntity(BrazierBlockEntity::new)
+            .validBlock(BRAZIER)
+            .renderer(() -> ctx -> new BrazierRenderer())
+            .register();
 
-    public static final RegistrySupplier<LazyTorchBlock> LIVING_TORCH_BLOCK = BLOCKS.register("living_torch", () -> new LazyTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = BLOCKS.register("living_wall_torch", () -> new LazyWallTorchBlock(FLAME_PARTICLE));
-    public static final RegistrySupplier<Block> LIVING_LANTERN = registerBlock("living_lantern", () -> new LanternBlock(Block.Properties.copy(Blocks.LANTERN)), p -> p.arch$tab(CreativeModeTabs.FUNCTIONAL_BLOCKS));
+    public static final BlockEntry<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = REGISTRATE.object("living_wall_torch")
+            .block(props -> new LazyWallTorchBlock(props, FLAME_PARTICLE))
+            .initialProperties(() -> Blocks.WALL_TORCH)
+            .addLayer(() -> RenderType::cutout)
+            .register();
 
+    public static final BlockEntry<LazyTorchBlock> LIVING_TORCH = REGISTRATE.object("living_torch")
+            .block(props -> new LazyTorchBlock(props, FLAME_PARTICLE))
+            .initialProperties(() -> Blocks.TORCH)
+            .addLayer(() -> RenderType::cutout)
+            .item((block, props) -> new StandingAndWallBlockItem(block, Content.LIVING_TORCH_BLOCK_WALL.get(), props, Direction.DOWN))
+            .transform(conditionalTab(CreativeModeTabs.FUNCTIONAL_BLOCKS, Services.CONFIGS.server()::enableDecoration))
+            .build()
+            .register();
 
-    public static final RegistrySupplier<Item> LIVING_FLAME = ITEMS.register("living_flame", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.FOOD_AND_DRINKS).rarity(Rarity.UNCOMMON)));
-    public static final RegistrySupplier<LivingTorch> LIVING_TORCH = ITEMS.register("living_torch", LivingTorch::new);
+    public static final BlockEntry<LanternBlock> LIVING_LANTERN = REGISTRATE.object("living_lantern")
+            .block(LanternBlock::new)
+            .initialProperties(() -> Blocks.LANTERN)
+            .addLayer(() -> RenderType::cutout)
+            .item()
+            .transform(conditionalTab(CreativeModeTabs.FUNCTIONAL_BLOCKS, Services.CONFIGS.server()::enableDecoration))
+            .build()
+            .register();
 
-    public static final RegistrySupplier<Item> ASH = ITEMS.register("ash", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.INGREDIENTS)));
-    public static final RegistrySupplier<Item> WARPED_NETHERWART = ITEMS.register("warped_nether_wart", () -> new Item(new Item.Properties().arch$tab(CreativeModeTabs.INGREDIENTS)));
-    public static final RegistrySupplier<Block> SPAWN_POWDER = registerBlock("spawn_powder", SpawnPowder::new, p -> p.arch$tab(CreativeModeTabs.INGREDIENTS));
+    public static final ItemEntry<Item> LIVING_FLAME = REGISTRATE.object("living_flame")
+            .item(Item::new)
+            .properties(it -> it.rarity(Rarity.UNCOMMON))
+            .tab(CreativeModeTabs.INGREDIENTS)
+            .register();
 
-    public static final Supplier<ConstructBrazierTrigger> CONSTRUCT_BRAZIER = PlatformRegistries.createCriteria(new ConstructBrazierTrigger());
+    public static final ItemEntry<Item> ASH = REGISTRATE.object("ash")
+            .item(Item::new)
+            .transform(conditionalTab(CreativeModeTabs.INGREDIENTS, () -> !Services.PLATFORM.isModLoaded("nether_extension") && !Platform.isModLoaded("supplementaries")))
+            .register();
 
-    public static final RegistrySupplier<EntityType<Crazed>> CRAZED = ENTITIES.register("crazed",
-            () -> PlatformRegistries.<Crazed>createMob(MobCategory.MONSTER, Crazed::new)
-                    .size(2F, 0.5F)
-                    .fireImmune()
-                    .attributes(Crazed.createAttributes())
-                    .build("crazed")
-    );
+    public static final ItemEntry<Item> WARPED_NETHERWART = REGISTRATE.object("warped_nether_wart")
+            .item(Item::new)
+            .tab(CreativeModeTabs.INGREDIENTS)
+            .transform(conditionalTab(CreativeModeTabs.INGREDIENTS, () -> !Services.PLATFORM.isModLoaded("nether_extension")))
+            .register();
 
-    public static final RegistrySupplier<LazySpawnEgg<Crazed>> CRAZED_SPAWN_EGG = ITEMS.register("crazed_spawn_egg", () -> new LazySpawnEgg<>(
-            CRAZED,
-            new Color(9804699).getRGB(),
-            new Color(0x89CB07).getRGB())
-    );
+    public static final BlockEntry<SpawnPowder> SPAWN_POWDER = REGISTRATE.object("spawn_powder")
+            .block(SpawnPowder::new)
+            .properties(it -> it
+                    .noCollission()
+                    .instabreak()
+                    .lightLevel($ -> 1)
+                    .sound(SoundType.SOUL_SAND)
+            )
+            .addLayer(() -> RenderType::cutout)
+            .item()
+            .transform(conditionalTab(CreativeModeTabs.FUNCTIONAL_BLOCKS, Services.CONFIGS.server()::enableSpawnPowder))
+            .build()
+            .register();
 
-    public static final RegistrySupplier<EntityType<CrazedFlame>> CRAZED_FLAME = ENTITIES.register("crazed_flame", () ->
-            PlatformRegistries.<CrazedFlame>createMob(MobCategory.MISC, CrazedFlame::new)
-                    .size(0.6F, 0.6F)
-                    .fireImmune()
-                    .build("crazed_flame")
-    );
+    public static final ConstructBrazierTrigger CONSTRUCT_BRAZIER = CriteriaTriggers.register(new ConstructBrazierTrigger());
 
-    public static final RegistrySupplier<HiddenItem> ICON = ITEMS.register("icon", HiddenItem::new);
+    public static final EntityEntry<Crazed> CRAZED = REGISTRATE.object("crazed")
+            .entity(Crazed::new, MobCategory.MONSTER)
+            .attributes(Crazed::createAttributes)
+            .renderer(() -> CrazedRender::new)
+            .properties(it -> it.fireImmune())
+            .properties(it -> it.dimensions(EntityDimensions.fixed(2F, 0.5F)))
+            .register();
 
-    public static <T extends Block> RegistrySupplier<T> registerBlock(String name, Supplier<T> supplier, UnaryOperator<Item.Properties> props) {
-        RegistrySupplier<T> block = BLOCKS.register(name, supplier);
-        ITEMS.register(name, () -> new BlockItem(block.get(), props.apply(new Item.Properties())));
-        return block;
-    }
+    public static final ItemEntry<LazySpawnEgg<Crazed>> CRAZED_SPAWN_EGG = REGISTRATE.object("crazed_spawn_egg")
+            .item(props -> new LazySpawnEgg<>(props, CRAZED, 0x9804699, 0x89CB07))
+            .register();
+
+    public static final EntityEntry<CrazedFlame> CRAZED_FLAME = REGISTRATE.object("crazed_flame")
+            .entity((EntityType.EntityFactory<CrazedFlame>) CrazedFlame::new, MobCategory.MISC)
+            .renderer(() -> CrazedFlameRenderer::new)
+            .properties(it -> it.dimensions(EntityDimensions.fixed(0.6F, 0.6F)))
+            .properties(it -> it.fireImmune())
+            .register();
+
+    public static final ItemEntry<Item> ICON = REGISTRATE.object("icon")
+            .item(Item::new)
+            .register();
 
     public static void init() {
-        PARTICLES.register();
-        ENTITIES.register();
-        BLOCKS.register();
-        ITEMS.register();
-        TILES.register();
+        // Load this class
     }
 
-    public static void setup() {
-        Conditional.when(IServerConfig::enableDecoration, LIVING_LANTERN, LIVING_TORCH);
-        Conditional.when(IServerConfig::enableSpawnPowder, SPAWN_POWDER);
-
-        Conditional.when(IServerConfig::injectJungleLoot).loot(BuiltInLootTables.JUNGLE_TEMPLE, "flame_jungle_temple");
-
-        Conditional.when($ -> !Platform.isModLoaded("nether_extension") && !Platform.isModLoaded("supplementaries"))
-                .add(Content.ASH, Content.WARPED_NETHERWART)
-                .loot(EntityType.WITHER_SKELETON.getDefaultLootTable(), "wither_ash")
-                .loot(Blocks.NETHER_WART.getLootTable(), "warped_wart");
+    private static <T extends Item, P> NonNullFunction<ItemBuilder<T, P>, ItemBuilder<T, P>> conditionalTab(ResourceKey<CreativeModeTab> tab, BooleanSupplier test) {
+        return it -> it.tab(tab, mod -> {
+            if(test.getAsBoolean()) mod.accept(it.getEntry());
+        });
     }
 
     @Nullable

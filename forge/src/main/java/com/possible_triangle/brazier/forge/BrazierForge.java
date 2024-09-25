@@ -2,19 +2,18 @@ package com.possible_triangle.brazier.forge;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.platform.forge.PlatformRegistriesImpl;
+import com.possible_triangle.brazier.item.BrazierIndicator;
 import com.possible_triangle.brazier.item.LazySpawnEgg;
-import dev.architectury.platform.forge.EventBuses;
+import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.core.registries.Registries;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.api.distmarker.OnlyIn;
 import net.minecraftforge.client.event.RegisterColorHandlersEvent;
-import net.minecraftforge.event.entity.EntityAttributeCreationEvent;
-import net.minecraftforge.eventbus.api.IEventBus;
+import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.event.TickEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.event.lifecycle.FMLClientSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.RegisterEvent;
 
 @Mod(Brazier.MOD_ID)
@@ -22,9 +21,11 @@ import net.minecraftforge.registries.RegisterEvent;
 public class BrazierForge {
 
     public BrazierForge() {
-        IEventBus bus = FMLJavaModLoadingContext.get().getModEventBus();
-        EventBuses.registerModEventBus(Brazier.MOD_ID, bus);
         Brazier.init();
+
+        Services.CONFIGS.register();
+
+        MinecraftForge.EVENT_BUS.addListener((TickEvent.PlayerTickEvent event) -> BrazierIndicator.playerTick(event.player));
     }
 
     @OnlyIn(Dist.CLIENT)
@@ -33,11 +34,6 @@ public class BrazierForge {
         Content.CRAZED_SPAWN_EGG.ifPresent(egg ->
                 event.getItemColors().register(LazySpawnEgg::getColor, egg)
         );
-    }
-
-    @SubscribeEvent
-    public static void addEntityAttributes(EntityAttributeCreationEvent event) {
-        PlatformRegistriesImpl.ATTRIBUTES.forEach(event::put);
     }
 
     @SubscribeEvent

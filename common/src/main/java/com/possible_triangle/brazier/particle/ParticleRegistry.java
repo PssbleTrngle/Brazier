@@ -15,7 +15,6 @@ public class ParticleRegistry {
         PARTICLES.forEach(consumer);
     }
 
-    @Environment(EnvType.CLIENT)
     public static void registerFactory(ParticleType<?> type, ParticleFactory factory) {
         PARTICLES.put(type, factory);
     }

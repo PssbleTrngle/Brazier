@@ -13,13 +13,18 @@ import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.AABB;
 
-public class BrazierTile extends BlockEntity {
+public class BrazierBlockEntity extends BlockEntity {
 
     private int ticksExisted = 0;
     private int height = 0;
+
+    public BrazierBlockEntity(BlockEntityType<? extends BrazierBlockEntity> type, BlockPos pos, BlockState state) {
+        super(type, pos, state);
+    }
 
     private void setHeight(int height) {
         if (this.height != height) {
@@ -30,7 +35,7 @@ public class BrazierTile extends BlockEntity {
         }
     }
 
-    public static void tick(Level level, BlockPos pos, BlockState state, BrazierTile tile) {
+    public static void tick(Level level, BlockPos pos, BlockState state, BrazierBlockEntity tile) {
         if (!level.isLoaded(pos)) return;
 
         ++tile.ticksExisted;
@@ -57,7 +62,7 @@ public class BrazierTile extends BlockEntity {
                 level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
 
                 level.getEntitiesOfClass(ServerPlayer.class, new AABB(pos).inflate(10.0, 10.0, 10.0)).forEach(it ->
-                        Content.CONSTRUCT_BRAZIER.get().trigger(it, newHeight)
+                        Content.CONSTRUCT_BRAZIER.trigger(it, newHeight)
                 );
             }
         }
@@ -93,10 +98,6 @@ public class BrazierTile extends BlockEntity {
     public void saveAdditional(CompoundTag nbt) {
         super.saveAdditional(nbt);
         nbt.putInt("height", height);
-    }
-
-    public BrazierTile(BlockPos pos, BlockState state) {
-        super(Content.BRAZIER_TILE.get(), pos, state);
     }
 
     public int getRange() {

@@ -1,6 +1,5 @@
 package com.possible_triangle.brazier.entity;
 
-import com.possible_triangle.brazier.Content;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -32,10 +31,6 @@ import java.util.List;
 public class Crazed extends SpellcasterIllager {
 
     public static final double BUFF_RADIUS = 7;
-
-    public Crazed(Level world) {
-        this(Content.CRAZED.get(), world);
-    }
 
     public static AttributeSupplier.Builder createAttributes() {
        return Monster.createMonsterAttributes()

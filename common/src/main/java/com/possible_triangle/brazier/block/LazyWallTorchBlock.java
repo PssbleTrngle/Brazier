@@ -6,7 +6,6 @@ import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
-import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
@@ -17,8 +16,8 @@ public class LazyWallTorchBlock extends WallTorchBlock {
 
     private final Supplier<? extends ParticleOptions> particle;
 
-    public LazyWallTorchBlock(Supplier<? extends ParticleOptions> particle) {
-        super(Properties.copy(Blocks.WALL_TORCH), null);
+    public LazyWallTorchBlock(Properties properties, Supplier<? extends ParticleOptions> particle) {
+        super(properties, null);
         this.particle = particle;
     }
 

@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.block;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.block.tile.BrazierBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
@@ -32,12 +32,8 @@ public class BrazierBlock extends BaseEntityBlock {
     public static final BooleanProperty LIT = BlockStateProperties.LIT;
     private static final VoxelShape SHAPE = box(0, 0, 0, 16, 4, 16);
 
-    public BrazierBlock() {
-        super(Properties.of()
-                .strength(1.5F, 6.0F)
-                .requiresCorrectToolForDrops()
-                .noOcclusion()
-                .lightLevel(s -> s.getValue(LIT) ? 15 : 0));
+    public BrazierBlock(Properties properties) {
+        super(properties);
         registerDefaultState(super.defaultBlockState().setValue(LIT, false));
     }
 
@@ -55,18 +51,18 @@ public class BrazierBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BrazierTile(pos, state);
+        return new BrazierBlockEntity(pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> type) {
-        return Content.createTickerHelper(type, Content.BRAZIER_TILE, BrazierTile::tick);
+        return Content.createTickerHelper(type, Content.BRAZIER_TILE, BrazierBlockEntity::tick);
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        return Content.LIVING_TORCH.toOptional().filter(torch -> {
+        return Content.LIVING_TORCH.filter(torch -> {
             ItemStack stack = player.getItemInHand(hand);
             if (!stack.isEmpty() && stack.is(Content.TORCHES)) {
                 if (!player.isCreative()) stack.shrink(1);

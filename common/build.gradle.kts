@@ -1,39 +1,31 @@
-val enabled_platforms: String by extra
 val mod_id: String by extra
 val mod_version: String by extra
 val fabric_loader_version: String by extra
-val architectury_version: String by extra
 val cloth_config_version: String by extra
-val minecraft_version: String by extra
+val mc_version: String by extra
 val jei_version: String by extra
 val rei_version: String by extra
+val registrate_fabric_version: String by extra
+val forge_config_api_port_version: String by extra
 
-architectury {
-    common(enabled_platforms.split(","))
+plugins {
+    id("dev.architectury.loom") version ("1.6-SNAPSHOT")
+}
+
+common {
+    applyVanillaGradle = false
 }
 
 dependencies {
-    // We depend on fabric loader here to use the fabric @Environment annotations and get the mixin dependencies
-    // Do NOT use other classes from fabric loader
-    modImplementation("net.fabricmc:fabric-loader:${fabric_loader_version}")
-    // Remove the next line if you don't want to depend on the API
-    modApi("dev.architectury:architectury:${architectury_version}")
+    "minecraft"("com.mojang:minecraft:${mc_version}")
+    "mappings"(loom.officialMojangMappings())
 
-    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modCompileOnly("com.tterrag.registrate_fabric:Registrate:${registrate_fabric_version}")
+    modCompileOnly("fuzs.forgeconfigapiport:forgeconfigapiport-common:${forge_config_api_port_version}")
+
+    modCompileOnly("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rei_version}")
 
-    modCompileOnly("me.shedaniel.cloth:cloth-config:${cloth_config_version}") {
-        exclude(group = "net.fabricmc.fabric-api")
-    }
-
-    modCompileOnly("mezz.jei:jei-${minecraft_version}-common-api:${jei_version}")
+    modCompileOnly("mezz.jei:jei-${mc_version}-common-api:${jei_version}")
     modCompileOnly("me.shedaniel:RoughlyEnoughItems-api:${rei_version}")
-}
-
-loom {
-    accessWidenerPath.set(file("src/main/resources/${mod_id}.accesswidener"))
-}
-
-sourceSets["main"].resources {
-    srcDirs("src/generated/resources")
 }

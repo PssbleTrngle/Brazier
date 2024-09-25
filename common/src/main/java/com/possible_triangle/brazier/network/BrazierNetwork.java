@@ -14,5 +14,4 @@ public class BrazierNetwork {
         CHANNEL.register(SyncConfigMessage.class, SyncConfigMessage::encode, SyncConfigMessage::decode, SyncConfigMessage::handle);
     }
 
-
 }

@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.item;
 
-import dev.architectury.registry.registries.RegistrySupplier;
+import com.tterrag.registrate.util.nullness.NonNullSupplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -12,11 +12,9 @@ import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.player.Player;
-import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.context.UseOnContext;
-import net.minecraft.world.level.BaseSpawner;
 import net.minecraft.world.level.ClipContext;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Blocks;
@@ -34,10 +32,10 @@ public class LazySpawnEgg<T extends Entity> extends Item {
 
     private final int primary;
     private final int secondary;
-    private final RegistrySupplier<EntityType<T>> typeSupplier;
+    private final NonNullSupplier<EntityType<T>> typeSupplier;
 
-    public LazySpawnEgg(RegistrySupplier<EntityType<T>> type, int primary, int secondary) {
-        super(new Properties().arch$tab(CreativeModeTabs.SPAWN_EGGS));
+    public LazySpawnEgg(Properties properties, NonNullSupplier<EntityType<T>> type, int primary, int secondary) {
+        super(properties);
         this.primary = primary;
         this.secondary = secondary;
         this.typeSupplier = type;

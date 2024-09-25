@@ -6,8 +6,9 @@ import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.blaze3d.vertex.VertexFormat;
 import com.mojang.math.Axis;
 import com.possible_triangle.brazier.Brazier;
-import com.possible_triangle.brazier.block.tile.BrazierTile;
+import com.possible_triangle.brazier.block.tile.BrazierBlockEntity;
 import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
+import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.RenderStateShard;
@@ -19,7 +20,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.joml.Matrix4f;
 
-public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
+public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> {
 
     public static final ResourceLocation TEXTURE_KEY = new ResourceLocation(Brazier.MOD_ID, "textures/block/brazier_runes.png");
 
@@ -70,7 +71,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
     }
 
     @Override
-    public void render(BrazierTile tile, float partialTicks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light, int overlay) {
+    public void render(BrazierBlockEntity tile, float partialTicks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light, int overlay) {
         int height = tile.getHeight();
         if (height <= 0) return;
 
@@ -80,7 +81,7 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
         var matrix = matrizes.last().pose();
         var vertex = buffer.getBuffer(RENDER_TYPE);
 
-        if (Brazier.clientConfig().RENDER_RUNES) {
+        if (Services.CONFIGS.client().renderRunes()) {
             float frame = (float) ((System.currentTimeMillis() / 100) % FRAMES);
             float minV = frame / FRAMES;
             float maxV = (frame + 1) / FRAMES;
@@ -99,8 +100,8 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierTile> {
     }
 
     @Override
-    public boolean shouldRenderOffScreen(BrazierTile tile) {
-        return Brazier.clientConfig().RENDER_RUNES;
+    public boolean shouldRenderOffScreen(BrazierBlockEntity tile) {
+        return Services.CONFIGS.client().renderRunes();
     }
 
 }

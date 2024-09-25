@@ -1,95 +1,91 @@
 package com.possible_triangle.brazier.config;
 
-import me.shedaniel.autoconfig.ConfigData;
-import me.shedaniel.autoconfig.annotation.Config;
-import me.shedaniel.autoconfig.annotation.ConfigEntry;
+import com.possible_triangle.brazier.ClientContent;
+import me.shedaniel.autoconfig.example.ExampleConfig;
+import net.minecraftforge.common.ForgeConfigSpec;
+import org.apache.commons.lang3.tuple.Pair;
 
-@Config(name = "brazier-common")
-@Config.Gui.Background("minecraft:textures/block/blackstone.png")
-public class ServerConfig implements ConfigData, IServerConfig {
+public class ServerConfig implements IServerConfig {
 
-   @ConfigEntry.Category("acquisition")
-   public boolean JUNGLE_LOOT = true;
+    private final ForgeConfigSpec.BooleanValue jungleLoot, spawnCrazed;
+    private final ForgeConfigSpec.DoubleValue crazedChance;
+    private final ForgeConfigSpec.IntValue maxHeight, rangePerLevel, baseRange;
+    private final ForgeConfigSpec.BooleanValue protectAbove, enableSpawnPowder, enableDecoration;
+    private final ForgeConfigSpec.EnumValue<DistanceHandler.Type> distanceCalculator;
 
-   @Override
-   public boolean injectJungleLoot() {
-      return JUNGLE_LOOT;
-   }
+    public ServerConfig(ForgeConfigSpec.Builder builder) {
+        builder.push("acquisition");
 
-   @ConfigEntry.Category("acquisition")
-   public boolean SPAWN_CRAZED = true;
+        jungleLoot = builder.define("jungleLoot", true);
+        spawnCrazed = builder.define("spawnCrazed", true);
+        crazedChance = builder.defineInRange("crazedChance", 0.6, 0.0, 1.0);
 
-   @Override
-   public boolean spawnCrazed() {
-      return SPAWN_CRAZED;
-   }
+        builder.pop();
+        builder.push("brazier");
 
-   @ConfigEntry.Category("acquisition")
-   public double CRAZED_CHANCE = 0.6;
+        maxHeight = builder.defineInRange("maxHeight", 10, 1, Integer.MAX_VALUE);
+        rangePerLevel = builder.defineInRange("rangePerLevel", 10, 1, Integer.MAX_VALUE);
+        baseRange = builder.defineInRange("baseRange", 20, 1, Integer.MAX_VALUE);
+        protectAbove = builder.define("protectAbove", false);
+        distanceCalculator = builder.defineEnum("distanceCalculator", DistanceHandler.Type.CYLINDER);
 
-   @Override
-   public double crazedSpawnChance() {
-      return CRAZED_CHANCE;
-   }
+        builder.pop();
+        builder.push("content");
 
-   @ConfigEntry.Category("brazier")
-   @ConfigEntry.BoundedDiscrete(min = 1, max = Integer.MAX_VALUE)
-   public int MAX_HEIGHT = 10;
+        enableSpawnPowder = builder.define("enableSpawnPowder", true);
+        enableDecoration = builder.define("enableDecoration", true);
+    }
 
-   @Override
-   public int maxHeight() {
-      return MAX_HEIGHT;
-   }
+    @Override
+    public boolean injectJungleLoot() {
+        return jungleLoot.get();
+    }
 
-   @ConfigEntry.Category("brazier")
-   @ConfigEntry.BoundedDiscrete(min = 0, max = Integer.MAX_VALUE)
-   public int RANGE_PER_LEVEL = 10;
+    @Override
+    public boolean spawnCrazed() {
+        return spawnCrazed.get();
+    }
 
-   @Override
-   public int rangePerLevel() {
-      return RANGE_PER_LEVEL;
-   }
+    @Override
+    public double crazedSpawnChance() {
+        return crazedChance.get();
+    }
 
-   @ConfigEntry.Category("brazier")
-   @ConfigEntry.BoundedDiscrete(min = 0, max = Integer.MAX_VALUE)
-   public int BASE_RANGE = 20;
+    @Override
+    public int maxHeight() {
+        return maxHeight.get();
+    }
 
-   @Override
-   public int baseRange() {
-      return BASE_RANGE;
-   }
+    @Override
+    public int rangePerLevel() {
+        return rangePerLevel.get();
+    }
 
-   @ConfigEntry.Category("brazier")
-   public boolean PROTECT_ABOVE = false;
+    @Override
+    public int baseRange() {
+        return baseRange.get();
+    }
 
-   @Override
-   public boolean protectAbove() {
-      return PROTECT_ABOVE;
-   }
+    @Override
+    public boolean protectAbove() {
+        return protectAbove.get();
+    }
 
-   @ConfigEntry.Category("brazier")
-   @ConfigEntry.Gui.Tooltip
-   @ConfigEntry.Gui.EnumHandler(option = ConfigEntry.Gui.EnumHandler.EnumDisplayOption.BUTTON)
-   public DistanceHandler.Type DISTANCE_CALC = DistanceHandler.Type.CYLINDER;
+    @Override
+    public DistanceHandler.Type distanceCalculator() {
+        return distanceCalculator.get();
+    }
 
-   @Override
-   public DistanceHandler.Type distanceCalculator() {
-      return DISTANCE_CALC;
-   }
 
-   @ConfigEntry.Category("content")
-   public boolean SPAWN_POWDER = true;
+    @Override
+    public boolean enableSpawnPowder() {
+        return enableDecoration.get();
+    }
 
-   @Override
-   public boolean enableSpawnPowder() {
-      return SPAWN_POWDER;
-   }
 
-   @ConfigEntry.Category("content")
-   public boolean DECORATION = true;
+    @Override
+    public boolean enableDecoration() {
+        return enableDecoration.get();
+    }
 
-   @Override
-   public boolean enableDecoration() {
-      return DECORATION;
-   }
 }
