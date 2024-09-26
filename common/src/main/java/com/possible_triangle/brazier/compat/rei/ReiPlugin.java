@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.compat.rei;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.LightOnBrazierRecipe;
+import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import me.shedaniel.rei.api.client.plugins.REIClientPlugin;
 import me.shedaniel.rei.api.client.registry.category.CategoryRegistry;
 import me.shedaniel.rei.api.client.registry.display.DisplayRegistry;

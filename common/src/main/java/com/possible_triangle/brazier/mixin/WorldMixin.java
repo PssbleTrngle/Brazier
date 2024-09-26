@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.mixin;
 
-import com.possible_triangle.brazier.block.tile.BrazierBlockEntity;
+import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import org.spongepowered.asm.mixin.Mixin;

@@ -1,19 +1,20 @@
 package com.possible_triangle.brazier;
 
-import com.possible_triangle.brazier.block.BrazierBlock;
-import com.possible_triangle.brazier.block.LazyTorchBlock;
-import com.possible_triangle.brazier.block.LazyWallTorchBlock;
-import com.possible_triangle.brazier.block.SpawnPowder;
-import com.possible_triangle.brazier.block.tile.BrazierBlockEntity;
-import com.possible_triangle.brazier.block.tile.render.BrazierRenderer;
-import com.possible_triangle.brazier.entity.Crazed;
-import com.possible_triangle.brazier.entity.CrazedFlame;
-import com.possible_triangle.brazier.entity.render.CrazedFlameRenderer;
-import com.possible_triangle.brazier.entity.render.CrazedRender;
-import com.possible_triangle.brazier.item.LazySpawnEgg;
+import com.possible_triangle.brazier.data.ConfigLootCondition;
+import com.possible_triangle.brazier.data.ModLootCondition;
 import com.possible_triangle.brazier.logic.ConstructBrazierTrigger;
-import com.possible_triangle.brazier.particle.ModdedParticleType;
 import com.possible_triangle.brazier.platform.Services;
+import com.possible_triangle.brazier.world.block.BrazierBlock;
+import com.possible_triangle.brazier.world.block.LazyTorchBlock;
+import com.possible_triangle.brazier.world.block.LazyWallTorchBlock;
+import com.possible_triangle.brazier.world.block.SpawnPowder;
+import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
+import com.possible_triangle.brazier.world.entity.Crazed;
+import com.possible_triangle.brazier.world.entity.CrazedFlame;
+import com.possible_triangle.brazier.world.entity.render.CrazedFlameRenderer;
+import com.possible_triangle.brazier.world.entity.render.CrazedRender;
+import com.possible_triangle.brazier.world.item.LazySpawnEgg;
+import com.possible_triangle.brazier.world.particle.ModdedParticleType;
 import com.tterrag.registrate.AbstractRegistrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
@@ -22,7 +23,6 @@ import com.tterrag.registrate.util.entry.EntityEntry;
 import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
-import dev.architectury.platform.Platform;
 import net.minecraft.advancements.CriteriaTriggers;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
@@ -45,6 +45,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.storage.loot.predicates.LootItemConditionType;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.function.BooleanSupplier;
@@ -94,7 +95,6 @@ public class Content {
     public static final BlockEntityEntry<BrazierBlockEntity> BRAZIER_TILE = REGISTRATE.object("brazier")
             .blockEntity(BrazierBlockEntity::new)
             .validBlock(BRAZIER)
-            .renderer(() -> ctx -> new BrazierRenderer())
             .register();
 
     public static final BlockEntry<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = REGISTRATE.object("living_wall_torch")
@@ -129,7 +129,7 @@ public class Content {
 
     public static final ItemEntry<Item> ASH = REGISTRATE.object("ash")
             .item(Item::new)
-            .transform(conditionalTab(CreativeModeTabs.INGREDIENTS, () -> !Services.PLATFORM.isModLoaded("nether_extension") && !Platform.isModLoaded("supplementaries")))
+            .transform(conditionalTab(CreativeModeTabs.INGREDIENTS, () -> !Services.PLATFORM.isModLoaded("nether_extension") && !Services.PLATFORM.isModLoaded("supplementaries")))
             .register();
 
     public static final ItemEntry<Item> WARPED_NETHERWART = REGISTRATE.object("warped_nether_wart")
@@ -158,8 +158,8 @@ public class Content {
             .entity(Crazed::new, MobCategory.MONSTER)
             .attributes(Crazed::createAttributes)
             .renderer(() -> CrazedRender::new)
-            .properties(it -> it.fireImmune())
-            .properties(it -> it.dimensions(EntityDimensions.fixed(2F, 0.5F)))
+            .transform(Services.PLATFORM::fireImmune)
+            .transform(Services.PLATFORM.sized(EntityDimensions.fixed(2F, 0.5F)))
             .register();
 
     public static final ItemEntry<LazySpawnEgg<Crazed>> CRAZED_SPAWN_EGG = REGISTRATE.object("crazed_spawn_egg")
@@ -169,12 +169,20 @@ public class Content {
     public static final EntityEntry<CrazedFlame> CRAZED_FLAME = REGISTRATE.object("crazed_flame")
             .entity((EntityType.EntityFactory<CrazedFlame>) CrazedFlame::new, MobCategory.MISC)
             .renderer(() -> CrazedFlameRenderer::new)
-            .properties(it -> it.dimensions(EntityDimensions.fixed(0.6F, 0.6F)))
-            .properties(it -> it.fireImmune())
+            .transform(Services.PLATFORM::fireImmune)
+            .transform(Services.PLATFORM.sized(EntityDimensions.fixed(0.6F, 0.6F)))
             .register();
 
     public static final ItemEntry<Item> ICON = REGISTRATE.object("icon")
             .item(Item::new)
+            .register();
+
+    public static final RegistryEntry<LootItemConditionType> CONFIG_CONDITION = REGISTRATE.object("config")
+            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(new ConfigLootCondition.Serializer()))
+            .register();
+
+    public static final RegistryEntry<LootItemConditionType> MOD_CONDITION = REGISTRATE.object("mod_loaded")
+            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(new ModLootCondition.Serializer()))
             .register();
 
     public static void init() {
@@ -183,7 +191,7 @@ public class Content {
 
     private static <T extends Item, P> NonNullFunction<ItemBuilder<T, P>, ItemBuilder<T, P>> conditionalTab(ResourceKey<CreativeModeTab> tab, BooleanSupplier test) {
         return it -> it.tab(tab, mod -> {
-            if(test.getAsBoolean()) mod.accept(it.getEntry());
+            if (test.getAsBoolean()) mod.accept(it.getEntry());
         });
     }
 

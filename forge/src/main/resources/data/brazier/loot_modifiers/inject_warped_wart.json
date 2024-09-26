@@ -1,0 +1,16 @@
+{
+  "type": "brazier:inject",
+  "loot_table": "brazier:inject/warped_wart",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:blocks/nether_wart"
+    }, {
+      "condition": "minecraft:inverted",
+      "term": {
+        "condition": "brazier:mod_loaded",
+        "mod": "nether_extension"
+      }
+    }
+  ]
+}

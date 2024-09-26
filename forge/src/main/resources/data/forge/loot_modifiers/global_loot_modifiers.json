@@ -1,0 +1,8 @@
+{
+  "replace": false,
+  "entries": [
+    "brazier:inject_flame_jungle_temple",
+    "brazier:inject_warped_wart",
+    "brazier:inject_wither_ash"
+  ]
+}

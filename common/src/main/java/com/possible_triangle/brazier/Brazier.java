@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier;
 
-import com.possible_triangle.brazier.network.BrazierNetwork;
+import com.possible_triangle.brazier.platform.Services;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -14,7 +14,8 @@ public class Brazier {
 
     public static void init() {
         Content.init();
-        BrazierNetwork.init();
+
+        Services.CONFIGS.register();
     }
 
     public static void setup() {

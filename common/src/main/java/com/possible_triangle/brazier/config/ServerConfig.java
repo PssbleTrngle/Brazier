@@ -1,9 +1,6 @@
 package com.possible_triangle.brazier.config;
 
-import com.possible_triangle.brazier.ClientContent;
-import me.shedaniel.autoconfig.example.ExampleConfig;
 import net.minecraftforge.common.ForgeConfigSpec;
-import org.apache.commons.lang3.tuple.Pair;
 
 public class ServerConfig implements IServerConfig {
 

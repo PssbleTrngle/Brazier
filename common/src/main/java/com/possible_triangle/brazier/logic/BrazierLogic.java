@@ -1,9 +1,9 @@
 package com.possible_triangle.brazier.logic;
 
 import com.google.common.collect.Maps;
-import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.DistanceHandler;
+import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +12,6 @@ import net.minecraft.world.entity.MobSpawnType;
 import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
-import net.minecraft.world.level.block.Block;
 import net.minecraft.world.phys.Vec3;
 
 import java.util.HashMap;
@@ -36,7 +35,7 @@ public class BrazierLogic {
     public static boolean inRange(BlockPos pos, ResourceKey<Level> dimension) {
         synchronized (BRAZIERS) {
             return BRAZIERS.containsKey(dimension) && BRAZIERS.get(dimension).entrySet().stream().anyMatch(e -> {
-                if (!Brazier.serverConfig().protectAbove() && e.getKey().getY() < pos.getY()) return false;
+                if (!Services.CONFIGS.server().protectAbove() && e.getKey().getY() < pos.getY()) return false;
                 double dist = DistanceHandler.getDistance(pos, e.getKey());
                 int maxDist = e.getValue() * e.getValue();
                 return dist <= maxDist;
@@ -77,9 +76,9 @@ public class BrazierLogic {
         BlockPos pos = entity.blockPosition();
 
         // Check for spawn powder
-        if (Brazier.serverConfig().enableSpawnPowder()) {
-            Block block = world.getBlockState(pos).getBlock();
-            if (Content.SPAWN_POWDER.filter(block::equals).isPresent()) {
+        if (Services.CONFIGS.server().enableSpawnPowder()) {
+            var state = world.getBlockState(pos);
+            if (Content.SPAWN_POWDER.filter(state::is).isPresent()) {
                 return false;
             }
         }

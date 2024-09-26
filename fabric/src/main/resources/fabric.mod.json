@@ -1,24 +1,24 @@
 {
   "schemaVersion": 1,
-  "id": "brazier",
-  "version": "${version}",
-  "name": "Brazier",
+  "id": "${mod_id}",
+  "version": "${mod_version}",
+  "name": "${mod_name}",
   "description": "Prevent mob spawning with a beacon-like structure",
   "authors": [
-    "possible_triangle"
+    "${mod_author}"
   ],
   "contact": {
-    "sources": "https://github.com/PssbleTrngle/Brazier",
-    "issues": "https://github.com/PssbleTrngle/Brazier/issues"
+    "sources": "https://github.com/${repository}",
+    "issues": "https://github.com/${repository}/issues"
   },
-  "license": "https://github.com/PssbleTrngle/Brazier/LICENSE.txt",
+  "license": "https://github.com/${repository}/LICENSE.txt",
   "environment": "*",
   "entrypoints": {
     "main": [
-      "com.possible_triangle.brazier.fabric.BrazierFabric"
+      "com.possible_triangle.brazier.BrazierFabric"
     ],
     "client": [
-      "com.possible_triangle.brazier.fabric.BrazierFabric"
+      "com.possible_triangle.brazier.BrazierFabric"
     ],
     "jei_mod_plugin": [
       "com.possible_triangle.brazier.compat.jei.JeiPlugin"
@@ -31,15 +31,11 @@
     ]
   },
   "mixins": [
-    "brazier.mixins.json",
-    "brazier-fabric.mixins.json"
+    "${mod_id}.mixins.json",
+    "${mod_id}-fabric.mixins.json"
   ],
   "depends": {
-    "fabric": "*",
-    "minecraft": ">=1.19",
-    "architectury": ">=6.0.37",
-    "cloth-config2": ">=8.0.75"
-  },
-  "suggests": {
+    "fabric-api": "*",
+    "minecraft": ">=1.20.1"
   }
 }

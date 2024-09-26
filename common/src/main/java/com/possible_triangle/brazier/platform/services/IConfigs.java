@@ -9,8 +9,10 @@ public interface IConfigs {
 
     IClientConfig client();
 
-    void syncServerConfig(IServerConfig config);
+    void receiveSyncedConfig(IServerConfig config);
 
     void register();
+
+    boolean getValueByKey(String key);
 
 }

@@ -1,5 +1,3 @@
-val mod_name: String by extra
-
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -10,5 +8,4 @@ pluginManagement {
     }
 }
 
-rootProject.name = mod_name
 include("common", "fabric", "forge")

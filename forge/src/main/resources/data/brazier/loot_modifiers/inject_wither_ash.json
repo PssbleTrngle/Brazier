@@ -1,0 +1,28 @@
+{
+  "type": "brazier:inject",
+  "loot_table": "brazier:inject/wither_ash",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:entities/wither_skeleton"
+    }, {
+      "condition": "minecraft:all_of",
+      "terms": [
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "brazier:mod_loaded",
+            "mod": "nether_extension"
+          }
+        },
+        {
+          "condition": "minecraft:inverted",
+          "term": {
+            "condition": "brazier:mod_loaded",
+            "mod": "supplementaries"
+          }
+        }
+      ]
+    }
+  ]
+}

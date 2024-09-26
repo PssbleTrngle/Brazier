@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.config;
 
-import com.possible_triangle.brazier.Brazier;
+import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.phys.Vec3;
 
@@ -22,7 +22,7 @@ public class DistanceHandler {
     }
 
     public static double getDistance(Vec3 from, BlockPos to) {
-        return Brazier.serverConfig().distanceCalculator().calc.apply(from, to);
+        return Services.CONFIGS.server().distanceCalculator().calc.apply(from, to);
     }
 
     public static double getDistance(BlockPos from, BlockPos to) {

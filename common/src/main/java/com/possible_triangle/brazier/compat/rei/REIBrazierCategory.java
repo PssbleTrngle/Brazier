@@ -20,7 +20,7 @@ public class REIBrazierCategory implements DisplayCategory<REIBrazierDisplay> {
     private final EntryStack<ItemStack> icon = EntryStacks.of(Content.ICON.get());
 
     @Override
-    public CategoryIdentifier getCategoryIdentifier() {
+    public CategoryIdentifier<REIBrazierDisplay> getCategoryIdentifier() {
         return REIBrazierDisplay.ID;
     }
 

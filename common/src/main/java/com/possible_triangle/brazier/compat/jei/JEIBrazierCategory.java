@@ -2,7 +2,7 @@ package com.possible_triangle.brazier.compat.jei;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.LightOnBrazierRecipe;
+import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import com.possible_triangle.brazier.compat.DisplayConstants;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;

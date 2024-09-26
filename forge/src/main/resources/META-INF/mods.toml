@@ -1,38 +1,28 @@
 modLoader = "javafml"
-loaderVersion = "[41,)"
-issueTrackerURL = "https://github.com/PssbleTrngle/Brazier/issues"
-license = "https://github.com/PssbleTrngle/Brazier/blob/master/LICENSE.txt"
-displayURL = "https://www.curseforge.com/minecraft/mc-mods/brazier"
+loaderVersion = "[47,)"
+displayUrl = "https://github.com/${repository}"
+issueTrackerURL = "https://github.com/${repository}/issues"
+license = "https://github.com/${repository}/blob/master/LICENSE.txt"
 showAsResourcePack = false
 
 [[mods]]
-    modId = "brazier"
-    version = "${version}"
-    displayName = "Brazier"
-    authors = "possible_triangle"
-    description = '''Prevent mob spawning with a beacon-like structure'''
+modId = "${mod_id}"
+version = "${mod_version}"
+displayName = "${mod_name}"
+authors = "${mod_author}"
+description = '''Prevent mob spawning with a beacon-like structure'''
+updateJSONURL = "https://api.modrinth.com/updates/${mod_id}/forge_updates.json"
 
-[[dependencies.brazier]]
-    modId = "forge"
-    mandatory = true
-    versionRange = "[41,)"
-    ordering = "NONE"
-    side = "BOTH"
-[[dependencies.brazier]]
-    modId = "minecraft"
-    mandatory = true
-    versionRange = "[1.19,)"
-    ordering = "NONE"
-    side = "BOTH"
-[[dependencies.brazier]]
-    modId = "architectury"
-    mandatory = true
-    versionRange = "[6.0.37,)"
-    ordering = "AFTER"
-    side = "BOTH"
-[[dependencies.brazier]]
-    modId = "cloth_config"
-    mandatory = true
-    versionRange = "[8.0.75,)"
-    ordering = "NONE"
-    side = "BOTH"
+[[dependencies.${mod_id}]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.${mod_id}]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"

@@ -25,12 +25,17 @@ public abstract class ConfigsService implements IConfigs {
     }
 
     @Override
+    public boolean getValueByKey(String key) {
+        return serverConfig.getRight().getRaw(key);
+    }
+
+    @Override
     public final IClientConfig client() {
         return clientConfig.getLeft();
     }
 
     @Override
-    public final void syncServerConfig(IServerConfig config) {
+    public final void receiveSyncedConfig(IServerConfig config) {
         this.syncedServerConfig = config;
     }
 }

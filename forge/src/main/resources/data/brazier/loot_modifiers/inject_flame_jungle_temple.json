@@ -1,0 +1,14 @@
+{
+  "type": "brazier:inject",
+  "loot_table": "brazier:inject/flame_jungle_temple",
+  "conditions": [
+    {
+      "condition": "forge:loot_table_id",
+      "loot_table_id": "minecraft:chests/jungle_temple"
+    },
+    {
+      "condition": "brazier:config",
+      "key": "acquisition.jungleLoot"
+    }
+  ]
+}

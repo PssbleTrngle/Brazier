@@ -33,7 +33,7 @@ public class Advancements extends FabricAdvancementProvider {
                         null, FrameType.GOAL, true, true, false
                 ))
                 .parent(parent)
-                .build(Content.BRAZIER.getKey().location())
+                .build(Content.BRAZIER.getId())
         ));
     }
 

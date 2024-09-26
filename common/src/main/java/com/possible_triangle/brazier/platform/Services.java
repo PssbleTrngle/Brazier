@@ -1,5 +1,6 @@
 package com.possible_triangle.brazier.platform;
 
+import com.possible_triangle.brazier.platform.services.IClientHelper;
 import com.possible_triangle.brazier.platform.services.IConfigs;
 import com.possible_triangle.brazier.platform.services.IPlatformHelper;
 
@@ -14,6 +15,10 @@ public class Services {
         return ServiceLoader.load(clazz)
                 .findFirst()
                 .orElseThrow(() -> new NullPointerException("Failed to load service for " + clazz.getName()));
+    }
+
+    public static class Client {
+        public static final IClientHelper PLATFORM = load(IClientHelper.class);
     }
 
 }

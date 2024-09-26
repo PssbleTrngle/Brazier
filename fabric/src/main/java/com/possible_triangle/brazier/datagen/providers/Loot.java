@@ -2,7 +2,7 @@ package com.possible_triangle.brazier.datagen.providers;
 
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import dev.architectury.registry.registries.RegistrySupplier;
+import com.tterrag.registrate.util.entry.BlockEntry;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
@@ -60,7 +60,7 @@ public class Loot {
         @Override
         public void generate() {
             Stream.of(Content.BRAZIER, Content.LIVING_TORCH, Content.LIVING_TORCH_BLOCK_WALL, Content.SPAWN_POWDER)
-                    .filter(RegistrySupplier::isPresent).map(RegistrySupplier::get)
+                    .filter(BlockEntry::isPresent).map(BlockEntry::get)
                     .forEach(block -> add(block, LootTable.lootTable()
                             .withPool(LootPool.lootPool().setRolls(ConstantValue.exactly(1))
                                     .add(LootItem.lootTableItem(block))

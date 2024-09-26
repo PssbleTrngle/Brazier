@@ -58,3 +58,5 @@ subprojects {
         githubPackages()
     }
 }
+
+enableSonarQube()
