@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.logic;
 
 import com.google.gson.JsonObject;
+import com.possible_triangle.brazier.Brazier;
 import net.minecraft.advancements.critereon.AbstractCriterionTriggerInstance;
 import net.minecraft.advancements.critereon.ContextAwarePredicate;
 import net.minecraft.advancements.critereon.DeserializationContext;
@@ -11,7 +12,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.server.level.ServerPlayer;
 
 public class ConstructBrazierTrigger  extends SimpleCriterionTrigger<ConstructBrazierTrigger.TriggerInstance> {
-    public static final ResourceLocation ID = new ResourceLocation("construct_brazier");
+    public static final ResourceLocation ID = Brazier.createId("construct_brazier");
 
     @Override
     protected ConstructBrazierTrigger.TriggerInstance createInstance(JsonObject jsonObject, ContextAwarePredicate contextAwarePredicate, DeserializationContext deserializationContext) {

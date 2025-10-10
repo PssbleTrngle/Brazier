@@ -2,6 +2,7 @@ package com.possible_triangle.brazier.compat.rei;
 
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.compat.DisplayConstants;
+import java.util.List;
 import me.shedaniel.math.Point;
 import me.shedaniel.math.Rectangle;
 import me.shedaniel.rei.api.client.gui.Renderer;
@@ -13,8 +14,6 @@ import me.shedaniel.rei.api.common.entry.EntryStack;
 import me.shedaniel.rei.api.common.util.EntryStacks;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.item.ItemStack;
-
-import java.util.List;
 
 public class REIBrazierCategory implements DisplayCategory<REIBrazierDisplay> {
     private final EntryStack<ItemStack> icon = EntryStacks.of(Content.ICON.get());

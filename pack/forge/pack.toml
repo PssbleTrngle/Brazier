@@ -1,0 +1,11 @@
+name = "Brazier Forge"
+pack-format = "packwiz:1.1.0"
+
+[index]
+file = "index.toml"
+hash-format = "sha256"
+hash = "86f24d2aeeeca75c02fd8d8e41334cf777e8e55e5eae623f51933f3d6499cebe"
+
+[versions]
+forge = "47.3.10"
+minecraft = "1.20.1"

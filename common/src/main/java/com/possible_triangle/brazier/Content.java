@@ -1,5 +1,6 @@
 package com.possible_triangle.brazier;
 
+
 import com.possible_triangle.brazier.data.ConfigLootCondition;
 import com.possible_triangle.brazier.data.ModLootCondition;
 import com.possible_triangle.brazier.logic.ConstructBrazierTrigger;
@@ -14,8 +15,7 @@ import com.possible_triangle.brazier.world.entity.CrazedFlame;
 import com.possible_triangle.brazier.world.entity.render.CrazedFlameRenderer;
 import com.possible_triangle.brazier.world.entity.render.CrazedRender;
 import com.possible_triangle.brazier.world.item.LazySpawnEgg;
-import com.possible_triangle.brazier.world.particle.ModdedParticleType;
-import com.tterrag.registrate.AbstractRegistrate;
+import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
@@ -24,8 +24,10 @@ import com.tterrag.registrate.util.entry.ItemEntry;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.advancements.CriteriaTriggers;
+import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
+import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
@@ -51,17 +53,15 @@ import org.jetbrains.annotations.Nullable;
 import java.util.function.BooleanSupplier;
 import java.util.function.Supplier;
 
-import static com.possible_triangle.brazier.Brazier.MOD_ID;
-
 public class Content {
 
-    private static final AbstractRegistrate<?> REGISTRATE = Services.PLATFORM.getRegistrate();
+    private static final MultikultiRegistrate<?> REGISTRATE = Services.PLATFORM.getRegistrate();
 
     private Content() {
     }
 
     private static ResourceLocation id(String key) {
-        return new ResourceLocation(MOD_ID, key);
+        return Brazier.createId(key);
     }
 
     public static final TagKey<Block> BRAZIER_BASE_BLOCKS = TagKey.create(Registries.BLOCK, id("brazier_base_blocks"));
@@ -74,8 +74,9 @@ public class Content {
     public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registries.ITEM, id("range_indicator"));
     public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registries.ITEM, id("warped_wart"));
 
-    public static final RegistryEntry<ModdedParticleType> FLAME_PARTICLE = REGISTRATE.object("flame")
-            .generic(Registries.PARTICLE_TYPE, () -> new ModdedParticleType(false))
+    public static final RegistryEntry<SimpleParticleType> FLAME_PARTICLE = REGISTRATE.object("flame")
+            .particle()
+            .provider(() -> FlameParticle.Provider::new)
             .register();
 
     public static final BlockEntry<BrazierBlock> BRAZIER = REGISTRATE.object("brazier")
@@ -164,6 +165,7 @@ public class Content {
 
     public static final ItemEntry<LazySpawnEgg<Crazed>> CRAZED_SPAWN_EGG = REGISTRATE.object("crazed_spawn_egg")
             .item(props -> new LazySpawnEgg<>(props, CRAZED, 0x9804699, 0x89CB07))
+            .color(() -> () -> LazySpawnEgg::getColor)
             .register();
 
     public static final EntityEntry<CrazedFlame> CRAZED_FLAME = REGISTRATE.object("crazed_flame")

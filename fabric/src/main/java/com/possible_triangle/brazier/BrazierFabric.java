@@ -3,19 +3,15 @@ package com.possible_triangle.brazier;
 import com.possible_triangle.brazier.config.SyncConfigMessage;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.item.BrazierIndicator;
-import com.possible_triangle.brazier.world.item.LazySpawnEgg;
-import com.tterrag.registrate.Registrate;
+import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.particle.v1.ParticleFactoryRegistry;
-import net.fabricmc.fabric.api.client.rendering.v1.ColorProviderRegistry;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
 import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
 import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
-import net.minecraft.client.particle.FlameParticle;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
@@ -26,14 +22,13 @@ import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 
 public class BrazierFabric implements ModInitializer, ClientModInitializer {
 
-    private static final ResourceLocation SYNC_PACKET_ID = new ResourceLocation(Brazier.MOD_ID, "sync_config");
-    public static final Registrate REGISTRATE =  Registrate.create(Brazier.MOD_ID);
+    private static final ResourceLocation SYNC_PACKET_ID = Brazier.createId("sync_config");
+    public static final MultikultiRegistrate<?> REGISTRATE =  new MultikultiRegistrate<>(Brazier.MOD_ID);
 
     @Override
     public void onInitialize() {
         Brazier.init();
         REGISTRATE.register();
-        Brazier.setup();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerList().getPlayers().forEach(BrazierIndicator::playerTick);
@@ -70,7 +65,7 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
     }
 
     private void injectLoot(LootTable.Builder into, String name) {
-        var from = new ResourceLocation(Brazier.MOD_ID, name).withPrefix("inject/");
+        var from = Brazier.createId(name).withPrefix("inject/");
         into.withPool(LootPool.lootPool()
                 .add(LootTableReference.lootTableReference(from))
         );
@@ -78,16 +73,6 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        Brazier.clientSetup();
-
-        Content.CRAZED_SPAWN_EGG.ifPresent(egg ->
-                ColorProviderRegistry.ITEM.register(LazySpawnEgg::getColor, egg)
-        );
-
-        Content.FLAME_PARTICLE.ifPresent(type ->
-                ParticleFactoryRegistry.getInstance().register(type, FlameParticle.Provider::new)
-        );
-
         ClientPlayNetworking.registerGlobalReceiver(SYNC_PACKET_ID, (client, handler, buf, response) -> {
             var packet = SyncConfigMessage.decode(buf);
             packet.handle();

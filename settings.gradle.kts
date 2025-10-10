@@ -1,10 +1,22 @@
 pluginManagement {
     repositories {
+        mavenLocal()
         gradlePluginPortal()
-        maven { url = uri("https://maven.fabricmc.net/") }
-        maven { url = uri("https://repo.spongepowered.org/repository/maven-public/") }
-        maven { url = uri("https://maven.minecraftforge.net/") }
-        maven { url = uri("https://maven.architectury.dev/") }
+    }
+}
+
+plugins {
+    id("com.possible-triangle.helper") version ("1.0.49")
+    id("com.possible-triangle.packwiz") version ("1.0.49")
+}
+
+packwiz {
+    packs.create("forge") {
+        from = file("pack/forge")
+    }
+
+    packs.create("fabric") {
+        from = file("pack/fabric")
     }
 }
 

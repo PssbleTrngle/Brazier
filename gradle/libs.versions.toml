@@ -1,0 +1,37 @@
+[versions]
+forge-config-api = "8.0.2"
+jei = "15.20.0.105"
+rei = "12.0.625"
+galena-hats = "1.20.1-1.2.1"
+multikulti = "1.20.1-1.1.4"
+
+[libraries]
+registrate-forge = { group = "com.tterrag.registrate", name = "Registrate", version = "MC1.20-1.3.3" }
+registrate-fabric = { group = "com.tterrag.registrate_fabric", name = "Registrate", version = "1.3.79-MC1.20.1" }
+
+multikulti-core-common = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
+multikulti-core-forge = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
+multikulti-core-fabric = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
+multikulti-registrate-common = { group = "com.possible-triangle", name = "multikulti-registrate-common", version.ref = "multikulti" }
+multikulti-registrate-forge = { group = "com.possible-triangle", name = "multikulti-registrate-forge", version.ref = "multikulti" }
+multikulti-registrate-fabric = { group = "com.possible-triangle", name = "multikulti-registrate-fabric", version.ref = "multikulti" }
+multikulti-datagen-fabric = { group = "com.possible-triangle", name = "multikulti-datagen-fabric", version.ref = "multikulti" }
+multikulti-datagen-fix = { group = "com.possible-triangle", name = "multikulti-datagen-forge-fix", version.ref = "multikulti" }
+
+forge-config-api-fabric = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-fabric", version.ref = "forge-config-api" }
+forge-config-api-common = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-common", version.ref = "forge-config-api" }
+
+jei-common-api = { group = "mezz.jei", name = "jei-1.20.1-common-api", version.ref = "jei" }
+jei-forge-api = { group = "mezz.jei", name = "jei-1.20.1-forge-api", version.ref = "jei" }
+jei-forge = { group = "mezz.jei", name = "jei-1.20.1-forge", version.ref = "jei" }
+jei-fabric-api = { group = "mezz.jei", name = "jei-1.20.1-fabric-api", version.ref = "jei" }
+jei-fabric = { group = "mezz.jei", name = "jei-1.20.1-fabric", version.ref = "jei" }
+
+rei-common-api = { group = "me.shedaniel", name = "RoughlyEnoughItems-api", version.ref = "rei" }
+rei-fabric-api = { group = "me.shedaniel", name = "RoughlyEnoughItems-api-fabric", version.ref = "rei" }
+rei-fabric = { group = "me.shedaniel", name = "RoughlyEnoughItems-fabric", version.ref = "rei" }
+rei-forge-api = { group = "me.shedaniel", name = "RoughlyEnoughItems-api-forge", version.ref = "rei" }
+rei-forge = { group = "me.shedaniel", name = "RoughlyEnoughItems-forge", version.ref = "rei" }
+
+galena-hats-forge = { group = "dev.galena", name = "hats-forge", version.ref = "galena-hats" }
+galena-hats-fabric = { group = "dev.galena", name = "hats-fabric", version.ref = "galena-hats" }

@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.world.entity;
 
-import net.minecraft.network.FriendlyByteBuf;
 import java.util.UUID;
+import net.minecraft.network.FriendlyByteBuf;
 
 public class EntityData {
     public final int id;

@@ -1,9 +1,14 @@
 package com.possible_triangle.brazier.compat.jei;
 
+import static com.possible_triangle.brazier.compat.DisplayConstants.HEIGHT;
+import static com.possible_triangle.brazier.compat.DisplayConstants.WIDTH;
+
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import com.possible_triangle.brazier.compat.DisplayConstants;
+import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
+import java.util.Arrays;
+import java.util.List;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
@@ -18,15 +23,9 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-import java.util.Arrays;
-import java.util.List;
-
-import static com.possible_triangle.brazier.compat.DisplayConstants.HEIGHT;
-import static com.possible_triangle.brazier.compat.DisplayConstants.WIDTH;
-
 public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe> {
 
-    public static final ResourceLocation UID = new ResourceLocation(Brazier.MOD_ID, "light_on_brazier");
+    public static final ResourceLocation UID = Brazier.createId("light_on_brazier");
     public static final RecipeType<LightOnBrazierRecipe> TYPE = new RecipeType<>(UID, LightOnBrazierRecipe.class);
 
     private final IDrawable background;

@@ -31,7 +31,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
     @Override
     public ResourceLocation getTextureLocation(@NotNull CrazedFlame entity) {
-        return new ResourceLocation(Brazier.MOD_ID, "item/living_flame");
+        return Brazier.createId("item/living_flame");
     }
 
     @Override

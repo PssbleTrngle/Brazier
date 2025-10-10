@@ -1,6 +1,6 @@
 name: Feature Request
 description: Suggest a feature
-labels: ["enhancement", "feature", "feature-request"]
+labels: ["enhancement"]
 assignees: [PssbleTrngle]
 
 body:

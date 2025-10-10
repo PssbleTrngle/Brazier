@@ -1,8 +1,8 @@
 package com.possible_triangle.brazier.mixin;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.world.entity.Crazed;
 import com.possible_triangle.brazier.platform.Services;
+import com.possible_triangle.brazier.world.entity.Crazed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;

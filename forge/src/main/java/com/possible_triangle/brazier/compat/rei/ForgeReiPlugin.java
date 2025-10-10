@@ -1,6 +1,5 @@
 package com.possible_triangle.brazier.compat.rei;
 
-import com.possible_triangle.brazier.compat.rei.ReiPlugin;
 import me.shedaniel.rei.forge.REIPluginCommon;
 
 @REIPluginCommon

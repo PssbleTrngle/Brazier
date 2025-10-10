@@ -1,23 +1,32 @@
-name: Build
+name: Test
 on:
   pull_request:
+    types: [opened, synchronize]
+
+env:
+  CI: true
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  build:
-    runs-on: ubuntu-20.04
-    timeout-minutes: 20
+  test:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-java@v3
+      - uses: actions/setup-java@v4
         with:
-          java-version: 17
+          java-version: 21
           distribution: temurin
 
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v1
+      - name: Setup Gradle
+        uses: gradle/actions/setup-gradle@v4
 
       - name: Build
-        uses: gradle/gradle-build-action@v2
-        with:
-          arguments: build
+        run: ./gradlew build spotlessCheck

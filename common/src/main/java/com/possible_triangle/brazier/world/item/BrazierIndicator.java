@@ -2,12 +2,11 @@ package com.possible_triangle.brazier.world.item;
 
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.logic.BrazierLogic;
+import java.util.stream.Stream;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.stream.Stream;
 
 public class BrazierIndicator {
 

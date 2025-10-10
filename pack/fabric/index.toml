@@ -1,0 +1,16 @@
+hash-format = "sha256"
+
+[[files]]
+file = "mods/fabric-api.pw.toml"
+hash = "2b7949e506ba69c57139127c0ccc6caf5a9ec5ec97788b81288118db3d7c2ad3"
+metafile = true
+
+[[files]]
+file = "mods/moonlight.pw.toml"
+hash = "908240b54bb3e1514d1e24294e85fc29ae5298d4f0d0e63898dc28ada4fcf0f8"
+metafile = true
+
+[[files]]
+file = "mods/supplementaries.pw.toml"
+hash = "3ad48f8151a865039b6d68980847ff533418248f24582353b0564033bfa899e8"
+metafile = true

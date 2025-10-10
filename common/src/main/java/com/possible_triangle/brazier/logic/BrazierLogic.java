@@ -4,6 +4,7 @@ import com.google.common.collect.Maps;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.DistanceHandler;
 import com.possible_triangle.brazier.platform.Services;
+import java.util.HashMap;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.entity.Entity;
@@ -13,8 +14,6 @@ import net.minecraft.world.entity.monster.Monster;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.LevelAccessor;
 import net.minecraft.world.phys.Vec3;
-
-import java.util.HashMap;
 
 public class BrazierLogic {
 

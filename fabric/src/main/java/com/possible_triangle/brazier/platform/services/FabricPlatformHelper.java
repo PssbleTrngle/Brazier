@@ -1,9 +1,7 @@
 package com.possible_triangle.brazier.platform.services;
 
-import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.BrazierFabric;
-import com.tterrag.registrate.AbstractRegistrate;
-import com.tterrag.registrate.Registrate;
+import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
 import com.tterrag.registrate.builders.EntityBuilder;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.fabricmc.fabric.api.object.builder.v1.entity.FabricEntityTypeBuilder;
@@ -14,7 +12,7 @@ import net.minecraft.world.entity.EntityDimensions;
 public class FabricPlatformHelper implements IPlatformHelper {
 
     @Override
-    public AbstractRegistrate<?> getRegistrate() {
+    public MultikultiRegistrate<?> getRegistrate() {
         return BrazierFabric.REGISTRATE;
     }
 

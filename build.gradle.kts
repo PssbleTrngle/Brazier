@@ -1,11 +1,14 @@
 plugins {
-    id("com.possible-triangle.gradle") version ("0.1.5")
+    id("com.possible-triangle.core")
+    id("com.possible-triangle.architectury") apply false
+    id("com.possible-triangle.fabric") apply false
+    id("com.possible-triangle.forge") apply false
 }
 
 subprojects {
-    repositories {
-        modrinthMaven()
+    apply(plugin = "com.possible-triangle.core")
 
+    repositories {
         maven {
             url = uri("https://maven.shedaniel.me/")
             content {
@@ -34,15 +37,15 @@ subprojects {
             url = uri("https://maven.tterrag.com/")
             content {
                 includeGroup("com.tterrag.registrate")
-                includeGroup("com.jozufozu.flywheel")
-                includeGroup("com.simibubi.create")
             }
         }
 
         maven {
-            url = uri("https://jitpack.io")
+            url = uri("https://maven.createmod.net")
             content {
-                includeGroup("com.github.llamalad7.mixinextras")
+                includeGroup("com.simibubi.create")
+                includeGroup("net.createmod.ponder")
+                includeGroup("dev.engine-room.flywheel")
             }
         }
 
@@ -52,11 +55,21 @@ subprojects {
                 includeGroup("fuzs.forgeconfigapiport")
             }
         }
+
+        nexus {
+            content {
+                includeGroup("dev.galena")
+                includeGroup("com.possible-triangle")
+            }
+        }
     }
 
-    enablePublishing {
-        githubPackages()
+    upload {
+        maven {
+            nexus()
+        }
     }
 }
 
 enableSonarQube()
+enableSpotless()

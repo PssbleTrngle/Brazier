@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.item;
 
 import com.tterrag.registrate.util.nullness.NonNullSupplier;
+import java.util.Objects;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.server.level.ServerLevel;
@@ -25,8 +26,6 @@ import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.HitResult;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.Objects;
 
 public class LazySpawnEgg<T extends Entity> extends Item {
 

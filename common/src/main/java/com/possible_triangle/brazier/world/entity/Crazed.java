@@ -1,5 +1,6 @@
 package com.possible_triangle.brazier.world.entity;
 
+import java.util.List;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -25,8 +26,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.entity.raid.Raider;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.List;
 
 public class Crazed extends SpellcasterIllager {
 

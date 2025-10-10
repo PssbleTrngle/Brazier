@@ -1,8 +1,12 @@
 package com.possible_triangle.brazier.datagen.providers;
 
+import static net.minecraft.world.level.block.Blocks.NETHER_WART;
+
 import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import java.util.function.BiConsumer;
+import java.util.stream.Stream;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricBlockLootTableProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
@@ -23,15 +27,10 @@ import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCon
 import net.minecraft.world.level.storage.loot.providers.number.ConstantValue;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
 
-import java.util.function.BiConsumer;
-import java.util.stream.Stream;
-
-import static net.minecraft.world.level.block.Blocks.NETHER_WART;
-
 public class Loot {
 
     private static ResourceLocation inject(String name) {
-        return new ResourceLocation(Brazier.MOD_ID, "inject/" + name);
+        return Brazier.createId("inject/" + name);
     }
 
     public static class Entities extends SimpleFabricLootTableProvider {

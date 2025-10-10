@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.platform.services;
 
 import com.possible_triangle.brazier.BrazierForge;
-import com.tterrag.registrate.AbstractRegistrate;
+import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
 import com.tterrag.registrate.builders.EntityBuilder;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
 import net.minecraft.world.entity.Entity;
@@ -12,7 +12,7 @@ import net.minecraftforge.fml.ModList;
 public class ForgePlatformHelper implements IPlatformHelper {
 
     @Override
-    public AbstractRegistrate<?> getRegistrate() {
+    public MultikultiRegistrate<?> getRegistrate() {
         return BrazierForge.REGISTRATE.get();
     }
 

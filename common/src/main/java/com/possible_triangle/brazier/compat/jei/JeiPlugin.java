@@ -4,6 +4,7 @@ import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import com.tterrag.registrate.util.entry.RegistryEntry;
+import java.util.stream.Stream;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.registration.IRecipeCatalystRegistration;
@@ -14,15 +15,13 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 import org.jetbrains.annotations.NotNull;
 
-import java.util.stream.Stream;
-
 @mezz.jei.api.JeiPlugin
 public class JeiPlugin implements IModPlugin {
 
     @Override
     @NotNull
     public ResourceLocation getPluginUid() {
-        return new ResourceLocation(Brazier.MOD_ID, "plugin");
+        return Brazier.createId("plugin");
     }
 
     @Override

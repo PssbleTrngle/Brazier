@@ -1,5 +1,6 @@
 package com.possible_triangle.brazier.world.block;
 
+import java.util.function.Supplier;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.particles.ParticleOptions;
@@ -9,8 +10,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.WallTorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
 import org.jetbrains.annotations.NotNull;
-
-import java.util.function.Supplier;
 
 public class LazyWallTorchBlock extends WallTorchBlock {
 

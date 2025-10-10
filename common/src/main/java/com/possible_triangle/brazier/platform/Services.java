@@ -3,7 +3,6 @@ package com.possible_triangle.brazier.platform;
 import com.possible_triangle.brazier.platform.services.IClientHelper;
 import com.possible_triangle.brazier.platform.services.IConfigs;
 import com.possible_triangle.brazier.platform.services.IPlatformHelper;
-
 import java.util.ServiceLoader;
 
 public class Services {

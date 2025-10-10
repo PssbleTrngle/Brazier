@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrazedRender extends EvokerRenderer<Crazed> {
 
-    private static final ResourceLocation TEXTURE = new ResourceLocation(Brazier.MOD_ID, "textures/entity/crazed.png");
+    private static final ResourceLocation TEXTURE = Brazier.createId("textures/entity/crazed.png");
 
     @Override
     public void render(@NotNull Crazed entity, float yaw, float ticks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light) {

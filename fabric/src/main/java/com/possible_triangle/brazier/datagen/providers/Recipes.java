@@ -1,5 +1,7 @@
 package com.possible_triangle.brazier.datagen.providers;
 
+
+import com.possible_triangle.brazier.Brazier;
 import com.possible_triangle.brazier.Content;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricRecipeProvider;
@@ -7,15 +9,12 @@ import net.minecraft.data.recipes.FinishedRecipe;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.crafting.Ingredient;
 import net.minecraft.world.level.block.Blocks;
 
 import java.util.function.Consumer;
-
-import static com.possible_triangle.brazier.Brazier.MOD_ID;
 
 public class Recipes extends FabricRecipeProvider {
 
@@ -73,7 +72,7 @@ public class Recipes extends FabricRecipeProvider {
                 .pattern("xxx")
                 .define('x', Content.WARPED_WART_TAG)
                 .unlockedBy("collected_wart", has(Content.WARPED_WART_TAG))
-                .save(consumer, new ResourceLocation(MOD_ID, "warped_warp_block"));
+                .save(consumer, Brazier.createId("warped_warp_block"));
 
     }
 }

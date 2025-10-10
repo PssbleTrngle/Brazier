@@ -1,18 +1,25 @@
 import net.minecraftforge.gradle.common.util.MinecraftExtension
 
 val mc_version: String by extra
-val jei_version: String by extra
-val rei_version: String by extra
 val supplementaries_version: String by extra
 val moonlight_version: String by extra
-val registrate_forge_version: String by extra
+
+plugins {
+    id("com.possible-triangle.forge")
+}
+
+mod {
+    mods.include(libs.registrate.forge)
+    mods.include(libs.multikulti.core.forge)
+    mods.include(libs.multikulti.registrate.forge)
+    mods.include(libs.multikulti.datagen.fix)
+    mods.include(libs.galena.hats.forge)
+}
 
 forge {
     enableMixins()
 
     dependOn(project(":common"))
-
-    includesMod("com.tterrag.registrate:Registrate:${registrate_forge_version}")
 }
 
 configure<MinecraftExtension> {
@@ -20,18 +27,22 @@ configure<MinecraftExtension> {
 }
 
 dependencies {
-    modCompileOnly("mezz.jei:jei-${mc_version}-forge-api:${jei_version}")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-api-forge:${rei_version}")
-    modCompileOnly("me.shedaniel:RoughlyEnoughItems-forge:${rei_version}")
+    modCompileOnly(libs.jei.common.api)
+    modCompileOnly(libs.jei.forge.api)
 
-    if(!env.isCI) {
-        modRuntimeOnly("mezz.jei:jei-${mc_version}-forge:${jei_version}")
-        modRuntimeOnly("maven.modrinth:supplementaries:${supplementaries_version}")
-        modRuntimeOnly("maven.modrinth:moonlight:${moonlight_version}")
+    modCompileOnly(libs.rei.forge.api)
+
+    if (!env.isCI) {
+        modRuntimeOnly(libs.jei.forge)
+
+        modRuntimeOnly(pack.forge.modrinth.supplementaries)
+        modRuntimeOnly(pack.forge.modrinth.moonlight)
+        modRuntimeOnly(pack.forge.curseforge.configured)
     }
 }
 
-uploadToCurseforge()
-uploadToModrinth {
-    syncBodyFromReadme()
+upload {
+    modrinth {
+        syncBodyFromReadme()
+    }
 }

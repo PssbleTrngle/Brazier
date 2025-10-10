@@ -3,7 +3,7 @@
   "criteria": {
     "placed": {
       "conditions": {},
-      "trigger": "minecraft:construct_brazier"
+      "trigger": "brazier:construct_brazier"
     }
   },
   "display": {

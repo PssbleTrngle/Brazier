@@ -1,9 +1,9 @@
 package com.possible_triangle.brazier.world.block.tile;
 
 import com.possible_triangle.brazier.Content;
-import com.possible_triangle.brazier.world.block.BrazierBlock;
 import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.platform.Services;
+import com.possible_triangle.brazier.world.block.BrazierBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
