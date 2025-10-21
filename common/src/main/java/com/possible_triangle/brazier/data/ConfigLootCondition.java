@@ -8,7 +8,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierContent;
 import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -18,13 +18,13 @@ public record ConfigLootCondition(String key) implements LootItemCondition {
 
     public static final Codec<ConfigLootCondition> CODEC = RecordCodecBuilder.create(builder ->
         builder.group(
-                Codec.STRING.fieldOf("modId").forGetter(ConfigLootCondition::key)
+                Codec.STRING.fieldOf("key").forGetter(ConfigLootCondition::key)
         ).apply(builder, ConfigLootCondition::new)
     );
 
     @Override
     public LootItemConditionType getType() {
-        return Content.CONFIG_CONDITION.get();
+        return BrazierContent.CONFIG_CONDITION.get();
     }
 
     @Override

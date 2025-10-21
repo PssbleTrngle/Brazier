@@ -1,39 +1,36 @@
 package com.possible_triangle.brazier.datagen.providers;
 
-import com.possible_triangle.brazier.Content;
+import static com.possible_triangle.brazier.BrazierConstants.MOD_ID;
+
+import com.possible_triangle.brazier.index.BrazierBlocks;
+import com.possible_triangle.brazier.index.BrazierItems;
 import com.possible_triangle.brazier.logic.ConstructBrazierTrigger;
-import java.util.Collections;
-import java.util.function.Consumer;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricAdvancementProvider;
+import com.tterrag.registrate.providers.RegistrateAdvancementProvider;
 import net.minecraft.advancements.Advancement;
 import net.minecraft.advancements.DisplayInfo;
 import net.minecraft.advancements.FrameType;
-import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
 
-public class Advancements extends FabricAdvancementProvider {
+public class Advancements {
 
-    public Advancements(FabricDataOutput output) {
-        super(output);
+
+    private static Advancement existing(String path) {
+        return Advancement.Builder.advancement().build(new ResourceLocation(path));
     }
 
-    @Override
-    public void generateAdvancement(Consumer<Advancement> consumer) {
-        var parent = new Advancement(new ResourceLocation("adventure/root"), null, null, null, Collections.emptyMap(), null, false);
-
-        Content.BRAZIER.ifPresent(brazier -> consumer.accept(Advancement.Builder.advancement()
+    public static void generate(RegistrateAdvancementProvider provider) {
+        provider.accept(Advancement.Builder.advancement()
                 .addCriterion("placed", ConstructBrazierTrigger.constructedBrazier())
                 .display(new DisplayInfo(
-                        new ItemStack(brazier),
-                        Component.translatable("advancements.brazier.place_brazier.title"),
-                        Component.translatable("advancements.brazier.place_brazier.description"),
+                        new ItemStack(BrazierItems.ICON),
+                        provider.title(MOD_ID, "place_brazier", "Begone, demon!"),
+                        provider.desc(MOD_ID, "place_brazier", "Place a brazier down and drive away the monsters of the night"),
                         null, FrameType.GOAL, true, true, false
                 ))
-                .parent(parent)
-                .build(Content.BRAZIER.getId())
-        ));
+                .parent(existing("adventure/root"))
+                .build(BrazierBlocks.BRAZIER.getId())
+        );
     }
 
 }

@@ -1,7 +1,7 @@
 package com.possible_triangle.brazier.world.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
-import com.possible_triangle.brazier.Brazier;
+import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.world.entity.Crazed;
 import net.minecraft.client.renderer.MultiBufferSource;
 import net.minecraft.client.renderer.entity.EntityRendererProvider;
@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
 
 public class CrazedRender extends EvokerRenderer<Crazed> {
 
-    private static final ResourceLocation TEXTURE = Brazier.createId("textures/entity/crazed.png");
+    private static final ResourceLocation TEXTURE = BrazierConstants.createId("textures/entity/crazed.png");
 
     @Override
     public void render(@NotNull Crazed entity, float yaw, float ticks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light) {

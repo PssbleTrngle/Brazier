@@ -1,8 +1,9 @@
 package com.possible_triangle.brazier.logic;
 
 import com.google.common.collect.Maps;
-import com.possible_triangle.brazier.Content;
 import com.possible_triangle.brazier.config.DistanceHandler;
+import com.possible_triangle.brazier.index.BrazierBlocks;
+import com.possible_triangle.brazier.index.BrazierTags;
 import com.possible_triangle.brazier.platform.Services;
 import java.util.HashMap;
 import net.minecraft.core.BlockPos;
@@ -60,8 +61,8 @@ public class BrazierLogic {
         EntityType<?> type = entity.getType();
         return (
                 entity instanceof Monster
-                        && !type.is(Content.BRAZIER_WHITELIST)
-        ) || type.is(Content.BRAZIER_BLACKLIST);
+                        && !type.is(BrazierTags.BRAZIER_WHITELIST)
+        ) || type.is(BrazierTags.BRAZIER_BLACKLIST);
     }
 
     private static boolean prevents(MobSpawnType reason) {
@@ -77,7 +78,7 @@ public class BrazierLogic {
         // Check for spawn powder
         if (Services.CONFIGS.server().enableSpawnPowder()) {
             var state = world.getBlockState(pos);
-            if (Content.SPAWN_POWDER.filter(state::is).isPresent()) {
+            if (BrazierBlocks.SPAWN_POWDER.filter(state::is).isPresent()) {
                 return false;
             }
         }

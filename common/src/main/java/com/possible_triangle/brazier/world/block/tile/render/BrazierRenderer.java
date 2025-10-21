@@ -3,7 +3,7 @@ package com.possible_triangle.brazier.world.block.tile.render;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import com.mojang.math.Axis;
-import com.possible_triangle.brazier.Brazier;
+import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
 import com.possible_triangle.brazier.world.entity.render.CrazedFlameRenderer;
@@ -18,7 +18,7 @@ import org.joml.Matrix4f;
 
 public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> {
 
-    private static final RenderType RENDER_TYPE = Services.Client.PLATFORM.createRunesRenderType(Brazier.createId("textures/block/brazier_runes.png"));
+    private static final RenderType RENDER_TYPE = Services.Client.PLATFORM.createRunesRenderType(BrazierConstants.createId("textures/block/brazier_runes.png"));
 
     public static final float SIZE = 0.25F;
     public static final float OFFSET = 0.02F;

@@ -1,5 +1,3 @@
-import net.minecraftforge.gradle.common.util.MinecraftExtension
-
 val mc_version: String by extra
 val supplementaries_version: String by extra
 val moonlight_version: String by extra
@@ -7,6 +5,8 @@ val moonlight_version: String by extra
 plugins {
     id("com.possible-triangle.forge")
 }
+
+withKotlin()
 
 mod {
     mods.include(libs.registrate.forge)
@@ -19,18 +19,18 @@ mod {
 forge {
     enableMixins()
 
+    kotlinForgeVersion = "4.11.0"
+
     dependOn(project(":common"))
 }
 
-configure<MinecraftExtension> {
+minecraft {
     accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
 }
 
 dependencies {
     modCompileOnly(libs.jei.common.api)
     modCompileOnly(libs.jei.forge.api)
-
-    modCompileOnly(libs.rei.forge.api)
 
     if (!env.isCI) {
         modRuntimeOnly(libs.jei.forge)

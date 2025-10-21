@@ -6,7 +6,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 public final class ForgeRegistrate extends MultikultiRegistrate<ForgeRegistrate> {
 
     public ForgeRegistrate() {
-        super(Brazier.MOD_ID);
+        super(BrazierConstants.MOD_ID);
     }
 
     @Override

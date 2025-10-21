@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.block;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierBlocks;
+import com.possible_triangle.brazier.index.BrazierTags;
 import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.InteractionHand;
@@ -51,20 +52,20 @@ public class BrazierBlock extends BaseEntityBlock {
     @Nullable
     @Override
     public BlockEntity newBlockEntity(BlockPos pos, BlockState state) {
-        return new BrazierBlockEntity(Content.BRAZIER_TILE.get(), pos, state);
+        return new BrazierBlockEntity(BrazierBlocks.BRAZIER_TILE.get(), pos, state);
     }
 
     @Nullable
     @Override
     public <T extends BlockEntity> BlockEntityTicker<T> getTicker(Level level, BlockState blockState, BlockEntityType<T> type) {
-        return Content.createTickerHelper(type, Content.BRAZIER_TILE, BrazierBlockEntity::tick);
+        return BrazierBlocks.createTickerHelper(type, BrazierBlocks.BRAZIER_TILE, BrazierBlockEntity::tick);
     }
 
     @Override
     public InteractionResult use(BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hit) {
-        return Content.LIVING_TORCH.filter(torch -> {
+        return BrazierBlocks.LIVING_TORCH.filter(torch -> {
             ItemStack stack = player.getItemInHand(hand);
-            if (!stack.isEmpty() && stack.is(Content.TORCHES)) {
+            if (!stack.isEmpty() && stack.is(BrazierTags.TORCHES)) {
                 if (!player.isCreative()) stack.shrink(1);
                 player.addItem(new ItemStack(torch, 1));
                 return true;

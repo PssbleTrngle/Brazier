@@ -1,12 +1,12 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "collected_torch": {
+    "has_living_torch": {
       "conditions": {
         "items": [
           {
             "items": [
-              "brazier:living_lantern"
+              "brazier:living_torch"
             ]
           }
         ]
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "collected_torch",
+      "has_living_torch",
       "has_the_recipe"
     ]
   ],

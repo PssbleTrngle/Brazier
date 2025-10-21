@@ -8,7 +8,7 @@ import com.google.gson.JsonSyntaxException;
 import com.mojang.serialization.Codec;
 import com.mojang.serialization.JsonOps;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierContent;
 import com.possible_triangle.brazier.platform.Services;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.predicates.LootItemCondition;
@@ -24,7 +24,7 @@ public record ModLootCondition(String modId) implements LootItemCondition {
 
     @Override
     public LootItemConditionType getType() {
-        return Content.MOD_CONDITION.get();
+        return BrazierContent.MOD_CONDITION.get();
     }
 
     @Override

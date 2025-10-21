@@ -2,8 +2,8 @@ package com.possible_triangle.brazier.world.entity.render;
 
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.math.Axis;
-import com.possible_triangle.brazier.Brazier;
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.BrazierConstants;
+import com.possible_triangle.brazier.index.BrazierItems;
 import com.possible_triangle.brazier.world.entity.CrazedFlame;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
@@ -31,7 +31,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
 
     @Override
     public ResourceLocation getTextureLocation(@NotNull CrazedFlame entity) {
-        return Brazier.createId("item/living_flame");
+        return BrazierConstants.createId("item/living_flame");
     }
 
     @Override
@@ -57,7 +57,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
         matrizes.mulPose(rendererManager.cameraOrientation());
         matrizes.mulPose(Axis.YP.rotationDegrees(180.0F));
 
-        Content.LIVING_FLAME.ifPresent(flame ->
+        BrazierItems.LIVING_FLAME.ifPresent(flame ->
                 renderer.renderStatic(new ItemStack(flame), ItemDisplayContext.GROUND, packedLightIn, 0, matrizes, buffers, level, 0)
         );
 

@@ -1,8 +1,8 @@
 package com.possible_triangle.brazier.compat.jei;
 
-import com.possible_triangle.brazier.Brazier;
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
+import com.possible_triangle.brazier.index.BrazierBlocks;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import java.util.stream.Stream;
 import mezz.jei.api.IModPlugin;
@@ -21,12 +21,12 @@ public class JeiPlugin implements IModPlugin {
     @Override
     @NotNull
     public ResourceLocation getPluginUid() {
-        return Brazier.createId("plugin");
+        return BrazierConstants.createId("plugin");
     }
 
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
-        Stream.of(Content.BRAZIER, Content.LIVING_TORCH)
+        Stream.of(BrazierBlocks.BRAZIER, BrazierBlocks.LIVING_TORCH)
                 .filter(RegistryEntry::isPresent)
                 .map(RegistryEntry::get).map(ItemStack::new)
                 .forEach(item -> registration.addIngredientInfo(item, VanillaTypes.ITEM_STACK, Component.translatable("description.brazier.brazier-1"), Component.translatable("description.brazier.brazier-2")));
@@ -41,6 +41,6 @@ public class JeiPlugin implements IModPlugin {
 
     @Override
     public void registerRecipeCatalysts(IRecipeCatalystRegistration registration) {
-        registration.addRecipeCatalyst(new ItemStack(Content.BRAZIER.get()), JEIBrazierCategory.TYPE);
+        registration.addRecipeCatalyst(new ItemStack(BrazierBlocks.BRAZIER.get()), JEIBrazierCategory.TYPE);
     }
 }

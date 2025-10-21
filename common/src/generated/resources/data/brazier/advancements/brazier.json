@@ -14,7 +14,7 @@
     "frame": "goal",
     "hidden": false,
     "icon": {
-      "item": "brazier:brazier"
+      "item": "brazier:icon"
     },
     "show_toast": true,
     "title": {

@@ -13,7 +13,7 @@ public class ForgePlatformHelper implements IPlatformHelper {
 
     @Override
     public MultikultiRegistrate<?> getRegistrate() {
-        return BrazierForge.REGISTRATE.get();
+        return BrazierForge.REGISTRATE;
     }
 
     @Override

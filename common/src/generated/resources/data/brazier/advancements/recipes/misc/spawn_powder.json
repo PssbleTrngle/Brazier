@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "collected_ash": {
+    "has_ash": {
       "conditions": {
         "items": [
           {
@@ -11,7 +11,7 @@
       },
       "trigger": "minecraft:inventory_changed"
     },
-    "collected_flame": {
+    "has_living_flame": {
       "conditions": {
         "items": [
           {
@@ -28,12 +28,23 @@
         "recipe": "brazier:spawn_powder"
       },
       "trigger": "minecraft:recipe_unlocked"
+    },
+    "has_warped_wart": {
+      "conditions": {
+        "items": [
+          {
+            "tag": "brazier:warped_wart"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
     }
   },
   "requirements": [
     [
-      "collected_flame",
-      "collected_ash",
+      "has_living_flame",
+      "has_ash",
+      "has_warped_wart",
       "has_the_recipe"
     ]
   ],

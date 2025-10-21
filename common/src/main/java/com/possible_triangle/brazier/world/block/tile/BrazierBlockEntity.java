@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.block.tile;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierContent;
+import com.possible_triangle.brazier.index.BrazierTags;
 import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.block.BrazierBlock;
@@ -42,7 +43,7 @@ public class BrazierBlockEntity extends BlockEntity {
         if (tile.ticksExisted % 40 == 0) tile.checkStructure(pos, state);
 
         if (tile.height > 0 && level instanceof ServerLevel serverLevel && tile.ticksExisted % 10 == 0) {
-            serverLevel.sendParticles(Content.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2.0, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
+            serverLevel.sendParticles(BrazierContent.FLAME_PARTICLE.get(), pos.getX() + 0.5, pos.getY() + 2.0, pos.getZ() + 0.5, 1, 0.4, 0.8, 0.4, 0);
         }
     }
 
@@ -62,7 +63,7 @@ public class BrazierBlockEntity extends BlockEntity {
                 level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
 
                 level.getEntitiesOfClass(ServerPlayer.class, new AABB(pos).inflate(10.0, 10.0, 10.0)).forEach(it ->
-                        Content.CONSTRUCT_BRAZIER.trigger(it, newHeight)
+                        BrazierContent.CONSTRUCT_BRAZIER.trigger(it, newHeight)
                 );
             }
         }
@@ -79,7 +80,7 @@ public class BrazierBlockEntity extends BlockEntity {
                 for (int z = -2; z <= 2; z++)
                     if (Math.abs(x * z) < 4) {
                         var isStripe = (x == 0 && Math.abs(z) == 2) || (z == 0 && Math.abs(x) == 2);
-                        var tag = isStripe ? Content.BRAZIER_STRIPE_BLOCKS : Content.BRAZIER_BASE_BLOCKS;
+                        var tag = isStripe ? BrazierTags.BRAZIER_STRIPE_BLOCKS : BrazierTags.BRAZIER_BASE_BLOCKS;
                         var state = level.getBlockState(pos.offset(x, -y, z));
                         blocksMatch = blocksMatch && state.is(tag);
                     }

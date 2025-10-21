@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.entity;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierContent;
+import com.possible_triangle.brazier.index.BrazierEntities;
 import net.minecraft.core.BlockPos;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.world.entity.Entity;
@@ -18,7 +19,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
     private int life = INITIAL_LIFE;
 
     public CrazedFlame(Level world, LivingEntity caster) {
-        super(Content.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
+        super(BrazierEntities.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
     }
 
     public CrazedFlame(EntityType<? extends CrazedFlame> type, Level world) {
@@ -38,7 +39,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
                 double dx = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
                 double dy = 0.02D + this.random.nextDouble() * 0.05D;
                 double dz = (this.random.nextDouble() * 2.0D - 1.0D) * 0.05D;
-                level.addParticle(Content.FLAME_PARTICLE.get(), x, y + 1.0D, z, dx, dy, dz);
+                level.addParticle(BrazierContent.FLAME_PARTICLE.get(), x, y + 1.0D, z, dx, dy, dz);
             }
         } else {
             if (this.life <= 0) remove(RemovalReason.KILLED);

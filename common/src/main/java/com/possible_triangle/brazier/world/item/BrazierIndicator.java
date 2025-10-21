@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.item;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierContent;
+import com.possible_triangle.brazier.index.BrazierTags;
 import com.possible_triangle.brazier.logic.BrazierLogic;
 import java.util.stream.Stream;
 import net.minecraft.server.level.ServerLevel;
@@ -15,7 +16,7 @@ public class BrazierIndicator {
         if(!(player.level() instanceof ServerLevel level)) return;
 
         Stream<ItemStack> items = Stream.of(player.getOffhandItem(), player.getMainHandItem());
-        if (items.anyMatch(it -> it.is(Content.RANGE_INDICATOR))) {
+        if (items.anyMatch(it -> it.is(BrazierTags.RANGE_INDICATOR))) {
 
             int step = 3;
             float radius = 5F;
@@ -29,7 +30,7 @@ public class BrazierIndicator {
                         double x = player.position().x + Math.sin(rad) * r;
                         double z = player.position().z + Math.cos(rad) * r;
                         if (BrazierLogic.isBorder(new Vec3(x, y, z), level.dimension())) {
-                            level.sendParticles(Content.FLAME_PARTICLE.get(), x, y, z, 1, 0, 0.2, 0, 0.01);
+                            level.sendParticles(BrazierContent.FLAME_PARTICLE.get(), x, y, z, 1, 0, 0.2, 0, 0.01);
                         }
                     }
                 }

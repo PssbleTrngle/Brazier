@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier;
 
 import com.possible_triangle.brazier.config.SyncConfigMessage;
+import com.possible_triangle.brazier.index.BrazierContent;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.item.BrazierIndicator;
 import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
@@ -22,12 +23,13 @@ import net.minecraft.world.level.storage.loot.entries.LootTableReference;
 
 public class BrazierFabric implements ModInitializer, ClientModInitializer {
 
-    private static final ResourceLocation SYNC_PACKET_ID = Brazier.createId("sync_config");
-    public static final MultikultiRegistrate<?> REGISTRATE =  new MultikultiRegistrate<>(Brazier.MOD_ID);
+    private static final ResourceLocation SYNC_PACKET_ID = BrazierConstants.createId("sync_config");
+    public static final MultikultiRegistrate<?> REGISTRATE =  new MultikultiRegistrate<>(BrazierConstants.MOD_ID);
 
     @Override
     public void onInitialize() {
-        Brazier.init();
+        Services.CONFIGS.register();
+        BrazierContent.init();
         REGISTRATE.register();
 
         ServerTickEvents.END_SERVER_TICK.register(server -> {
@@ -65,7 +67,7 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
     }
 
     private void injectLoot(LootTable.Builder into, String name) {
-        var from = Brazier.createId(name).withPrefix("inject/");
+        var from = BrazierConstants.createId(name).withPrefix("inject/");
         into.withPool(LootPool.lootPool()
                 .add(LootTableReference.lootTableReference(from))
         );

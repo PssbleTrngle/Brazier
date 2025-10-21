@@ -12,5 +12,4 @@ dependencies {
     modCompileOnly(libs.forge.config.api.common)
 
     modCompileOnly(libs.jei.common.api)
-    modCompileOnly(libs.rei.common.api)
 }

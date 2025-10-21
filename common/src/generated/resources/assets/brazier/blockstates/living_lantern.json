@@ -1,0 +1,10 @@
+{
+  "variants": {
+    "hanging=false": {
+      "model": "brazier:block/living_lantern"
+    },
+    "hanging=true": {
+      "model": "brazier:block/living_lantern_hanging"
+    }
+  }
+}

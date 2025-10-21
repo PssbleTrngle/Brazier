@@ -1,6 +1,6 @@
 package com.possible_triangle.brazier.mixin;
 
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.index.BrazierEntities;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.entity.Crazed;
 import net.minecraft.core.BlockPos;
@@ -21,7 +21,7 @@ public class WoodlandMansionPiecesMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "handleDataMarker(Ljava/lang/String;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)V")
     public void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor world, RandomSource rand, BoundingBox ssb, CallbackInfo callback) {
         var config = Services.CONFIGS.server();
-        if (config.spawnCrazed()) Content.CRAZED.ifPresent(type -> {
+        if (config.spawnCrazed()) BrazierEntities.CRAZED.ifPresent(type -> {
             if (function.equals("Mage") && config.crazedSpawnChance() > 0 && rand.nextDouble() <= config.crazedSpawnChance()) {
                 Crazed crazed = type.create(world.getLevel());
                 assert crazed != null;

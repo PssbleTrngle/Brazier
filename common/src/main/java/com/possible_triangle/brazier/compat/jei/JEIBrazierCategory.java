@@ -3,10 +3,10 @@ package com.possible_triangle.brazier.compat.jei;
 import static com.possible_triangle.brazier.compat.DisplayConstants.HEIGHT;
 import static com.possible_triangle.brazier.compat.DisplayConstants.WIDTH;
 
-import com.possible_triangle.brazier.Brazier;
-import com.possible_triangle.brazier.Content;
+import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.compat.DisplayConstants;
 import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
+import com.possible_triangle.brazier.index.BrazierItems;
 import java.util.Arrays;
 import java.util.List;
 import mezz.jei.api.constants.VanillaTypes;
@@ -25,7 +25,7 @@ import net.minecraft.world.item.ItemStack;
 
 public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe> {
 
-    public static final ResourceLocation UID = Brazier.createId("light_on_brazier");
+    public static final ResourceLocation UID = BrazierConstants.createId("light_on_brazier");
     public static final RecipeType<LightOnBrazierRecipe> TYPE = new RecipeType<>(UID, LightOnBrazierRecipe.class);
 
     private final IDrawable background;
@@ -36,7 +36,7 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
 
     public JEIBrazierCategory(IGuiHelper guiHelper) {
         background = guiHelper.createBlankDrawable(WIDTH, HEIGHT);
-        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(Content.ICON.get()));
+        icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BrazierItems.ICON.get()));
         slot = guiHelper.getSlotDrawable();
     }
 

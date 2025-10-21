@@ -1,7 +1,7 @@
 {
   "parent": "minecraft:recipes/root",
   "criteria": {
-    "collected_flame": {
+    "has_living_flame": {
       "conditions": {
         "items": [
           {
@@ -22,7 +22,7 @@
   },
   "requirements": [
     [
-      "collected_flame",
+      "has_living_flame",
       "has_the_recipe"
     ]
   ],

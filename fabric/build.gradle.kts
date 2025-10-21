@@ -18,17 +18,18 @@ fabric {
     dataGen()
 }
 
+loom {
+    accessWidenerPath = file("src/main/resources/${mod.id.get()}.accesswidener")
+}
+
 dependencies {
     modCompileOnly(libs.jei.common.api)
     modCompileOnly(libs.jei.fabric.api)
 
-    modCompileOnly(libs.rei.fabric.api)
-
     modImplementation(libs.multikulti.datagen.fabric)
 
-    if(!env.isCI) {
-        //modRuntimeOnly(libs.jei.fabric)
-        modRuntimeOnly(libs.rei.fabric)
+    if (!env.isCI) {
+        modRuntimeOnly(libs.jei.fabric)
 
         modRuntimeOnly(pack.fabric.modrinth.supplementaries)
         modRuntimeOnly(pack.fabric.modrinth.moonlight)

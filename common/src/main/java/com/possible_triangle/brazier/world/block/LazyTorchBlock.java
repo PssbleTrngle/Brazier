@@ -8,7 +8,6 @@ import net.minecraft.util.RandomSource;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.state.BlockState;
-import org.jetbrains.annotations.NotNull;
 
 public class LazyTorchBlock extends TorchBlock {
 
@@ -20,12 +19,12 @@ public class LazyTorchBlock extends TorchBlock {
     }
 
     @Override
-    public void animateTick(@NotNull BlockState state, Level world, BlockPos pos, @NotNull RandomSource random) {
+    public void animateTick(BlockState state, Level world, BlockPos pos, RandomSource random) {
         var x = pos.getX() + 0.5D;
         var y = pos.getY() + 0.7D;
         var z = pos.getZ() + 0.5D;
         world.addParticle(ParticleTypes.SMOKE, x, y, z, 0.0D, 0.0D, 0.0D);
-        world.addParticle(this.particle.get(), x, y, z, 0.0D, 0.0D, 0.0D);
+        world.addParticle(particle.get(), x, y, z, 0.0D, 0.0D, 0.0D);
     }
 
 }
