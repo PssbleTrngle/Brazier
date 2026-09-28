@@ -1,32 +1,30 @@
 [versions]
-forge-config-api = "8.0.2"
-jei = "15.20.0.105"
-rei = "12.0.625"
-galena-hats = "1.20.1-1.2.1"
-multikulti = "1.20.1-1.1.4"
+multikulti = "2.0.5"
+config-api-port = "21.1.3"
+jei = "19.27.0.340"
+galena-hats = "1.3.1"
 
 [libraries]
-registrate-forge = { group = "com.tterrag.registrate", name = "Registrate", version = "MC1.20-1.3.3" }
-registrate-fabric = { group = "com.tterrag.registrate_fabric", name = "Registrate", version = "1.3.79-MC1.20.1" }
-porting-lib-models = { group = "io.github.fabricators_of_create.Porting-Lib", name = "model_generators", version = "2.1.1090+1.20" }
+registrate-neoforge = { module = "com.tterrag.registrate:Registrate", version = "MC1.21-1.3.0+67" }
+registrate-fabric = { module = "com.tterrag.registrate_fabric:Registrate", version = "1.3.6-MC1.21.1" }
 
-multikulti-core-common = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
-multikulti-core-forge = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
-multikulti-core-fabric = { group = "com.possible-triangle", name = "multikulti-core-forge", version.ref = "multikulti" }
-multikulti-registrate-common = { group = "com.possible-triangle", name = "multikulti-registrate-common", version.ref = "multikulti" }
-multikulti-registrate-forge = { group = "com.possible-triangle", name = "multikulti-registrate-forge", version.ref = "multikulti" }
-multikulti-registrate-fabric = { group = "com.possible-triangle", name = "multikulti-registrate-fabric", version.ref = "multikulti" }
-multikulti-datagen-fabric = { group = "com.possible-triangle", name = "multikulti-datagen-fabric", version.ref = "multikulti" }
-multikulti-datagen-fix = { group = "com.possible-triangle", name = "multikulti-datagen-forge-fix", version.ref = "multikulti" }
+multikulti-core-common = { group = "com.possible-triangle", name = "multikulti-1.21.1core-common", version.ref = "multikulti" }
+multikulti-registrate-common = { group = "com.possible-triangle", name = "multikulti-1.21.1-registrate-common", version.ref = "multikulti" }
+multikulti-core-neoforge = { group = "com.possible-triangle", name = "multikulti-1.21.1-core-neoforge", version.ref = "multikulti" }
+multikulti-registrate-neoforge = { group = "com.possible-triangle", name = "multikulti-1.21.1-registrate-neoforge", version.ref = "multikulti" }
+multikulti-core-fabric = { group = "com.possible-triangle", name = "multikulti-1.21.1-core-fabric", version.ref = "multikulti" }
+multikulti-registrate-fabric = { group = "com.possible-triangle", name = "multikulti-1.21.1-registrate-fabric", version.ref = "multikulti" }
+multikulti-datagen-neoforge = { group = "com.possible-triangle", name = "multikulti-1.21.1-datagen-neoforge", version.ref = "multikulti" }
 
-forge-config-api-fabric = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-fabric", version.ref = "forge-config-api" }
-forge-config-api-common = { group = "fuzs.forgeconfigapiport", name = "forgeconfigapiport-common", version.ref = "forge-config-api" }
+jei-common-api = { group = "mezz.jei", name = "jei-1.21.1-common-api", version.ref = "jei" }
+jei-neoforge-api = { group = "mezz.jei", name = "jei-1.21.1-neoforge-api", version.ref = "jei" }
+jei-neoforge = { group = "mezz.jei", name = "jei-1.21.1-neoforge", version.ref = "jei" }
+jei-fabric-api = { group = "mezz.jei", name = "jei-1.21.1-fabric-api", version.ref = "jei" }
+jei-fabric = { group = "mezz.jei", name = "jei-1.21.1-fabric", version.ref = "jei" }
+jei-lib = { group = "mezz.jei", name = "jei-1.21.1-lib", version.ref = "jei" }
 
-jei-common-api = { group = "mezz.jei", name = "jei-1.20.1-common-api", version.ref = "jei" }
-jei-forge-api = { group = "mezz.jei", name = "jei-1.20.1-forge-api", version.ref = "jei" }
-jei-forge = { group = "mezz.jei", name = "jei-1.20.1-forge", version.ref = "jei" }
-jei-fabric-api = { group = "mezz.jei", name = "jei-1.20.1-fabric-api", version.ref = "jei" }
-jei-fabric = { group = "mezz.jei", name = "jei-1.20.1-fabric", version.ref = "jei" }
+config-api-port-fabric = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-fabric", version.ref = "config-api-port" }
+config-api-port-common = { module = "fuzs.forgeconfigapiport:forgeconfigapiport-common-neoforgeapi", version.ref = "config-api-port" }
 
-galena-hats-forge = { group = "dev.galena", name = "hats-forge", version.ref = "galena-hats" }
-galena-hats-fabric = { group = "dev.galena", name = "hats-fabric", version.ref = "galena-hats" }
+galena-hats-neoforge = { module = "dev.galena:hats-neoforge", version.ref = "galena-hats" }
+galena-hats-fabric = { module = "dev.galena:hats-fabric", version.ref = "galena-hats" }

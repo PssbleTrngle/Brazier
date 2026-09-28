@@ -1,8 +1,8 @@
 plugins {
     id("com.possible-triangle.core")
-    id("com.possible-triangle.architectury") apply false
+    id("com.possible-triangle.common") apply false
     id("com.possible-triangle.fabric") apply false
-    id("com.possible-triangle.forge") apply false
+    id("com.possible-triangle.neoforge") apply false
 }
 
 subprojects {
@@ -26,15 +26,7 @@ subprojects {
         }
 
         maven {
-            url = uri("https://mvn.devos.one/snapshots/")
-            content {
-                includeGroup("com.tterrag.registrate_fabric")
-                includeGroup("io.github.fabricators_of_create.Porting-Lib")
-            }
-        }
-
-        maven {
-            url = uri("https://maven.tterrag.com/")
+            url = uri("https://maven.ithundxr.dev/snapshots")
             content {
                 includeGroup("com.tterrag.registrate")
             }
@@ -52,6 +44,7 @@ subprojects {
         maven {
             url = uri("https://raw.githubusercontent.com/Fuzss/modresources/main/maven/")
             content {
+                includeGroup("net.minecraftforge")
                 includeGroup("fuzs.forgeconfigapiport")
             }
         }
@@ -60,7 +53,9 @@ subprojects {
             content {
                 includeGroup("dev.galena")
                 includeGroup("com.possible-triangle")
-            }
+                
+                includeGroup("com.tterrag.registrate_fabric")
+                includeGroup("io.github.fabricators_of_create.Porting-Lib")            }
         }
     }
 
@@ -71,5 +66,4 @@ subprojects {
     }
 }
 
-enableSonarQube()
 enableSpotless()

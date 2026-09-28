@@ -6,18 +6,19 @@ pluginManagement {
 }
 
 plugins {
-    id("com.possible-triangle.helper") version ("1.0.57")
-    id("com.possible-triangle.packwiz") version ("1.0.57")
+    id("com.possible-triangle.helper") version ("1.4")
+    id("com.possible-triangle.packwiz") version ("1.4.+")
 }
 
-packwiz {
-    packs.create("forge") {
-        from = file("pack/forge")
-    }
+// include("common")
+// loader("neoforge", "fabric")
 
-    packs.create("fabric") {
-        from = file("pack/fabric")
+fun loader(vararg names: String) =
+    names.forEach {
+        include(it)
+        packwiz {
+            packs.create(it) {
+                from = file("$it/pack")
+            }
+        }
     }
-}
-
-include("common", "fabric", "forge")
