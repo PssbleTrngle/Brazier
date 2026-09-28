@@ -1,7 +1,6 @@
 package com.possible_triangle.brazier.platform;
 
 import com.possible_triangle.brazier.platform.services.*;
-
 import java.util.ServiceLoader;
 import java.util.function.Supplier;
 

@@ -21,38 +21,12 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> 
     private static final RenderType RENDER_TYPE = Services.Client.PLATFORM.createRunesRenderType(BrazierConstants.createId("textures/block/brazier_runes.png"));
 
     public static final float SIZE = 0.25F;
-    public static final float OFFSET = 0.02F;
+    public static final float OFFSET = 0.001F;
 
-    private static final int TEXTURE_HEIGHT = 9;
+    private static final float RADIUS = 2.5F;
+    private static final int RUNE_COUNT = 9;
     private static final int FRAMES = 10;
-
-    private void renderTop(Matrix4f matrix, VertexConsumer vertex, float minV, float maxV) {
-        float maxU = 1.5F / TEXTURE_HEIGHT;
-        vertex.addVertex(matrix, 1.0F, OFFSET, -SIZE).setUv(0F, minV);
-        vertex.addVertex(matrix, 1.0F, OFFSET, SIZE).setUv(0F, maxV);
-        vertex.addVertex(matrix, 2.5F, OFFSET, SIZE).setUv(maxU, maxV);
-        vertex.addVertex(matrix, 2.5F, OFFSET, -SIZE).setUv(maxU, minV);
-    }
-
-    private void renderSide(Matrix4f matrix, VertexConsumer vertex, int height, float minV, float maxV) {
-        int times = height / TEXTURE_HEIGHT;
-
-        for (int i = 0; i <= times; i++) {
-            float segment = Math.min(TEXTURE_HEIGHT, height - i * TEXTURE_HEIGHT);
-            float offset = i * TEXTURE_HEIGHT * -1F;
-
-            float maxU = segment / TEXTURE_HEIGHT;
-
-            vertex.addVertex(matrix, 2.50F + OFFSET, offset, -SIZE).setUv(0F, minV);
-            vertex.addVertex(matrix, 2.50F + OFFSET, offset, SIZE).setUv(0F, maxV);
-            vertex.addVertex(matrix, 2.50F + OFFSET, offset - segment, SIZE).setUv(maxU, maxV);
-            vertex.addVertex(matrix, 2.50F + OFFSET, offset - segment, -SIZE).setUv(maxU, minV);
-        }
-    }
-
-    private void renderFlame(PoseStack matrizes, MultiBufferSource buffer, int light, @Nullable Level level) {
-        CrazedFlameRenderer.renderFlame(matrizes, Minecraft.getInstance().getEntityRenderDispatcher(), buffer, light, level);
-    }
+    private static final float PIXEL = 1 / 16F;
 
     @Override
     public void render(BrazierBlockEntity tile, float partialTicks, @NotNull PoseStack matrizes, @NotNull MultiBufferSource buffer, int light, int overlay) {
@@ -65,15 +39,16 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> 
         var matrix = matrizes.last().pose();
         var vertex = buffer.getBuffer(RENDER_TYPE);
 
+
         if (Services.CONFIGS.client().renderRunes()) {
-            float frame = (float) ((System.currentTimeMillis() / 100) % FRAMES);
-            float minV = frame / FRAMES;
-            float maxV = (frame + 1) / FRAMES;
+            float frame = (float) ((System.currentTimeMillis() / 240) % FRAMES);
 
             for (int quarter = 0; quarter < 4; quarter++) {
                 matrizes.mulPose(Axis.YN.rotationDegrees(90F));
-                renderSide(matrix, vertex, height, minV, maxV);
-                renderTop(matrix, vertex, minV, maxV);
+                int offset = quarter * 2;
+
+                renderTop(light, vertex, matrix, offset);
+                renderSide(light, vertex, matrix, height, offset + 2);
             }
         }
 
@@ -81,6 +56,48 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> 
         renderFlame(matrizes, buffer, light, tile.getLevel());
 
         matrizes.popPose();
+    }
+
+    private void renderFlame(PoseStack matrizes, MultiBufferSource buffer, int light, @Nullable Level level) {
+        CrazedFlameRenderer.renderFlame(matrizes, Minecraft.getInstance().getEntityRenderDispatcher(), buffer, light, level);
+    }
+
+    private void renderSide(int light, VertexConsumer vertex, Matrix4f matrix, int height, int uOffset) {
+        var sprite = Services.Client.PLATFORM.getRuneSprite();
+        var color = 0xFFFFFFFF;
+
+        var yFrom = 0;
+
+        do {
+            var segmentHeight = Math.min(RUNE_COUNT - uOffset, height);
+            int textureEnd = uOffset + segmentHeight;
+            float minU = ((float) uOffset) / RUNE_COUNT;
+            float maxU = ((float) textureEnd) / RUNE_COUNT;
+            var yTo = yFrom - segmentHeight;
+
+            vertex.addVertex(matrix, RADIUS + OFFSET, yFrom, -SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(minU), sprite.getV(0));
+            vertex.addVertex(matrix, RADIUS + OFFSET, yFrom, SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(minU), sprite.getV(1));
+            vertex.addVertex(matrix, RADIUS + OFFSET, yTo, SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(maxU), sprite.getV(1));
+            vertex.addVertex(matrix, RADIUS + OFFSET, yTo, -SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(maxU), sprite.getV(0));
+
+            height -= segmentHeight;
+            uOffset = 0;
+            yFrom = yTo;
+
+        } while (height > 0);
+
+    }
+
+    private static void renderTop(int light, VertexConsumer vertex, Matrix4f matrix, int uOffset) {
+        float minU = ((float) uOffset) / RUNE_COUNT;
+        float maxU = 1.5F / RUNE_COUNT + minU;
+
+        var sprite = Services.Client.PLATFORM.getRuneSprite();
+        var color = 0xFFFFFFFF;
+        vertex.addVertex(matrix, 1.0F - PIXEL, OFFSET, -SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(minU), sprite.getV(0));
+        vertex.addVertex(matrix, 1.0F - PIXEL, OFFSET, SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(minU), sprite.getV(1));
+        vertex.addVertex(matrix, RADIUS - PIXEL, OFFSET, SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(maxU), sprite.getV(1));
+        vertex.addVertex(matrix, RADIUS - PIXEL, OFFSET, -SIZE).setNormal(0, 0, 0).setColor(color).setUv2(light, light).setUv(sprite.getU(maxU), sprite.getV(0));
     }
 
     @Override

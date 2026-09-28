@@ -26,8 +26,10 @@ public class BrazierData {
     @SubscribeEvent(priority = EventPriority.HIGH)
     public static void setup(GatherDataEvent event) {
         var registrate = Services.PLATFORM.getRegistrate();
+        var helper = event.getExistingFileHelper();
 
         event.createProvider(PackMetadata::new);
+        event.createProvider((o, r) -> new Sprites(o, r, helper));
 
         registrate.addDataGenerator(ProviderType.LOOT, provider -> {
             provider.addLootAction(LootContextParamSets.EMPTY, consumer -> LootInjects.generate(consumer, provider.getProvider()));
@@ -71,7 +73,7 @@ public class BrazierData {
                 .add(EntityType.SLIME)
                 .add(EntityType.MAGMA_CUBE)
                 .add(EntityType.HOGLIN);
-        
+
         provider.addTag(BrazierTags.BRAZIER_WHITELIST)
                 .add(EntityType.WITHER)
                 .add(EntityType.ENDER_DRAGON)
