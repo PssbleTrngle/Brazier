@@ -7,7 +7,9 @@ neoforge {
 
     accessTransformer()
 
-    dataGen()
+    dataGen {
+        splitSourceSet()
+    }
 }
 
 dependencies {

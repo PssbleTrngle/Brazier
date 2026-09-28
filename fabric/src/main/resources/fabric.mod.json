@@ -27,7 +27,7 @@
       "com.possible_triangle.brazier.compat.rei.ReiPlugin"
     ],
     "fabric-datagen": [
-      "com.possible_triangle.brazier.datagen.DateGenerators"
+      "com.possible_triangle.brazier.datagen.BrazierData"
     ]
   },
   "mixins": [

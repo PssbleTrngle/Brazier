@@ -9,22 +9,24 @@ import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
 import net.fabricmc.fabric.api.event.lifecycle.v1.ServerTickEvents;
-import net.fabricmc.fabric.api.loot.v2.LootTableEvents;
-import net.fabricmc.fabric.api.networking.v1.PacketByteBufs;
+import net.fabricmc.fabric.api.loot.v3.LootTableEvents;
+import net.fabricmc.fabric.api.networking.v1.PayloadTypeRegistry;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayConnectionEvents;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.storage.loot.BuiltInLootTables;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
-import net.minecraft.world.level.storage.loot.entries.LootTableReference;
+import net.minecraft.world.level.storage.loot.entries.NestedLootTable;
 
 public class BrazierFabric implements ModInitializer, ClientModInitializer {
 
     private static final ResourceLocation SYNC_PACKET_ID = BrazierConstants.createId("sync_config");
-    public static final MultikultiRegistrate<?> REGISTRATE =  new MultikultiRegistrate<>(BrazierConstants.MOD_ID);
+    public static final MultikultiRegistrate<?> REGISTRATE = new MultikultiRegistrate<>(BrazierConstants.MOD_ID);
 
     @Override
     public void onInitialize() {
@@ -32,52 +34,51 @@ public class BrazierFabric implements ModInitializer, ClientModInitializer {
         BrazierContent.init();
         REGISTRATE.register();
 
+        PayloadTypeRegistry.playS2C().register(SyncConfigMessage.TYPE.type(), SyncConfigMessage.TYPE.codec());
+
         ServerTickEvents.END_SERVER_TICK.register(server -> {
             server.getPlayerList().getPlayers().forEach(BrazierIndicator::playerTick);
         });
 
         ServerPlayConnectionEvents.JOIN.register((handler, sender, server) -> {
-            var buf = PacketByteBufs.create();
             var packet = SyncConfigMessage.create();
-            SyncConfigMessage.encode(packet, buf);
-            ServerPlayNetworking.send(handler.player, SYNC_PACKET_ID, buf);
+            ServerPlayNetworking.send(handler.player, packet);
         });
 
         setupLootInjects();
     }
 
     private void setupLootInjects() {
-        LootTableEvents.MODIFY.register((resources, loot, id, table, source) -> {
+        LootTableEvents.MODIFY.register((key, builder, source, registries) -> {
+            var id = key.location();
+
             if (id.equals(BuiltInLootTables.JUNGLE_TEMPLE) && Services.CONFIGS.server().injectJungleLoot()) {
-                injectLoot(table, "flame_jungle_temple");
+                injectLoot(builder, "flame_jungle_temple");
             }
 
-            if(Services.PLATFORM.isModLoaded("nether_extension")) return;
+            if (Services.PLATFORM.isModLoaded("nether_extension")) return;
 
             if (id.equals(Blocks.NETHER_WART.getLootTable())) {
-                injectLoot(table, "warped_wart");
+                injectLoot(builder, "warped_wart");
             }
 
-            if(Services.PLATFORM.isModLoaded("supplementaries")) return;
+            if (Services.PLATFORM.isModLoaded("supplementaries")) return;
 
             if (id.equals(EntityType.WITHER_SKELETON.getDefaultLootTable())) {
-                injectLoot(table, "wither_ash");
+                injectLoot(builder, "wither_ash");
             }
         });
     }
 
     private void injectLoot(LootTable.Builder into, String name) {
-        var from = BrazierConstants.createId(name).withPrefix("inject/");
+        var from = ResourceKey.create(Registries.LOOT_TABLE, BrazierConstants.createId(name).withPrefix("inject/"));
         into.withPool(LootPool.lootPool()
-                .add(LootTableReference.lootTableReference(from))
+                .add(NestedLootTable.lootTableReference(from))
         );
     }
 
     @Override
     public void onInitializeClient() {
-        ClientPlayNetworking.registerGlobalReceiver(SYNC_PACKET_ID, (client, handler, buf, response) -> {
-            var packet = SyncConfigMessage.decode(buf);
-            packet.handle();
-        });
+        ClientPlayNetworking.registerGlobalReceiver(SyncConfigMessage.TYPE.type(), (packet, context) -> packet.handle());
     }
 }

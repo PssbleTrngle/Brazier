@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.datagen.providers;
+package com.possible_triangle.brazier.datagen;
 
 import com.possible_triangle.brazier.index.BrazierTags;
 import com.tterrag.registrate.providers.RegistrateLangProvider;

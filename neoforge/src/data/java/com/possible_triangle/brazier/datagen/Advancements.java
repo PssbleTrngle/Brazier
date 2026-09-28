@@ -1,4 +1,4 @@
-package com.possible_triangle.brazier.datagen.providers;
+package com.possible_triangle.brazier.datagen;
 
 import static com.possible_triangle.brazier.BrazierConstants.MOD_ID;
 
