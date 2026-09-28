@@ -17,7 +17,6 @@ dependencies {
 
     modInclude(libs.config.api.port.fabric)
 
-    modCompileOnly(libs.jei.common.api)
     modCompileOnly(libs.jei.fabric.api)
 
     if (!env.isCI) {

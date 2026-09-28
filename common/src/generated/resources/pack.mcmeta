@@ -1,8 +1,6 @@
 {
   "pack": {
-    "description": {
-      "text": "brazier resources"
-    },
-    "pack_format": 15
+    "description": "brazier resources",
+    "pack_format": 34
   }
 }

@@ -4,7 +4,6 @@ import com.possible_triangle.brazier.index.BrazierContent;
 import com.possible_triangle.brazier.index.BrazierTags;
 import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.platform.Services;
-import com.possible_triangle.brazier.world.block.BrazierBlock;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
@@ -17,6 +16,7 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import net.minecraft.world.phys.AABB;
 
 public class BrazierBlockEntity extends BlockEntity {
@@ -61,7 +61,7 @@ public class BrazierBlockEntity extends BlockEntity {
                 else if (newHeight == 0) playSound(SoundEvents.FIRE_EXTINGUISH);
 
                 setHeight(newHeight);
-                level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
+                level.setBlockAndUpdate(pos, state.setValue(BlockStateProperties.LIT, newHeight > 0));
 
                 level.getEntitiesOfClass(ServerPlayer.class, new AABB(pos).inflate(10.0, 10.0, 10.0)).forEach(it ->
                         BrazierContent.CONSTRUCT_BRAZIER.value().trigger(it, newHeight)

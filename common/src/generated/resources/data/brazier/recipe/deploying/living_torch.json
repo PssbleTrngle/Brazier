@@ -1,0 +1,18 @@
+{
+  "type": "create:deploying",
+  "ingredients": [
+    {
+      "tag": "brazier:torches"
+    },
+    {
+      "item": "brazier:living_torch"
+    }
+  ],
+  "keep_held_item": true,
+  "results": [
+    {
+      "count": 2,
+      "id": "brazier:living_torch"
+    }
+  ]
+}

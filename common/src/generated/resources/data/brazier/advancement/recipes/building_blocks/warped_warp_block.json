@@ -1,0 +1,32 @@
+{
+  "parent": "minecraft:recipes/root",
+  "criteria": {
+    "collected_wart": {
+      "conditions": {
+        "items": [
+          {
+            "items": "#brazier:warped_wart"
+          }
+        ]
+      },
+      "trigger": "minecraft:inventory_changed"
+    },
+    "has_the_recipe": {
+      "conditions": {
+        "recipe": "brazier:warped_warp_block"
+      },
+      "trigger": "minecraft:recipe_unlocked"
+    }
+  },
+  "requirements": [
+    [
+      "has_the_recipe",
+      "collected_wart"
+    ]
+  ],
+  "rewards": {
+    "recipes": [
+      "brazier:warped_warp_block"
+    ]
+  }
+}

@@ -1,5 +1,7 @@
 package com.possible_triangle.brazier.world.block;
 
+import static net.minecraft.world.level.block.state.properties.BlockStateProperties.LIT;
+
 import com.mojang.serialization.MapCodec;
 import com.possible_triangle.brazier.index.BrazierBlocks;
 import com.possible_triangle.brazier.index.BrazierTags;
@@ -21,8 +23,6 @@ import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
 import net.minecraft.world.level.block.state.BlockState;
 import net.minecraft.world.level.block.state.StateDefinition;
-import net.minecraft.world.level.block.state.properties.BlockStateProperties;
-import net.minecraft.world.level.block.state.properties.BooleanProperty;
 import net.minecraft.world.phys.BlockHitResult;
 import net.minecraft.world.phys.shapes.CollisionContext;
 import net.minecraft.world.phys.shapes.VoxelShape;
@@ -37,7 +37,6 @@ public class BrazierBlock extends BaseEntityBlock {
         return CODEC;
     }
 
-    public static final BooleanProperty LIT = BlockStateProperties.LIT;
     private static final VoxelShape SHAPE = box(0, 0, 0, 16, 4, 16);
 
     public BrazierBlock(Properties properties) {
@@ -70,7 +69,7 @@ public class BrazierBlock extends BaseEntityBlock {
 
     @Override
     protected ItemInteractionResult useItemOn(ItemStack stack, BlockState state, Level level, BlockPos pos, Player player, InteractionHand hand, BlockHitResult hitResult) {
-        if(stack.is(BrazierTags.TORCHES)) {
+        if (stack.is(BrazierTags.TORCHES)) {
             if (!player.isCreative()) stack.shrink(1);
             player.addItem(BrazierBlocks.LIVING_TORCH.asStack());
             return ItemInteractionResult.sidedSuccess(level.isClientSide());

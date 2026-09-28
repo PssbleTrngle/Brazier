@@ -14,7 +14,7 @@ public class BrazierTags {
     public static final TagKey<EntityType<?>> BRAZIER_WHITELIST = TagKey.create(Registries.ENTITY_TYPE, createId("brazier_whitelist"));
     public static final TagKey<EntityType<?>> BRAZIER_BLACKLIST = TagKey.create(Registries.ENTITY_TYPE, createId("brazier_blacklist"));
     public static final TagKey<Item> TORCHES = TagKey.create(Registries.ITEM, createId("torches"));
-    public static final TagKey<Item> ASH_TAG = TagKey.create(Registries.ITEM, createId("ash"));
+    public static final TagKey<Item> ASH = TagKey.create(Registries.ITEM, createId("ash"));
     public static final TagKey<Item> RANGE_INDICATOR = TagKey.create(Registries.ITEM, createId("range_indicator"));
     public static final TagKey<Item> WARPED_WART_TAG = TagKey.create(Registries.ITEM, createId("warped_wart"));
 }

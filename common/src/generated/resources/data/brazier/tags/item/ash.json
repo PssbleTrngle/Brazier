@@ -1,0 +1,9 @@
+{
+  "values": [
+    "brazier:ash",
+    {
+      "id": "supplementaries:ash",
+      "required": false
+    }
+  ]
+}

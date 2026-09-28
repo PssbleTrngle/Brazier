@@ -20,7 +20,7 @@ public class NeoForgeEvents {
 
 
     @SubscribeEvent
-    private static void onPlayerTick(PlayerTickEvent event) {
+    private static void onPlayerTick(PlayerTickEvent.Pre event) {
         BrazierIndicator.playerTick(event.getEntity());
     }
 

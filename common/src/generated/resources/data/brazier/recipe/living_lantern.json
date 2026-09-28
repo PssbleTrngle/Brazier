@@ -1,0 +1,21 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "category": "misc",
+  "key": {
+    "t": {
+      "item": "brazier:living_torch"
+    },
+    "x": {
+      "item": "minecraft:iron_nugget"
+    }
+  },
+  "pattern": [
+    "xxx",
+    "xtx",
+    "xxx"
+  ],
+  "result": {
+    "count": 1,
+    "id": "brazier:living_lantern"
+  }
+}

@@ -2,7 +2,6 @@ package com.possible_triangle.brazier.datagen;
 
 import com.possible_triangle.brazier.index.BrazierTags;
 import com.tterrag.registrate.providers.RegistrateLangProvider;
-import net.minecraft.tags.TagKey;
 
 public class AdditionalLang {
 
@@ -11,15 +10,10 @@ public class AdditionalLang {
         provider.add("description.brazier.brazier-2", "\nYou can ignite a normal torch on it, creating a living torch.\nWhen holding a living torch, you are able to see the outline of the protected are when getting close to it");
         provider.add("category.brazier.light_on_brazier", "Light on a Brazier");
 
-        add(provider, BrazierTags.ASH_TAG, "Ash");
-        add(provider, BrazierTags.TORCHES, "Torches");
-        add(provider, BrazierTags.BRAZIER_BASE_BLOCKS, "Brazier Base Blocks");
-        add(provider, BrazierTags.BRAZIER_STRIPE_BLOCKS, "Brazier Stripe Blocks");
-    }
-
-    private static void add(RegistrateLangProvider provider, TagKey<?> tag, String translation) {
-        var key = "tag.%s.%s.%s".formatted(tag.registry().location().getPath(), tag.location().getNamespace(), tag.location().getPath());
-        provider.add(key, translation);
+        provider.add(BrazierTags.ASH, "Ash");
+        provider.add(BrazierTags.TORCHES, "Torches");
+        provider.add(BrazierTags.BRAZIER_BASE_BLOCKS, "Brazier Base Blocks");
+        provider.add(BrazierTags.BRAZIER_STRIPE_BLOCKS, "Brazier Stripe Blocks");
     }
 
 }

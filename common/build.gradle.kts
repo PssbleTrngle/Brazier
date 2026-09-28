@@ -4,10 +4,10 @@ plugins {
 
 dependencies {
     modCompileOnly(libs.registrate.neoforge)
-    modCompileOnly(libs.multikulti.registrate.common)
+    modCompileOnlyApi(libs.multikulti.registrate.common)
     accessTransformers(libs.multikulti.core.common)
 
     modCompileOnly(libs.config.api.port.common)
 
-    modCompileOnly(libs.jei.common.api)
+    modCompileOnlyApi(libs.jei.common.api)
 }

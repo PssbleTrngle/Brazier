@@ -21,8 +21,12 @@ dependencies {
 
     modImplementation(libs.multikulti.datagen.neoforge)
 
-    modCompileOnly(libs.jei.common.api)
     modCompileOnly(libs.jei.neoforge.api)
+
+    modImplementation(libs.flywheel)
+    modImplementation(libs.ponder)
+
+    "dataImplementation"(libs.create) { isTransitive = false }
 
     if (!env.isCI) {
         modRuntimeOnly(libs.jei.neoforge)

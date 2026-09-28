@@ -27,6 +27,8 @@ public class BrazierContent {
     static final MultikultiRegistrate<?> REGISTRATE = Services.PLATFORM.getRegistrate();
 
     public static void init() {
+        REGISTRATE.defaultCreativeTab((ResourceKey<CreativeModeTab>) null);
+
         BrazierItems.init();
         BrazierBlocks.init();
         BrazierEntities.init();

@@ -1,0 +1,30 @@
+{
+  "parent": "minecraft:adventure/root",
+  "criteria": {
+    "placed": {
+      "conditions": {
+        "height": {}
+      },
+      "trigger": "brazier:construct_brazier"
+    }
+  },
+  "display": {
+    "description": {
+      "translate": "advancements.brazier.place_brazier.description"
+    },
+    "frame": "goal",
+    "icon": {
+      "count": 1,
+      "id": "brazier:icon"
+    },
+    "title": {
+      "translate": "advancements.brazier.place_brazier.title"
+    }
+  },
+  "requirements": [
+    [
+      "placed"
+    ]
+  ],
+  "sends_telemetry_event": true
+}

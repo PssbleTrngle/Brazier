@@ -8,9 +8,9 @@ import com.possible_triangle.brazier.compat.DisplayConstants;
 import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import com.possible_triangle.brazier.index.BrazierItems;
 import java.util.Arrays;
-import java.util.List;
 import mezz.jei.api.constants.VanillaTypes;
 import mezz.jei.api.gui.builder.IRecipeLayoutBuilder;
+import mezz.jei.api.gui.builder.ITooltipBuilder;
 import mezz.jei.api.gui.drawable.IDrawable;
 import mezz.jei.api.gui.ingredient.IRecipeSlotsView;
 import mezz.jei.api.helpers.IGuiHelper;
@@ -28,14 +28,12 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
     public static final ResourceLocation UID = BrazierConstants.createId("light_on_brazier");
     public static final RecipeType<LightOnBrazierRecipe> TYPE = new RecipeType<>(UID, LightOnBrazierRecipe.class);
 
-    private final IDrawable background;
     private final IDrawable icon;
     private final IDrawable slot;
     private final int iconX = WIDTH / 2 - 9;
     private final int iconY = HEIGHT / 2 - 9;
 
     public JEIBrazierCategory(IGuiHelper guiHelper) {
-        background = guiHelper.createBlankDrawable(WIDTH, HEIGHT);
         icon = guiHelper.createDrawableIngredient(VanillaTypes.ITEM_STACK, new ItemStack(BrazierItems.ICON.get()));
         slot = guiHelper.getSlotDrawable();
     }
@@ -43,11 +41,6 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
     @Override
     public Component getTitle() {
         return DisplayConstants.TITLE;
-    }
-
-    @Override
-    public IDrawable getBackground() {
-        return background;
     }
 
     @Override
@@ -64,10 +57,10 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
     public void setRecipe(IRecipeLayoutBuilder builder, LightOnBrazierRecipe recipe, IFocusGroup focuses) {
         var items = Arrays.asList(recipe.input().getItems());
 
-        builder.addSlot(RecipeIngredientRole.INPUT, 10, HEIGHT / 2 - 9)
+        builder.addSlot(RecipeIngredientRole.INPUT, 11, HEIGHT / 2 - 8)
                 .addItemStacks(items);
 
-        builder.addSlot(RecipeIngredientRole.OUTPUT, WIDTH - 25, HEIGHT / 2 - 9)
+        builder.addSlot(RecipeIngredientRole.OUTPUT, WIDTH - 24, HEIGHT / 2 - 8)
                 .addItemStack(recipe.output());
     }
 
@@ -84,8 +77,8 @@ public class JEIBrazierCategory implements IRecipeCategory<LightOnBrazierRecipe>
     }
 
     @Override
-    public List<Component> getTooltipStrings(LightOnBrazierRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
-        if (isOverIcon(mouseX, mouseY)) return List.of(DisplayConstants.TOOLTIP);
-        return IRecipeCategory.super.getTooltipStrings(recipe, recipeSlotsView, mouseX, mouseY);
+    public void getTooltip(ITooltipBuilder tooltip, LightOnBrazierRecipe recipe, IRecipeSlotsView recipeSlotsView, double mouseX, double mouseY) {
+        if (isOverIcon(mouseX, mouseY)) tooltip.add(DisplayConstants.TOOLTIP);
+        IRecipeCategory.super.getTooltip(tooltip, recipe, recipeSlotsView, mouseX, mouseY);
     }
 }

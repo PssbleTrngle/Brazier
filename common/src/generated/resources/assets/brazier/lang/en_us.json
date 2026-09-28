@@ -5,6 +5,7 @@
   "block.brazier.living_lantern": "Living Lantern",
   "block.brazier.living_torch": "Living Torch",
   "block.brazier.spawn_powder": "Cursed Ash",
+  "brazier.ponder.construction.header": "Constructing the brazier",
   "category.brazier.light_on_brazier": "Light on a Brazier",
   "description.brazier.brazier-1": "The brazier is a beacon-like multiblock which prevents hostile mob spawns in a certain radius.",
   "description.brazier.brazier-2": "\nYou can ignite a normal torch on it, creating a living torch.\nWhen holding a living torch, you are able to see the outline of the protected are when getting close to it",

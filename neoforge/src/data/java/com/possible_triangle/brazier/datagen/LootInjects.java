@@ -4,22 +4,18 @@ import static net.minecraft.world.level.block.Blocks.NETHER_WART;
 
 import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.index.BrazierItems;
-
 import java.util.function.BiConsumer;
-
-import net.fabricmc.fabric.api.datagen.v1.provider.SimpleFabricLootTableProvider;
 import net.minecraft.advancements.critereon.StatePropertiesPredicate;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.core.registries.Registries;
-import net.minecraft.data.PackOutput;
 import net.minecraft.resources.ResourceKey;
-import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.level.block.NetherWartBlock;
 import net.minecraft.world.level.storage.loot.LootPool;
 import net.minecraft.world.level.storage.loot.LootTable;
 import net.minecraft.world.level.storage.loot.entries.EmptyLootItem;
 import net.minecraft.world.level.storage.loot.entries.LootItem;
+import net.minecraft.world.level.storage.loot.functions.EnchantedCountIncreaseFunction;
 import net.minecraft.world.level.storage.loot.functions.SetItemCountFunction;
-import net.minecraft.world.level.storage.loot.parameters.LootContextParamSets;
 import net.minecraft.world.level.storage.loot.predicates.LootItemBlockStatePropertyCondition;
 import net.minecraft.world.level.storage.loot.predicates.LootItemRandomChanceCondition;
 import net.minecraft.world.level.storage.loot.providers.number.UniformGenerator;
@@ -30,7 +26,7 @@ public final class LootInjects {
         return ResourceKey.create(Registries.LOOT_TABLE, BrazierConstants.createId("inject/" + name));
     }
 
-    public static void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer) {
+    public static void generate(BiConsumer<ResourceKey<LootTable>, LootTable.Builder> consumer, HolderLookup.Provider registries) {
         consumer.accept(inject("warped_wart"), LootTable.lootTable()
                 .withPool(LootPool.lootPool()
                         .add(LootItem.lootTableItem(BrazierItems.WARPED_NETHER_WART)
@@ -52,7 +48,7 @@ public final class LootInjects {
                 .withPool(LootPool.lootPool()
                         .add(LootItem.lootTableItem(BrazierItems.ASH)
                                 .apply(SetItemCountFunction.setCount(UniformGenerator.between(-1, 2)))
-                                .apply(LootingEnchantFunction.lootingMultiplier(UniformGenerator.between(0, 1)))
+                                .apply(EnchantedCountIncreaseFunction.lootingMultiplier(registries, UniformGenerator.between(0, 1)))
                         )
                 )
         );

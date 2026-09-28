@@ -3,7 +3,7 @@
   "id": "${mod_id}",
   "version": "${mod_version}",
   "name": "${mod_name}",
-  "description": "Prevent mob spawning with a beacon-like structure",
+  "description": "${mod_description}",
   "authors": [
     "${mod_author}"
   ],
@@ -21,7 +21,7 @@
       "com.possible_triangle.brazier.BrazierFabric"
     ],
     "jei_mod_plugin": [
-      "com.possible_triangle.brazier.compat.jei.JeiPlugin"
+      "com.possible_triangle.brazier.compat.jei.BrazierJeiPlugin"
     ],
     "rei_client": [
       "com.possible_triangle.brazier.compat.rei.ReiPlugin"

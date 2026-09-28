@@ -1,0 +1,12 @@
+{
+  "values": [
+    "minecraft:netherite_block",
+    "minecraft:crying_obsidian",
+    "minecraft:ancient_debris",
+    "minecraft:gilded_blackstone",
+    {
+      "id": "caverns_and_chasms:necromium_block",
+      "required": false
+    }
+  ]
+}

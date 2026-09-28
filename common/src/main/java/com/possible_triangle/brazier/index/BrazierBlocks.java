@@ -1,6 +1,5 @@
 package com.possible_triangle.brazier.index;
 
-import static com.possible_triangle.brazier.BrazierConstants.createId;
 import static com.possible_triangle.brazier.index.BrazierContent.REGISTRATE;
 import static com.tterrag.registrate.providers.RegistrateRecipeProvider.has;
 
@@ -12,14 +11,17 @@ import com.possible_triangle.brazier.world.block.LazyWallTorchBlock;
 import com.possible_triangle.brazier.world.block.SpawnPowder;
 import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
 import com.possible_triangle.brazier.world.block.tile.render.BrazierRenderer;
+import com.tterrag.registrate.providers.ProviderType;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
+import com.tterrag.registrate.util.nullness.NonNullBiConsumer;
 import java.util.function.Supplier;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.core.Direction;
 import net.minecraft.data.recipes.RecipeCategory;
 import net.minecraft.data.recipes.ShapedRecipeBuilder;
 import net.minecraft.data.recipes.ShapelessRecipeBuilder;
+import net.minecraft.tags.BlockTags;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.StandingAndWallBlockItem;
@@ -30,6 +32,7 @@ import net.minecraft.world.level.block.SoundType;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.BlockEntityTicker;
 import net.minecraft.world.level.block.entity.BlockEntityType;
+import net.minecraft.world.level.block.state.properties.BlockStateProperties;
 import org.jetbrains.annotations.Nullable;
 
 public class BrazierBlocks {
@@ -40,10 +43,11 @@ public class BrazierBlocks {
                     .strength(1.5F, 6.0F)
                     .requiresCorrectToolForDrops()
                     .noOcclusion()
-                    .lightLevel(s -> s.getValue(BrazierBlock.LIT) ? 15 : 0)
+                    .lightLevel(s -> s.getValue(BlockStateProperties.LIT) ? 15 : 0)
             )
             .addLayer(() -> RenderType::cutout)
             .blockstate(Services.DATAGEN::brazierBlockState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item()
             .tab(CreativeModeTabs.FUNCTIONAL_BLOCKS)
             .recipe((context, provider) ->
@@ -69,6 +73,7 @@ public class BrazierBlocks {
             .block(props -> new LazyWallTorchBlock(props, BrazierContent.FLAME_PARTICLE))
             .initialProperties(() -> Blocks.WALL_TORCH)
             .addLayer(() -> RenderType::cutout)
+            .setData(ProviderType.LANG, NonNullBiConsumer.noop())
             .blockstate(Services.DATAGEN::wallTorchBlockstate)
             .register();
 
@@ -77,16 +82,12 @@ public class BrazierBlocks {
             .initialProperties(() -> Blocks.TORCH)
             .addLayer(() -> RenderType::cutout)
             .blockstate(Services.DATAGEN::torchBlockState)
+            .tag(BlockTags.MINEABLE_WITH_PICKAXE)
             .item((block, props) -> new StandingAndWallBlockItem(block, LIVING_TORCH_BLOCK_WALL.get(), props, Direction.DOWN))
             .transform(BrazierContent.conditionalTab(CreativeModeTabs.FUNCTIONAL_BLOCKS, Services.CONFIGS.server()::enableDecoration))
             .model((context, provider) -> provider.blockSprite(context))
-            .recipe((context, provider) ->
-                    ShapelessRecipeBuilder.shapeless(RecipeCategory.DECORATIONS, context.get(), 2)
-                            .requires(context.get())
-                            .requires(Ingredient.of(BrazierTags.TORCHES))
-                            .unlockedBy("has_living_torch", has(context.get()))
-                            .save(provider, createId("living_torch_duplication"))
-            )
+            .recipe(Services.DATAGEN::livingTorch)
+            .tag(BrazierTags.RANGE_INDICATOR)
             .build()
             .register();
 
@@ -108,6 +109,7 @@ public class BrazierBlocks {
                             .unlockedBy("has_living_torch", has(LIVING_TORCH))
                             .save(provider)
             )
+            .tag(BrazierTags.RANGE_INDICATOR)
             .build()
             .register();
 
@@ -126,11 +128,11 @@ public class BrazierBlocks {
             .transform(BrazierContent.conditionalTab(CreativeModeTabs.FUNCTIONAL_BLOCKS, Services.CONFIGS.server()::enableSpawnPowder))
             .recipe((context, provider) -> {
                 ShapelessRecipeBuilder.shapeless(RecipeCategory.MISC, context.get(), 6)
-                        .requires(Ingredient.of(BrazierTags.ASH_TAG), 4)
+                        .requires(Ingredient.of(BrazierTags.ASH), 4)
                         .requires(Items.CHARCOAL)
                         .requires(BrazierTags.WARPED_WART_TAG)
                         .unlockedBy("has_living_flame", has(BrazierItems.LIVING_FLAME))
-                        .unlockedBy("has_ash", has(BrazierTags.ASH_TAG))
+                        .unlockedBy("has_ash", has(BrazierTags.ASH))
                         .unlockedBy("has_warped_wart", has(BrazierTags.WARPED_WART_TAG))
                         .save(provider);
 
