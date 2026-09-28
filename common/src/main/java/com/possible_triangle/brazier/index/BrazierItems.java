@@ -37,6 +37,7 @@ public class BrazierItems {
             .model((context, provider) -> provider.withExistingParent(context.getName(), "item/template_spawn_egg"))
             .register();
 
+    // TODO remove?
     public static final ItemEntry<Item> ICON = REGISTRATE.object("icon")
             .item(Item::new)
             .lang("Right-Click Brazier")

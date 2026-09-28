@@ -11,6 +11,7 @@ import com.possible_triangle.brazier.world.block.LazyTorchBlock;
 import com.possible_triangle.brazier.world.block.LazyWallTorchBlock;
 import com.possible_triangle.brazier.world.block.SpawnPowder;
 import com.possible_triangle.brazier.world.block.tile.BrazierBlockEntity;
+import com.possible_triangle.brazier.world.block.tile.render.BrazierRenderer;
 import com.tterrag.registrate.util.entry.BlockEntityEntry;
 import com.tterrag.registrate.util.entry.BlockEntry;
 import java.util.function.Supplier;
@@ -58,9 +59,10 @@ public class BrazierBlocks {
             .build()
             .register();
 
-    public static final BlockEntityEntry<BrazierBlockEntity> BRAZIER_TILE = REGISTRATE.object("brazier")
+    public static final BlockEntityEntry<BrazierBlockEntity> BRAZIER_ENTITY = REGISTRATE.object("brazier")
             .blockEntity(BrazierBlockEntity::new)
             .validBlock(BRAZIER)
+            .renderer(() -> $ -> new BrazierRenderer())
             .register();
 
     public static final BlockEntry<LazyWallTorchBlock> LIVING_TORCH_BLOCK_WALL = REGISTRATE.object("living_wall_torch")

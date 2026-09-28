@@ -6,6 +6,7 @@ import com.possible_triangle.brazier.logic.BrazierLogic;
 import com.possible_triangle.brazier.platform.Services;
 import com.possible_triangle.brazier.world.block.BrazierBlock;
 import net.minecraft.core.BlockPos;
+import net.minecraft.core.HolderLookup;
 import net.minecraft.nbt.CompoundTag;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
@@ -63,7 +64,7 @@ public class BrazierBlockEntity extends BlockEntity {
                 level.setBlockAndUpdate(pos, state.setValue(BrazierBlock.LIT, newHeight > 0));
 
                 level.getEntitiesOfClass(ServerPlayer.class, new AABB(pos).inflate(10.0, 10.0, 10.0)).forEach(it ->
-                        BrazierContent.CONSTRUCT_BRAZIER.trigger(it, newHeight)
+                        BrazierContent.CONSTRUCT_BRAZIER.value().trigger(it, newHeight)
                 );
             }
         }
@@ -90,14 +91,12 @@ public class BrazierBlockEntity extends BlockEntity {
     }
 
     @Override
-    public void load(CompoundTag nbt) {
-        super.load(nbt);
+    protected void loadAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         if (nbt.contains("height")) setHeight(nbt.getInt("height"));
     }
 
     @Override
-    public void saveAdditional(CompoundTag nbt) {
-        super.saveAdditional(nbt);
+    protected void saveAdditional(CompoundTag nbt, HolderLookup.Provider registries) {
         nbt.putInt("height", height);
     }
 

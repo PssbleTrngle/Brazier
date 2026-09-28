@@ -7,7 +7,7 @@ import net.minecraft.world.level.block.LanternBlock;
 import net.minecraft.world.level.block.TorchBlock;
 import net.minecraft.world.level.block.WallTorchBlock;
 
-public class ForgeDatagen implements IDatagen {
+public class NeoForgeDatagen implements IDatagen {
 
     private static void NOOP() {
         throw new IllegalStateException("datagen can only be executed on fabric");

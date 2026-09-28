@@ -1,43 +1,33 @@
-val mc_version: String by extra
-val supplementaries_version: String by extra
-val moonlight_version: String by extra
-
 plugins {
-    id("com.possible-triangle.forge")
+    id("com.possible-triangle.neoforge")
 }
 
-withKotlin()
-
-mod {
-    mods.include(libs.registrate.forge)
-    mods.include(libs.multikulti.core.forge)
-    mods.include(libs.multikulti.registrate.forge)
-    mods.include(libs.multikulti.datagen.fix)
-    mods.include(libs.galena.hats.forge)
-}
-
-forge {
-    enableMixins()
-
-    kotlinForgeVersion = "4.11.0"
-
+neoforge {
     dependOn(project(":common"))
-}
 
-minecraft {
-    accessTransformer(file("src/main/resources/META-INF/accesstransformer.cfg"))
+    accessTransformer()
+
+    dataGen()
 }
 
 dependencies {
+    modInclude(libs.galena.hats.neoforge)
+
+    modInclude(libs.registrate.neoforge)
+    modInclude(libs.multikulti.core.neoforge)
+    modInclude(libs.multikulti.registrate.neoforge)
+
+    modImplementation(libs.multikulti.datagen.neoforge)
+
     modCompileOnly(libs.jei.common.api)
-    modCompileOnly(libs.jei.forge.api)
+    modCompileOnly(libs.jei.neoforge.api)
 
     if (!env.isCI) {
-        modRuntimeOnly(libs.jei.forge)
+        modRuntimeOnly(libs.jei.neoforge)
 
-        modRuntimeOnly(pack.forge.modrinth.supplementaries)
-        modRuntimeOnly(pack.forge.modrinth.moonlight)
-        modRuntimeOnly(pack.forge.curseforge.configured)
+        modRuntimeOnly(pack.neoforge.modrinth.supplementaries)
+        modRuntimeOnly(pack.neoforge.modrinth.moonlight)
+        modRuntimeOnly(pack.neoforge.curseforge.configured)
     }
 }
 

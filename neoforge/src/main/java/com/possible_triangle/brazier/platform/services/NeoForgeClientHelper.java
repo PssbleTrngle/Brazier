@@ -7,7 +7,7 @@ import net.minecraft.client.renderer.RenderStateShard;
 import net.minecraft.client.renderer.RenderType;
 import net.minecraft.resources.ResourceLocation;
 
-public class ForgeClientHelper implements IClientHelper {
+public class NeoForgeClientHelper implements IClientHelper {
 
     @Override
     public RenderType createRunesRenderType(ResourceLocation texture) {

@@ -10,8 +10,8 @@ plugins {
     id("com.possible-triangle.packwiz") version ("1.4.+")
 }
 
-// include("common")
-// loader("neoforge", "fabric")
+include("common")
+loader("neoforge", "fabric")
 
 fun loader(vararg names: String) =
     names.forEach {

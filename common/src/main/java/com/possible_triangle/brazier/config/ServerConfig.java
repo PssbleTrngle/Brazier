@@ -1,16 +1,16 @@
 package com.possible_triangle.brazier.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ServerConfig implements IServerConfig {
 
-    private final ForgeConfigSpec.BooleanValue jungleLoot, spawnCrazed;
-    private final ForgeConfigSpec.DoubleValue crazedChance;
-    private final ForgeConfigSpec.IntValue maxHeight, rangePerLevel, baseRange;
-    private final ForgeConfigSpec.BooleanValue protectAbove, enableSpawnPowder, enableDecoration;
-    private final ForgeConfigSpec.EnumValue<DistanceHandler.Type> distanceCalculator;
+    private final ModConfigSpec.BooleanValue jungleLoot, spawnCrazed;
+    private final ModConfigSpec.DoubleValue crazedChance;
+    private final ModConfigSpec.IntValue maxHeight, rangePerLevel, baseRange;
+    private final ModConfigSpec.BooleanValue protectAbove, enableSpawnPowder, enableDecoration;
+    private final ModConfigSpec.EnumValue<DistanceHandler.Type> distanceCalculator;
 
-    public ServerConfig(ForgeConfigSpec.Builder builder) {
+    public ServerConfig(ModConfigSpec.Builder builder) {
         builder.push("acquisition");
 
         jungleLoot = builder.define("jungleLoot", true);

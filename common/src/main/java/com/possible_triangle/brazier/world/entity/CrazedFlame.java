@@ -10,6 +10,7 @@ import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.AbstractHurtingProjectile;
 import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.BaseFireBlock;
+import net.minecraft.world.phys.Vec3;
 import org.jetbrains.annotations.NotNull;
 
 public class CrazedFlame extends AbstractHurtingProjectile {
@@ -19,7 +20,7 @@ public class CrazedFlame extends AbstractHurtingProjectile {
     private int life = INITIAL_LIFE;
 
     public CrazedFlame(Level world, LivingEntity caster) {
-        super(BrazierEntities.CRAZED_FLAME.get(), caster, 0, 0, 0, world);
+        super(BrazierEntities.CRAZED_FLAME.get(), caster, Vec3.ZERO, world);
     }
 
     public CrazedFlame(EntityType<? extends CrazedFlame> type, Level world) {

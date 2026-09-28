@@ -1,6 +1,8 @@
 package com.possible_triangle.brazier.world.entity;
 
 import java.util.List;
+
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.sounds.SoundEvent;
 import net.minecraft.sounds.SoundEvents;
 import net.minecraft.tags.EntityTypeTags;
@@ -32,7 +34,7 @@ public class Crazed extends SpellcasterIllager {
     public static final double BUFF_RADIUS = 7;
 
     public static AttributeSupplier.Builder createAttributes() {
-       return Monster.createMonsterAttributes()
+        return Monster.createMonsterAttributes()
                 .add(Attributes.MOVEMENT_SPEED, 0.6D)
                 .add(Attributes.FOLLOW_RANGE, 12.0D)
                 .add(Attributes.MAX_HEALTH, 24.0D);
@@ -64,8 +66,8 @@ public class Crazed extends SpellcasterIllager {
     }
 
     @Override
-    public void applyRaidBuffs(int wave, boolean something) {
-        // No raid buffs
+    public void applyRaidBuffs(ServerLevel serverLevel, int i, boolean b) {
+        // no raid buffs
     }
 
     @Override

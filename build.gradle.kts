@@ -53,9 +53,10 @@ subprojects {
             content {
                 includeGroup("dev.galena")
                 includeGroup("com.possible-triangle")
-                
+
                 includeGroup("com.tterrag.registrate_fabric")
-                includeGroup("io.github.fabricators_of_create.Porting-Lib")            }
+                includeGroup("io.github.fabricators_of_create.Porting-Lib")
+            }
         }
     }
 

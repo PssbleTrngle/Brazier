@@ -1,21 +1,21 @@
 package com.possible_triangle.brazier.config;
 
 import com.possible_triangle.brazier.platform.services.IConfigs;
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 import org.apache.commons.lang3.tuple.Pair;
 import org.jetbrains.annotations.Nullable;
 
 public abstract class ConfigsService implements IConfigs {
 
-    protected final Pair<IServerConfig, ForgeConfigSpec> serverConfig;
-    protected final Pair<IClientConfig, ForgeConfigSpec> clientConfig;
+    protected final Pair<IServerConfig, ModConfigSpec> serverConfig;
+    protected final Pair<IClientConfig, ModConfigSpec> clientConfig;
 
     @Nullable
     private IServerConfig syncedServerConfig;
 
     protected ConfigsService() {
-        serverConfig = new ForgeConfigSpec.Builder().configure(ServerConfig::new);
-        clientConfig = new ForgeConfigSpec.Builder().configure(ClientConfig::new);
+        serverConfig = new ModConfigSpec.Builder().configure(ServerConfig::new);
+        clientConfig = new ModConfigSpec.Builder().configure(ClientConfig::new);
     }
 
     @Override
@@ -26,7 +26,7 @@ public abstract class ConfigsService implements IConfigs {
 
     @Override
     public boolean getValueByKey(String key) {
-        return serverConfig.getRight().getRaw(key);
+        return serverConfig.getRight().getSpec().getRaw(key);
     }
 
     @Override

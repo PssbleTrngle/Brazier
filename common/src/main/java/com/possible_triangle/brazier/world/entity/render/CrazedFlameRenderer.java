@@ -13,7 +13,6 @@ import net.minecraft.client.renderer.entity.EntityRendererProvider;
 import net.minecraft.core.BlockPos;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemDisplayContext;
-import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -57,9 +56,7 @@ public class CrazedFlameRenderer extends EntityRenderer<CrazedFlame> {
         matrizes.mulPose(rendererManager.cameraOrientation());
         matrizes.mulPose(Axis.YP.rotationDegrees(180.0F));
 
-        BrazierItems.LIVING_FLAME.ifPresent(flame ->
-                renderer.renderStatic(new ItemStack(flame), ItemDisplayContext.GROUND, packedLightIn, 0, matrizes, buffers, level, 0)
-        );
+        renderer.renderStatic(BrazierItems.LIVING_FLAME.asStack(), ItemDisplayContext.GROUND, packedLightIn, 0, matrizes, buffers, level, 0);
 
         matrizes.popPose();
     }

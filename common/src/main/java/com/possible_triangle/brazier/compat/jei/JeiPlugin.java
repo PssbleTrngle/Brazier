@@ -3,7 +3,6 @@ package com.possible_triangle.brazier.compat.jei;
 import com.possible_triangle.brazier.BrazierConstants;
 import com.possible_triangle.brazier.data.LightOnBrazierRecipe;
 import com.possible_triangle.brazier.index.BrazierBlocks;
-import com.tterrag.registrate.util.entry.RegistryEntry;
 import java.util.stream.Stream;
 import mezz.jei.api.IModPlugin;
 import mezz.jei.api.constants.VanillaTypes;
@@ -13,13 +12,12 @@ import mezz.jei.api.registration.IRecipeRegistration;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.item.ItemStack;
-import org.jetbrains.annotations.NotNull;
+import net.neoforged.neoforge.registries.DeferredHolder;
 
 @mezz.jei.api.JeiPlugin
 public class JeiPlugin implements IModPlugin {
 
     @Override
-    @NotNull
     public ResourceLocation getPluginUid() {
         return BrazierConstants.createId("plugin");
     }
@@ -27,8 +25,8 @@ public class JeiPlugin implements IModPlugin {
     @Override
     public void registerRecipes(IRecipeRegistration registration) {
         Stream.of(BrazierBlocks.BRAZIER, BrazierBlocks.LIVING_TORCH)
-                .filter(RegistryEntry::isPresent)
-                .map(RegistryEntry::get).map(ItemStack::new)
+                .map(DeferredHolder::value)
+                .map(ItemStack::new)
                 .forEach(item -> registration.addIngredientInfo(item, VanillaTypes.ITEM_STACK, Component.translatable("description.brazier.brazier-1"), Component.translatable("description.brazier.brazier-2")));
 
         registration.addRecipes(JEIBrazierCategory.TYPE, LightOnBrazierRecipe.all().toList());

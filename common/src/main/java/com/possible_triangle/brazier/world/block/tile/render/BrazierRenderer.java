@@ -28,10 +28,10 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> 
 
     private void renderTop(Matrix4f matrix, VertexConsumer vertex, float minV, float maxV) {
         float maxU = 1.5F / TEXTURE_HEIGHT;
-        vertex.vertex(matrix, 1.0F, OFFSET, -SIZE).uv(0F, minV).endVertex();
-        vertex.vertex(matrix, 1.0F, OFFSET, SIZE).uv(0F, maxV).endVertex();
-        vertex.vertex(matrix, 2.5F, OFFSET, SIZE).uv(maxU, maxV).endVertex();
-        vertex.vertex(matrix, 2.5F, OFFSET, -SIZE).uv(maxU, minV).endVertex();
+        vertex.addVertex(matrix, 1.0F, OFFSET, -SIZE).setUv(0F, minV);
+        vertex.addVertex(matrix, 1.0F, OFFSET, SIZE).setUv(0F, maxV);
+        vertex.addVertex(matrix, 2.5F, OFFSET, SIZE).setUv(maxU, maxV);
+        vertex.addVertex(matrix, 2.5F, OFFSET, -SIZE).setUv(maxU, minV);
     }
 
     private void renderSide(Matrix4f matrix, VertexConsumer vertex, int height, float minV, float maxV) {
@@ -43,10 +43,10 @@ public class BrazierRenderer implements BlockEntityRenderer<BrazierBlockEntity> 
 
             float maxU = segment / TEXTURE_HEIGHT;
 
-            vertex.vertex(matrix, 2.50F + OFFSET, offset, -SIZE).uv(0F, minV).endVertex();
-            vertex.vertex(matrix, 2.50F + OFFSET, offset, SIZE).uv(0F, maxV).endVertex();
-            vertex.vertex(matrix, 2.50F + OFFSET, offset - segment, SIZE).uv(maxU, maxV).endVertex();
-            vertex.vertex(matrix, 2.50F + OFFSET, offset - segment, -SIZE).uv(maxU, minV).endVertex();
+            vertex.addVertex(matrix, 2.50F + OFFSET, offset, -SIZE).setUv(0F, minV);
+            vertex.addVertex(matrix, 2.50F + OFFSET, offset, SIZE).setUv(0F, maxV);
+            vertex.addVertex(matrix, 2.50F + OFFSET, offset - segment, SIZE).setUv(maxU, maxV);
+            vertex.addVertex(matrix, 2.50F + OFFSET, offset - segment, -SIZE).setUv(maxU, minV);
         }
     }
 

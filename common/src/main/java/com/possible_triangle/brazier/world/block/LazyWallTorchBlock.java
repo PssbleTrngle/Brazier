@@ -16,7 +16,7 @@ public class LazyWallTorchBlock extends WallTorchBlock {
     private final Supplier<? extends ParticleOptions> particle;
 
     public LazyWallTorchBlock(Properties properties, Supplier<? extends ParticleOptions> particle) {
-        super(properties, null);
+        super(null, properties);
         this.particle = particle;
     }
 

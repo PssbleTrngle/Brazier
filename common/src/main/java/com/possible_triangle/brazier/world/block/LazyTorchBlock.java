@@ -1,6 +1,7 @@
 package com.possible_triangle.brazier.world.block;
 
 import java.util.function.Supplier;
+
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.particles.ParticleOptions;
 import net.minecraft.core.particles.ParticleTypes;
@@ -14,7 +15,7 @@ public class LazyTorchBlock extends TorchBlock {
     private final Supplier<? extends ParticleOptions> particle;
 
     public LazyTorchBlock(Properties properties, Supplier<? extends ParticleOptions> particle) {
-        super(properties, null);
+        super(null, properties);
         this.particle = particle;
     }
 

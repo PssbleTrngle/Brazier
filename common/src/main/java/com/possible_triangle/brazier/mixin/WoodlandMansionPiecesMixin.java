@@ -2,7 +2,6 @@ package com.possible_triangle.brazier.mixin;
 
 import com.possible_triangle.brazier.index.BrazierEntities;
 import com.possible_triangle.brazier.platform.Services;
-import com.possible_triangle.brazier.world.entity.Crazed;
 import net.minecraft.core.BlockPos;
 import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.MobSpawnType;
@@ -21,18 +20,17 @@ public class WoodlandMansionPiecesMixin {
     @Inject(at = @At("HEAD"), cancellable = true, method = "handleDataMarker(Ljava/lang/String;Lnet/minecraft/core/BlockPos;Lnet/minecraft/world/level/ServerLevelAccessor;Lnet/minecraft/util/RandomSource;Lnet/minecraft/world/level/levelgen/structure/BoundingBox;)V")
     public void handleDataMarker(String function, BlockPos pos, ServerLevelAccessor world, RandomSource rand, BoundingBox ssb, CallbackInfo callback) {
         var config = Services.CONFIGS.server();
-        if (config.spawnCrazed()) BrazierEntities.CRAZED.ifPresent(type -> {
-            if (function.equals("Mage") && config.crazedSpawnChance() > 0 && rand.nextDouble() <= config.crazedSpawnChance()) {
-                Crazed crazed = type.create(world.getLevel());
-                assert crazed != null;
-                crazed.setPersistenceRequired();
-                crazed.moveTo(pos, 0.0F, 0.0F);
-                crazed.finalizeSpawn(world, world.getCurrentDifficultyAt(crazed.blockPosition()), MobSpawnType.STRUCTURE, null, null);
-                world.addFreshEntityWithPassengers(crazed);
-                world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
-                callback.cancel();
-            }
-        });
+        if (config.spawnCrazed() && function.equals("Mage") && config.crazedSpawnChance() > 0 && rand.nextDouble() <= config.crazedSpawnChance()) {
+            var crazed = BrazierEntities.CRAZED.create(world.getLevel());
+            if (crazed == null) return;
+
+            crazed.setPersistenceRequired();
+            crazed.moveTo(pos, 0.0F, 0.0F);
+            crazed.finalizeSpawn(world, world.getCurrentDifficultyAt(crazed.blockPosition()), MobSpawnType.STRUCTURE, null);
+            world.addFreshEntityWithPassengers(crazed);
+            world.setBlock(pos, Blocks.AIR.defaultBlockState(), 2);
+            callback.cancel();
+        }
     }
 
 }

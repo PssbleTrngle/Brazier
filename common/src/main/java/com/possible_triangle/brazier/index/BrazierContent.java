@@ -9,9 +9,12 @@ import com.possible_triangle.multikulti.registrate.MultikultiRegistrate;
 import com.tterrag.registrate.builders.ItemBuilder;
 import com.tterrag.registrate.util.entry.RegistryEntry;
 import com.tterrag.registrate.util.nullness.NonNullFunction;
+
 import java.util.function.BooleanSupplier;
-import net.minecraft.advancements.CriteriaTriggers;
+
+import net.minecraft.advancements.CriterionTrigger;
 import net.minecraft.client.particle.FlameParticle;
+import net.minecraft.core.particles.ParticleType;
 import net.minecraft.core.particles.SimpleParticleType;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.resources.ResourceKey;
@@ -29,19 +32,22 @@ public class BrazierContent {
         BrazierEntities.init();
     }
 
-    public static final RegistryEntry<SimpleParticleType> FLAME_PARTICLE = REGISTRATE.object("flame")
+    public static final RegistryEntry<ParticleType<?>, SimpleParticleType> FLAME_PARTICLE = REGISTRATE.object("flame")
             .particle()
             .provider(() -> FlameParticle.Provider::new)
             .register();
 
-    public static final ConstructBrazierTrigger CONSTRUCT_BRAZIER = CriteriaTriggers.register(new ConstructBrazierTrigger());
-
-    public static final RegistryEntry<LootItemConditionType> CONFIG_CONDITION = REGISTRATE.object("config")
-            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(new ConfigLootCondition.Serializer()))
+    public static final RegistryEntry<CriterionTrigger<?>, ConstructBrazierTrigger> CONSTRUCT_BRAZIER = REGISTRATE.object("construct_brazier")
+            .generic(Registries.TRIGGER_TYPE, ConstructBrazierTrigger::new)
             .register();
 
-    public static final RegistryEntry<LootItemConditionType> MOD_CONDITION = REGISTRATE.object("mod_loaded")
-            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(new ModLootCondition.Serializer()))
+    public static final RegistryEntry<LootItemConditionType, LootItemConditionType> CONFIG_CONDITION = REGISTRATE.object("config")
+            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(ConfigLootCondition.CODEC))
+            .register();
+
+    // TODO remove and use load conditions?
+    public static final RegistryEntry<LootItemConditionType, LootItemConditionType> MOD_CONDITION = REGISTRATE.object("mod_loaded")
+            .generic(Registries.LOOT_CONDITION_TYPE, () -> new LootItemConditionType(ModLootCondition.CODEC))
             .register();
 
     public static <T extends Item, P> NonNullFunction<ItemBuilder<T, P>, ItemBuilder<T, P>> conditionalTab(ResourceKey<CreativeModeTab> tab, BooleanSupplier test) {

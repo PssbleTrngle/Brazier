@@ -1,12 +1,12 @@
 package com.possible_triangle.brazier.config;
 
-import net.minecraftforge.common.ForgeConfigSpec;
+import net.neoforged.neoforge.common.ModConfigSpec;
 
 public class ClientConfig implements IClientConfig {
 
-    private final ForgeConfigSpec.BooleanValue renderRunes;
+    private final ModConfigSpec.BooleanValue renderRunes;
 
-    public ClientConfig(ForgeConfigSpec.Builder builder) {
+    public ClientConfig(ModConfigSpec.Builder builder) {
         builder.push("client");
 
         renderRunes = builder.define("renderRunes", true);

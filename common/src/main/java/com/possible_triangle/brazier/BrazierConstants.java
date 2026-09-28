@@ -12,7 +12,7 @@ public class BrazierConstants {
     public static final String MOD_ID = "brazier";
 
     public static ResourceLocation createId(String path) {
-        return new ResourceLocation(MOD_ID, path);
+        return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
     }
 
     public static final Logger LOGGER = LogManager.getLogger();
