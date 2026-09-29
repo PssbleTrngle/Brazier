@@ -1,4 +1,4 @@
-[ISSUES]: https://github.com/PssbleTrngle/Brazier/issues
+[ISSUES]: https://github.com/TeamGalena/Brazier/issues
 [DOWNLOAD]: https://www.curseforge.com/minecraft/mc-mods/brazier/files
 [CURSEFORGE]: https://www.curseforge.com/minecraft/mc-mods/brazier
 [MODRINTH]: https://modrinth.com/mod/brazier
@@ -7,10 +7,10 @@
 
 <!-- modrinth_exclude.start -->
 # Brazier
-[![Release](https://img.shields.io/github/v/release/PssbleTrngle/Brazier?label=Version&sort=semver)][DOWNLOAD]
+[![Release](https://img.shields.io/github/v/release/TeamGalena/Brazier?label=Version&sort=semver)][DOWNLOAD]
 [![Downloads](http://cf.way2muchnoise.eu/full_brazier_downloads.svg)][CURSEFORGE]
 [![Version](http://cf.way2muchnoise.eu/versions/brazier.svg)][DOWNLOAD]
-[![Issues](https://img.shields.io/github/issues/PssbleTrngle/brazier?label=Issues)][ISSUES]
+[![Issues](https://img.shields.io/github/issues/TeamGalena/Brazier?label=Issues)][ISSUES]
 [![Modrinth](https://img.shields.io/modrinth/dt/5okEW6TG?color=green&logo=modrinth&logoColor=green)][MODRINTH]
 <!-- modrinth_exclude.end -->
 
